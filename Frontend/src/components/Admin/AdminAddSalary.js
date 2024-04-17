@@ -1,5 +1,5 @@
-import React from 'react'
-import AdminHeader from './AdminHeader'
+import React from "react";
+import AdminHeader from "./AdminHeader";
 
 const AdminAddSalary = () => {
   return (
@@ -56,7 +56,7 @@ const AdminAddSalary = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminAddSalary
+export default AdminAddSalary;
