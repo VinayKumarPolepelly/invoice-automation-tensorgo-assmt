@@ -1,13 +1,13 @@
 import mongoose, { Schema } from "mongoose";
-import { Project } from "./models.project";
-import { User } from "./user.model";
+import { Project } from "./models.project.js";
+import { User } from "./user.model.js";
 
 const reportSchema = new Schema({
-  projectId: {
+  project: {
     type: mongoose.Types.ObjectId,
     ref: Project,
   },
-  userId: {
+  user: {
     type: mongoose.Types.ObjectId,
     ref: User,
   },
@@ -16,5 +16,4 @@ const reportSchema = new Schema({
     required: true,
   },
 });
-
-export const Report = mongoose.model("Report", reportSchema);
+export const ProjectReport = mongoose.model("ProjectReport", reportSchema);

@@ -72,6 +72,7 @@ userSchema.methods.generateAccessToken = async function () {
     }
   );
 };
+
 userSchema.methods.generateSessionToken = async function () {
   return jwt.sign(
     {
