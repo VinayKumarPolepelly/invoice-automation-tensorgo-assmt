@@ -15,7 +15,7 @@ const LeaveReport = () => {
         <div className="mt-4">
           <h1 className="text-xl font-bold m-3 mt-5 ml-4">Leave Dashboard</h1>
           <div className="flex ">
-            <div className="bg-gray-100  pr-2 pt-2 pb-3 w-4/12  rounded-2xl ml-3">
+            <div className="bg-gray-50  pr-2 pt-2 pb-3 w-4/12  rounded-2xl ml-3">
               <div className="flex p-3 border-4 border-gray-300 px-5 ml-3">
                 <div className="border-black  p-2 ">
                   <div className="bg-green-300 p-2 w-11 text-center rounded-md">
@@ -44,7 +44,7 @@ const LeaveReport = () => {
               </div>
               {showItem && <ApplyForLeave />}
             </div>
-            <div className="bg-gray-100 w-8/12 h-[530px] ml-2 mr-2 rounded-t-2xl">
+            <div className="bg-gray-50 w-8/12 h-[530px] ml-2 mr-2 rounded-t-2xl">
               <div className="bg-violet-500 p-3 rounded-t-2xl text-center">
                 <h1 className="text-white font-bold text-xl">LEAVE HISTORY</h1>
               </div>

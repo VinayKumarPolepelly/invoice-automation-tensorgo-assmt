@@ -5,8 +5,8 @@ const AdminAddSalary = () => {
   return (
     <div>
       <AdminHeader />
-      <div className=" flex justify-center items-center  bg-violet-500 h-screen">
-        <div className="flex bg-white shadow-2xl h-[400px] w-[700px] ">
+      <div className=" flex justify-center items-center  h-screen">
+        <div className="flex bg-white shadow-2xl h-[400px] w-[700px]  rounded-2xl">
           <div>
             <img
               src="https://cdni.iconscout.com/illustration/premium/thumb/salary-receipt-9522699-7725497.png?f=webp"
@@ -49,7 +49,7 @@ const AdminAddSalary = () => {
               placeholder="Enter Amount"
               className="mt-1 ml-5 mr-5 border-2 border-gray-500 text-sm rounded-lg h-9  px-3"
             />
-            <button className=" mt-6 ml-5 text-center text-white h-[34px]  bg-violet-500 mr-5 rounded-md">
+            <button className=" mt-6 ml-5 text-center text-white h-[34px]  bg-violet-500 mr-5 hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 rounded-lg active:border-collapse active:font-semibold active:shadow-2xl">
               Submit
             </button>
           </form>

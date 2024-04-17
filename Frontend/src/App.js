@@ -2,7 +2,6 @@ import "./App.css";
 import { createBrowserRouter, Outlet, RouterProvider } from "react-router-dom";
 import AdminLogin from "./components/Admin/AdminLogin";
 import EmployeeLogin from "./components/Employee/EmployeeLogin";
-import ManagerLogin from "./components/Manager/ManagerLogin";
 import EmployeeHome from "./components/Employee/EmployeeHome";
 import SalaryDetails from "./components/Employee/SalaryDetails";
 import ProjectDetails from "./components/Employee/ProjectDetails";
@@ -44,10 +43,6 @@ const appRouter = createBrowserRouter([
       {
         path: "/employeeLogin/",
         element: <EmployeeLogin />,
-      },
-      {
-        path: "/managerLogin/",
-        element: <ManagerLogin />,
       },
       {
         path: "/admin",
@@ -93,10 +88,7 @@ const appRouter = createBrowserRouter([
         path: "/employeeLogin/",
         element: <EmployeeLogin />,
       },
-      {
-        path: "/managerLogin/",
-        element: <ManagerLogin />,
-      },
+
       {
         path: "/employeeHomepage/",
         element: <EmployeeHome />,
