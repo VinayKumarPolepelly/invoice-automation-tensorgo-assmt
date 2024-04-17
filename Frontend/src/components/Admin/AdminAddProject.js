@@ -1,66 +1,127 @@
-import React from 'react'
-import AdminHeader from './AdminHeader'
+import React from "react";
+import AdminHeader from "./AdminHeader";
 
 const AdminAddProject = () => {
   return (
     <div>
       <AdminHeader />
-      <div className=" bg-violet-700 h-[100vh]">
-        <h1 className="text-center text-white text-xl font-bold py-5">
-          {' '}
-          ADD PROJECT
-        </h1>
-        <div className="flex flex-row m-10 flex-wrap">
-          <div className=" px-8 py-5 ">
-            <div className="flex flex-col">
-              <label className="text-white pl-1 py-2">Project Name</label>
-              <input type="text" className="w-[40vw] h-[40px] rounded-xl" />
+      <div className=" flex justify-center items-center   h-screen">
+        <div className="flex bg-gray-100 rounded-xl shadow-2xl h-[400px] w-[700px] ">
+          <form class="w-full max-w-lg m-auto">
+            <h1 className="text-2xl text-violet-600  ml-[-2px] mb-3 font-bold ml-6">
+              Add Project
+            </h1>
+            <div class="flex flex-wrap -mx-3 mb-6">
+              <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
+                <label
+                  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-first-name"
+                >
+                  First Name
+                </label>
+                <input
+                  class="appearance-none block w-full  text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                  id="grid-first-name"
+                  type="text"
+                  placeholder="Jane"
+                />
+              </div>
+              <div class="w-full md:w-1/2 px-3">
+                <label
+                  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-last-name"
+                >
+                  Last Name
+                </label>
+                <input
+                  class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  id="grid-last-name"
+                  type="text"
+                  placeholder="Doe"
+                />
+              </div>
             </div>
-            <div className="flex flex-col my-5">
-              <label className="text-white pl-1 py-2">Project Type</label>
-              <input type="text" className="w-[40vw ] h-[40px] rounded-xl" />
+            <div class="flex flex-wrap -mx-3 mb-6">
+              <div class="w-full px-3">
+                <label
+                  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-password"
+                >
+                  Password
+                </label>
+                <input
+                  class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  id="grid-password"
+                  type="password"
+                  placeholder="******************"
+                />
+                <p class="text-gray-600 text-xs italic">
+                  Make it as long and as crazy as you'd like
+                </p>
+              </div>
             </div>
-            <div className="flex flex-col my-5">
-              <label className="text-white pl-1 py-2">Client Name</label>
-              <input type="text" className="w-[40vw ] h-[40px] rounded-xl" />
+            <div class="flex flex-wrap -mx-3 mb-2">
+              <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <label
+                  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-city"
+                >
+                  City
+                </label>
+                <input
+                  class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  id="grid-city"
+                  type="text"
+                  placeholder="Albuquerque"
+                />
+              </div>
+              <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <label
+                  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-state"
+                >
+                  State
+                </label>
+                <div class="relative">
+                  <select
+                    class="block appearance-none w-full  border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    id="grid-state"
+                  >
+                    <option>New Mexico</option>
+                    <option>Missouri</option>
+                    <option>Texas</option>
+                  </select>
+                  <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                    <svg
+                      class="fill-current h-4 w-4"
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 20 20"
+                    >
+                      <path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="w-full md:w-1/3 px-3 mb-6 md:mb-0">
+                <label
+                  class="block uppercase tracking-wide text-gray-700 text-xs font-bold mb-2"
+                  for="grid-zip"
+                >
+                  Zip
+                </label>
+                <input
+                  class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  id="grid-zip"
+                  type="text"
+                  placeholder="90210"
+                />
+              </div>
             </div>
-            <div className="flex flex-col">
-              <label className="text-white pl-1 py-2">Project Manager</label>
-              <select
-                name="manager-Name"
-                id="managerName"
-                className="mt-1 ml-1 border-2  pl-2 text-sm border-gray-500 rounded-xl h-9 w-[40vw] h-[43px]"
-              >
-                <option value="Nikhil">Nikhil</option>
-                <option value="Sathwika">Sathwika</option>
-                <option value="Vinay">Vinay</option>
-              </select>
-            </div>
-          </div>
-          <div className="pl-32 py-5">
-            <div className="flex flex-col">
-              <label className="text-white pl-1 py-2">
-                Developing Platform
-              </label>
-              <input type="text" className="w-[40vw] h-[40px] rounded-xl" />
-            </div>
-            <div className="flex flex-col  my-5">
-              <label className="text-white pl-1 py-2">
-                Database Technology
-              </label>
-              <input type="text" className="w-[40vw] h-[40px] rounded-xl" />
-            </div>
-            <div className="flex flex-col  my-5">
-              <label className="text-white pl-1 py-2">
-                Project Description
-              </label>
-              <input type="text" className="w-[40vw] h-[120px] rounded-xl" />
-            </div>
-          </div>
+          </form>
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminAddProject
+export default AdminAddProject;

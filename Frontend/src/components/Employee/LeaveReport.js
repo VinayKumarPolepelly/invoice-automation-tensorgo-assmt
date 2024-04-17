@@ -44,7 +44,7 @@ const LeaveReport = () => {
               </div>
               {showItem && <ApplyForLeave />}
             </div>
-            <div className="bg-gray-100 w-8/12 h-[600px] ml-2 mr-2">
+            <div className="bg-gray-100 w-8/12 h-[530px] ml-2 mr-2 rounded-t-2xl">
               <div className="bg-violet-500 p-3 rounded-t-2xl text-center">
                 <h1 className="text-white font-bold text-xl">LEAVE HISTORY</h1>
               </div>
@@ -53,7 +53,7 @@ const LeaveReport = () => {
                   <thead>
                     <tr>
                       <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                        User
+                        Requested On
                       </th>
                       <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                         From
@@ -71,7 +71,9 @@ const LeaveReport = () => {
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
                     <tr>
-                      <td className="px-6 py-4 whitespace-no-wrap">John</td>
+                      <td className="px-6 py-4 whitespace-no-wrap">
+                        15-04-2024
+                      </td>
                       <td className="px-6 py-4 whitespace-no-wrap">
                         17-04-2024
                       </td>
@@ -79,14 +81,14 @@ const LeaveReport = () => {
                         20-04-2024
                       </td>
                       <td className="px-6 py-4 whitespace-no-wrap">
-                        Health Issue
+                        Family Trip
                       </td>
-                      <td className="px-6 py-4 whitespace-no-wrap text-gray-500">
-                        Pending
-                      </td>
+                      <td className="px-6 py-4 whitespace-no-wrap">Pending</td>
                     </tr>
                     <tr>
-                      <td className="px-6 py-4 whitespace-no-wrap">Mike</td>
+                      <td className="px-6 py-4 whitespace-no-wrap">
+                        18-03-2024
+                      </td>
                       <td className="px-6 py-4 whitespace-no-wrap">
                         19-03-2024
                       </td>
@@ -94,11 +96,9 @@ const LeaveReport = () => {
                         21-03-2024
                       </td>
                       <td className="px-6 py-4 whitespace-no-wrap">
-                        Family Trip
+                        Health Issue
                       </td>
-                      <td className="px-6 py-4 whitespace-no-wrap text-green-700">
-                        Approved
-                      </td>
+                      <td className="px-6 py-4 whitespace-no-wrap">Approved</td>
                     </tr>
                   </tbody>
                 </table>
