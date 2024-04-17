@@ -1,5 +1,5 @@
-import React from "react";
-import AdminHeader from "./AdminHeader";
+import React from 'react'
+import AdminHeader from './AdminHeader'
 
 const AdminAddSalary = () => {
   return (
@@ -9,7 +9,7 @@ const AdminAddSalary = () => {
         <div className="flex bg-white shadow-2xl h-[400px] w-[700px] ">
           <div>
             <img
-              src="https://static.vecteezy.com/system/resources/previews/003/689/228/original/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-password-mobile-application-for-ui-web-banner-access-cartoon-people-illustration-vector.jpg"
+              src="https://cdni.iconscout.com/illustration/premium/thumb/salary-receipt-9522699-7725497.png?f=webp"
               alt="this is login page logo"
               className="h-[400px] w-[400px]"
             />
@@ -56,7 +56,7 @@ const AdminAddSalary = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdminAddSalary;
+export default AdminAddSalary

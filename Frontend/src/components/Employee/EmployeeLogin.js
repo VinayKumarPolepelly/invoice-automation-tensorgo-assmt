@@ -1,44 +1,7 @@
-import React, { useRef } from "react";
-import Header from "../Header";
-import { useNavigate } from "react-router-dom";
+import React from 'react'
+import Header from '../Header'
 
 const EmployeeLogin = () => {
-  const username = useRef();
-  const password = useRef();
-  const navigate = useNavigate();
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const data = {
-      username: username.current.value,
-      password: password.current.value,
-    };
-    //console.log(data);
-    const url = "http://localhost:3000/api/v1/users/loginEmployee";
-    const options = {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    };
-    const res = await fetch(url, options);
-    const data1 = await res.json();
-    //console.log(res);
-    try {
-      if (res.ok) {
-        //console.log(res);
-        navigate("/employeeHomepage");
-      } else {
-        // Handle non-OK response
-        console.log(data1.msg);
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  };
-
-  
   return (
     <div>
       <Header />
@@ -51,35 +14,30 @@ const EmployeeLogin = () => {
               className="h-[400px] w-[400px]"
             />
           </div>
-          <form className=" flex flex-col mt-10" onSubmit={handleSubmit}>
+          <form className=" flex flex-col mt-10">
             <h1 className="text-2xl text-violet-600  font-bold ml-6">
               Employee Login Page
             </h1>
             <label className="mt-3 ml-5 px-1 text-lg">Email address</label>
             <input
-              ref={username}
               type="text"
               placeholder="Enter Email address"
               className="mt-2 ml-5 mr-5 border-2  px-3 text-md pt-1 border-gray-500 rounded-lg h-9"
             />
             <label className="mt-2 ml-5  px-1 text-lg">Password</label>
             <input
-              ref={password}
               type="text"
               placeholder="Enter Password"
               className="mt-2 ml-5 mr-5 border-2 pt-1 border-gray-500 text-md rounded-lg h-9  px-3"
             />
-            <button
-              type="submit"
-              className=" mt-6 ml-5 text-center text-white h-[34px]  bg-violet-500 mr-5 rounded-md"
-            >
+            <button className=" mt-6 ml-5 text-center text-white h-[34px]  bg-violet-500 mr-5 rounded-md">
               Login
             </button>
           </form>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EmployeeLogin;
+export default EmployeeLogin
