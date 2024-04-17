@@ -8,7 +8,7 @@ const AdminAddProject = () => {
       <div className=" flex justify-center items-center   h-screen">
         <div className="flex bg-gray-100 rounded-xl shadow-2xl h-[400px] w-[700px] ">
           <form class="w-full max-w-lg m-auto">
-            <h1 className="text-2xl text-violet-600 ml-[-2px] mb-3 font-bold ml-6">
+            <h1 className="text-2xl text-violet-600  ml-[-2px] mb-3 font-bold ml-6">
               Add Project
             </h1>
             <div class="flex flex-wrap -mx-3 mb-6">

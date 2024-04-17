@@ -1,5 +1,5 @@
-import React from "react";
-import AdminHeader from "./AdminHeader";
+import React from 'react'
+import AdminHeader from './AdminHeader'
 
 const AdminAddEmployee = () => {
   return (
@@ -9,7 +9,7 @@ const AdminAddEmployee = () => {
         <div className="flex bg-white shadow-2xl h-[400px] w-[700px] ">
           <div>
             <img
-              src="https://static.vecteezy.com/system/resources/previews/003/689/228/original/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-password-mobile-application-for-ui-web-banner-access-cartoon-people-illustration-vector.jpg"
+              src="https://upraise.io/wp-content/uploads/2022/12/10-Functions-of-Human-Resource-Management-banner2.webp"
               alt="this is login page logo"
               className="h-[400px] w-[400px]"
             />
@@ -32,7 +32,7 @@ const AdminAddEmployee = () => {
             />
             <label className="mt-2 ml-5  px-1">Password</label>
             <input
-              type="text"
+              type="password"
               placeholder="Enter Password"
               className="mt-1 ml-5 mr-5 border-2 border-gray-500 text-sm rounded-lg h-9  px-3"
             />
@@ -43,7 +43,7 @@ const AdminAddEmployee = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdminAddEmployee;
+export default AdminAddEmployee
