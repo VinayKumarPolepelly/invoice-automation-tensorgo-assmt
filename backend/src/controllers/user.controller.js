@@ -1,10 +1,10 @@
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { User } from "../models/user.model.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
-import cookieParser from "cookie-parser";
 import jwt from "jsonwebtoken";
 import { ApiError } from "../utils/ApiError.js";
 import { Project } from "../models/models.project.js";
+import { ProjectReport } from "../models/models.projectReport.js";
 
 const generateAccessTokenAndRefreshToken = async (userId) => {
   try {
@@ -20,50 +20,6 @@ const generateAccessTokenAndRefreshToken = async (userId) => {
     throw new ApiError(400, "something went wrong while generating the tokens");
   }
 };
-
-const registerUser = asyncHandler(async (req, res) => {
-  //get the input from the user or frontend
-  //validate the input
-  //check if the user is already exists
-  //create user object-create entry in db
-  //remove the password and refresh token feild form response
-  //check for user creation
-  //return response
-
-  const { username, fullname, email, password, phoneNumber, role } = req.body;
-
-  if (!fullname || !email || !username || !password) {
-    throw new ApiError(400, "All feilds are required");
-  }
-
-  const existedUser = await User.findOne({
-    username,
-  });
-  if (existedUser) {
-    throw new ApiError(409, "User already exists");
-  }
-
-  const newUser = await User.create({
-    fullname,
-    email,
-    username,
-    password,
-    phoneNumber,
-    role,
-  });
-  const createdUser = await User.findById(newUser._id).select(
-    "-password -refreshToken"
-  );
-
-  if (!createdUser) {
-    throw new ApiError(500, "something went wrong while registering the user");
-  }
-  // console.log(createdUser);
-
-  return res
-    .status(200)
-    .json(new ApiResponse(200, newUser, "user registered successfully"));
-});
 
 // const registerUser = async (req, res, next) => {
 //   try {
@@ -206,8 +162,8 @@ const addProjectReport = asyncHandler(async (req, res) => {
   const { project, report } = req.body;
   if (!project) throw new ApiError(400, "project is required");
   if (!report) throw new ApiError(400, "report is required");
-  const existedProject = Project.findOne({ projectTitle: project });
-  const newReport = Report.create({
+  const existedProject = await Project.findOne({ projectTitle: project });
+  const newReport = await ProjectReport.create({
     report,
     project: existedProject,
   });
@@ -215,10 +171,4 @@ const addProjectReport = asyncHandler(async (req, res) => {
   return res.status(200).json({ message: "report submitted successfully" });
 });
 
-export {
-  refreshAccessToken,
-  registerUser,
-  loginUser,
-  logoutUser,
-  addProjectReport,
-};
+export { refreshAccessToken, loginUser, logoutUser, addProjectReport };

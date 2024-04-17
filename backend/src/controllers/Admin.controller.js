@@ -1,7 +1,63 @@
 import { EmployeeLeave } from "../models/models.employeeLeave.js";
 import { EmployeeSalary } from "../models/models.EmployeeSalaree.js";
 import { Project } from "../models/models.project.js";
+import { ProjectReport } from "../models/models.projectReport.js";
 import { User } from "../models/user.model.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+
+const getEmployeesList = async (req, res) => {
+  try {
+    const users = await User.find();
+    if (!users) res.status(400).json({ message: "employees not found" });
+    return res.status(200).send(users);
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+};
+
+const registerUser = asyncHandler(async (req, res) => {
+  //get the input from the user or frontend
+  //validate the input
+  //check if the user is already exists
+  //create user object-create entry in db
+  //remove the password and refresh token feild form response
+  //check for user creation
+  //return response
+
+  const { username, fullname, email, password, phoneNumber, role } = req.body;
+
+  if (!fullname || !email || !username || !password) {
+    throw new ApiError(400, "All feilds are required");
+  }
+
+  const existedUser = await User.findOne({
+    username,
+  });
+  if (existedUser) {
+    throw new ApiError(409, "User already exists");
+  }
+
+  const newUser = await User.create({
+    fullname,
+    email,
+    username,
+    password,
+    phoneNumber,
+    role,
+  });
+  const createdUser = await User.findById(newUser._id).select(
+    "-password -refreshToken"
+  );
+
+  if (!createdUser) {
+    throw new ApiError(500, "something went wrong while registering the user");
+  }
+  // console.log(createdUser);
+
+  return res
+    .status(200)
+    .json(new ApiResponse(200, newUser, "user registered successfully"));
+});
 
 const addSalary = async (req, res) => {
   try {
@@ -55,16 +111,6 @@ const addLeave = async (req, res) => {
       .json({ message: `New Leave updated successfully to ${username}` });
   } catch (error) {
     return res.status(400).send(error);
-  }
-};
-
-const getEmployeesList = async (req, res) => {
-  try {
-    const users = await User.find();
-    if (!users) res.status(400).json({ message: "employees not found" });
-    return res.status(200).send(users);
-  } catch (error) {
-    res.status(400).json({ message: error });
   }
 };
 
@@ -139,6 +185,17 @@ const getProjectList = async (req, res) => {
   }
 };
 
+const getProjectReportList = async (req, res) => {
+  try {
+    const projectReports = await ProjectReport.find();
+    if (!projectReports)
+      res.status(400).json({ message: "Project Reports not found" });
+    res.status(200).json({ projectReports: projectReports });
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+};
+
 export {
   addSalary,
   addLeave,
@@ -146,4 +203,6 @@ export {
   getSalareeDetails,
   addProject,
   getProjectList,
+  getProjectReportList,
+  registerUser,
 };
