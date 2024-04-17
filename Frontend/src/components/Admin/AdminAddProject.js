@@ -5,9 +5,12 @@ const AdminAddProject = () => {
   return (
     <div>
       <AdminHeader />
-      <div className=" flex justify-center items-center  bg-violet-500 h-screen">
-        <div className="flex bg-white shadow-2xl h-[400px] w-[700px] ">
+      <div className=" flex justify-center items-center   h-screen">
+        <div className="flex bg-gray-100 rounded-xl shadow-2xl h-[400px] w-[700px] ">
           <form class="w-full max-w-lg m-auto">
+            <h1 className="text-2xl text-violet-600 ml-[-2px] mb-3 font-bold ml-6">
+              Add Project
+            </h1>
             <div class="flex flex-wrap -mx-3 mb-6">
               <div class="w-full md:w-1/2 px-3 mb-6 md:mb-0">
                 <label
@@ -17,7 +20,7 @@ const AdminAddProject = () => {
                   First Name
                 </label>
                 <input
-                  class="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+                  class="appearance-none block w-full  text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
                   id="grid-first-name"
                   type="text"
                   placeholder="Jane"
@@ -31,7 +34,7 @@ const AdminAddProject = () => {
                   Last Name
                 </label>
                 <input
-                  class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-last-name"
                   type="text"
                   placeholder="Doe"
@@ -47,7 +50,7 @@ const AdminAddProject = () => {
                   Password
                 </label>
                 <input
-                  class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-password"
                   type="password"
                   placeholder="******************"
@@ -66,7 +69,7 @@ const AdminAddProject = () => {
                   City
                 </label>
                 <input
-                  class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-city"
                   type="text"
                   placeholder="Albuquerque"
@@ -81,7 +84,7 @@ const AdminAddProject = () => {
                 </label>
                 <div class="relative">
                   <select
-                    class="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                    class="block appearance-none w-full  border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                     id="grid-state"
                   >
                     <option>New Mexico</option>
@@ -107,7 +110,7 @@ const AdminAddProject = () => {
                   Zip
                 </label>
                 <input
-                  class="appearance-none block w-full bg-gray-200 text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                  class="appearance-none block w-full  text-gray-700 border border-gray-200 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
                   id="grid-zip"
                   type="text"
                   placeholder="90210"

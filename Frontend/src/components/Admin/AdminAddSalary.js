@@ -5,13 +5,13 @@ const AdminAddSalary = () => {
   return (
     <div>
       <AdminHeader />
-      <div className=" flex justify-center items-center  bg-violet-500 h-screen">
-        <div className="flex bg-white shadow-2xl h-[400px] w-[700px] ">
+      <div className=" flex justify-center items-center h-screen">
+        <div className="flex  shadow-2xl h-[400px] w-[700px] bg-gray-100 rounded-xl">
           <div>
             <img
               src="https://static.vecteezy.com/system/resources/previews/003/689/228/original/online-registration-or-sign-up-login-for-account-on-smartphone-app-user-interface-with-secure-password-mobile-application-for-ui-web-banner-access-cartoon-people-illustration-vector.jpg"
               alt="this is login page logo"
-              className="h-[400px] w-[400px]"
+              className="h-[400px] w-[400px] rounded-xl"
             />
           </div>
           <form className=" flex flex-col mt-10">
@@ -49,7 +49,7 @@ const AdminAddSalary = () => {
               placeholder="Enter Amount"
               className="mt-1 ml-5 mr-5 border-2 border-gray-500 text-sm rounded-lg h-9  px-3"
             />
-            <button className=" mt-6 ml-5 text-center text-white h-[34px]  bg-violet-500 mr-5 rounded-md">
+            <button className=" mt-6 ml-5 text-center text-white h-[34px]  bg-violet-500 mr-5 rounded-md  hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 active:border-collapse active:font-semibold active:shadow-2xl">
               Submit
             </button>
           </form>
