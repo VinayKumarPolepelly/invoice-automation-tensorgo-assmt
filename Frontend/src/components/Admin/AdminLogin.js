@@ -1,33 +1,37 @@
-import React, { useRef } from 'react'
-import Header from '../Header'
+import React, { useRef } from "react";
+import Header from "../Header";
+import { useNavigate } from "react-router-dom";
 
 const AdminLogin = () => {
-  const username = useRef()
-  const password = useRef()
+  const username = useRef();
+  const password = useRef();
+  const navigate = useNavigate();
   const handlesubmitform = async (e) => {
-    e.preventDefault()
-    const url = 'http://localhost:3001/admin/login'
+    e.preventDefault();
+    const url = "http://localhost:3000/api/v1/admins/login";
 
     const data = {
       username: username.current.value,
-      Password: password.current.value,
-    }
+      password: password.current.value,
+    };
 
-    const userDetails = JSON.stringify(data)
+    const userDetails = JSON.stringify(data);
+    console.log(userDetails);
     const response = await fetch(url, {
-      method: 'POST',
+      method: "POST",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: userDetails,
-    })
-    const data2 = await response.json()
+    });
+    const data2 = await response.json();
     if (response.ok === true) {
-      console.log(data2)
+      console.log(data2);
+      navigate("/admin");
     } else {
-      console.log(data2)
+      console.log(data2);
     }
-  }
+  };
   return (
     <div>
       <Header />
@@ -44,10 +48,11 @@ const AdminLogin = () => {
             <h1 className="text-2xl text-violet-600  font-bold ml-6">
               Admin Login Page
             </h1>
-            <label className="mt-3 ml-5 px-1 text-lg">Email address</label>
+            <label className="mt-3 ml-5 px-1 text-lg">Username</label>
             <input
               type="text"
-              placeholder="Enter Email address"
+              ref={username}
+              placeholder="Enter Username"
               className="mt-2 ml-5 mr-5 border-2  px-3 text-md pt-1 border-gray-500 rounded-lg h-9"
             />
             <label className="mt-2 ml-5  px-1 text-lg">Password</label>
@@ -64,7 +69,7 @@ const AdminLogin = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminLogin
+export default AdminLogin;

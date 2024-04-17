@@ -1,4 +1,3 @@
-
 import EmployeeHeader from "./EmployeeHeader";
 import ApplyForLeave from "./ApplyForLeave";
 import { useState } from "react";
@@ -113,17 +112,3 @@ const LeaveReport = () => {
 };
 
 export default LeaveReport;
-import React from 'react'
-import EmployeeHeader from './EmployeeHeader'
-
-const LeaveReport = () => {
-  return (
-    <div>
-      <div>
-        <EmployeeHeader />
-      </div>
-    </div>
-  )
-}
-
-export default LeaveReport

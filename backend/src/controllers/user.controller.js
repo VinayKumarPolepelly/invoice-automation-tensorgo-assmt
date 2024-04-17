@@ -5,6 +5,8 @@ import jwt from "jsonwebtoken";
 import { ApiError } from "../utils/ApiError.js";
 import { Project } from "../models/models.project.js";
 import { ProjectReport } from "../models/models.projectReport.js";
+import { LeaveReport } from "../models/models.leaveReport.js";
+import { EmployeeSalary } from "../models/models.EmployeeSalaree.js";
 
 const generateAccessTokenAndRefreshToken = async (userId) => {
   try {
@@ -171,4 +173,35 @@ const addProjectReport = asyncHandler(async (req, res) => {
   return res.status(200).json({ message: "report submitted successfully" });
 });
 
-export { refreshAccessToken, loginUser, logoutUser, addProjectReport };
+const addLeaveReport = asyncHandler(async (req, res) => {
+  const { fromDate, toDate, reason, status } = req.body;
+  if (!fromDate) throw new ApiError(400, "From Date is a required field");
+  if (!toDate) throw new ApiError(400, "From Date is a required field");
+  if (!reason) throw new ApiError(400, "From Date is a required field");
+  const newLeave = await LeaveReport.create({
+    fromDate,
+    toDate,
+    reason,
+    status,
+    user: req.user,
+  });
+  if (!newLeave) throw new ApiError(500, "Internal server error");
+  return res.status(200).json({ Leave: newLeave });
+});
+
+const getSalareeDetails = asyncHandler(async (req, res) => {
+  const user = req.user._id;
+  //console.log(userId);
+  const salarees = await EmployeeSalary.find({ user });
+  if (!salarees) throw new ApiError(400, "salarees not found");
+  return res.status(200).json({ salarees: salarees });
+});
+
+export {
+  refreshAccessToken,
+  loginUser,
+  logoutUser,
+  addProjectReport,
+  addLeaveReport,
+  getSalareeDetails,
+};

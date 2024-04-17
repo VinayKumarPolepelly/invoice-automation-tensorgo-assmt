@@ -1,9 +1,92 @@
 import { EmployeeLeave } from "../models/models.employeeLeave.js";
 import { EmployeeSalary } from "../models/models.EmployeeSalaree.js";
+import { LeaveReport } from "../models/models.leaveReport.js";
 import { Project } from "../models/models.project.js";
 import { ProjectReport } from "../models/models.projectReport.js";
 import { User } from "../models/user.model.js";
+import { ApiError } from "../utils/ApiError.js";
+import { ApiResponse } from "../utils/ApiResponse.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
+
+const generateAccessTokenAndRefreshToken = async (userId) => {
+  try {
+    //console.log(userId);
+    const userInstance = await User.findById(userId);
+    //console.log(userInstance);
+    const accessToken = await userInstance.generateAccessToken();
+    const refreshToken = await userInstance.generateSessionToken();
+    userInstance.refreshToken = refreshToken;
+    userInstance.save({ validateBeforeSave: false });
+    return { accessToken, refreshToken };
+  } catch (error) {
+    throw new ApiError(400, "something went wrong while generating the tokens");
+  }
+};
+
+const loginAdmin = asyncHandler(async (req, res) => {
+  //req body ->data
+  //username or email
+  //find the user
+  //check the password
+  //access and refresh token generation
+  //send cookies
+
+  const { username, password } = req.body;
+  //console.log(req.body);
+  if (!username) {
+    throw new ApiError(400, "username is required");
+  }
+  if (!password) {
+    throw new ApiError(400, "password is required");
+  }
+
+  const existedUser = await User.findOne({ username });
+  if (!existedUser) {
+    throw new ApiError(404, "you are not registered yet");
+  }
+
+  if (existedUser.role != "admin") {
+    throw new ApiError(404, "you are not authorized");
+  }
+
+  const isPasswordValid = await existedUser.isPasswordCorrect(password);
+  //console.log(isPasswordValid);
+  if (!isPasswordValid) {
+    throw new ApiError(404, "invalid user credentials");
+  }
+  // res.status(200).json({
+  //   user: existedUser,
+  // });
+
+  const { accessToken, refreshToken } =
+    await generateAccessTokenAndRefreshToken(existedUser._id);
+
+  //console.log(accessToken, refreshToken);
+
+  //by default anyone from the frontend also can modify the cookies
+  //but we dont want that to happen, we want to modify the cookies only from the server
+  //hence we use this
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+  //you can send with the key value pair within the string is key and another one is value
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse(
+        200,
+        {
+          user: existedUser,
+          accessToken,
+          refreshToken,
+        },
+        "user loggedin successfully"
+      )
+    );
+});
 
 const getEmployeesList = async (req, res) => {
   try {
@@ -76,52 +159,16 @@ const addSalary = async (req, res) => {
       userId,
       salaryAmount,
     });
-    if (!newSalary)
+    //console.log(newSalary);
+    if (!newSalary) {
       return res.status(500).json({ message: "Internal server error" });
-    return res
-      .status(200)
-      .json({ message: `New Salary credited successfully to ${username}` });
+    }
+    //console.log("nikhil ");
+    return res.status(200).json({ salaree: newSalary });
   } catch (error) {
     //console.log("Nikhil");
     //console.log(error);
-    return res.status(400).send(error);
-  }
-};
-
-const addLeave = async (req, res) => {
-  try {
-    const { reason, status, startDate, endDate } = req.body;
-    const user = await User.findById(req?.user?._id);
-    if (!user)
-      return res
-        .status(400)
-        .json({ message: "Employee not found in the database" });
-    const userId = user._id;
-    const newLeave = await EmployeeLeave.create({
-      startDate,
-      endDate,
-      userId,
-      status,
-      reason,
-    });
-    if (!newLeave)
-      return res.status(500).json({ message: "Internal server error" });
-    return res
-      .status(200)
-      .json({ message: `New Leave updated successfully to ${username}` });
-  } catch (error) {
-    return res.status(400).send(error);
-  }
-};
-
-const getSalareeDetails = async (req, res) => {
-  try {
-    const salarees = await EmployeeSalary.find();
-    if (!salarees)
-      return res.status(400).json({ message: "No employees salarees found" });
-    res.status(200).json({ salarees: salarees });
-  } catch (error) {
-    res.status(400).json({ message: error });
+    return res.status(400).send("error");
   }
 };
 
@@ -175,6 +222,43 @@ const addProject = async (req, res) => {
   }
 };
 
+const getSalareeDetails = async (req, res) => {
+  try {
+    const salarees = await EmployeeSalary.find();
+    if (!salarees)
+      return res.status(400).json({ message: "No employees salarees found" });
+    res.status(200).json({ salarees: salarees });
+  } catch (error) {
+    res.status(400).json({ message: error });
+  }
+};
+
+const addLeave = async (req, res) => {
+  try {
+    const { reason, status, startDate, endDate } = req.body;
+    const user = await User.findById(req?.user?._id);
+    if (!user)
+      return res
+        .status(400)
+        .json({ message: "Employee not found in the database" });
+    const userId = user._id;
+    const newLeave = await EmployeeLeave.create({
+      startDate,
+      endDate,
+      userId,
+      status,
+      reason,
+    });
+    if (!newLeave)
+      return res.status(500).json({ message: "Internal server error" });
+    return res
+      .status(200)
+      .json({ message: `New Leave updated successfully to ${username}` });
+  } catch (error) {
+    return res.status(400).send(error);
+  }
+};
+
 const getProjectList = async (req, res) => {
   try {
     const projects = await Project.find();
@@ -196,7 +280,18 @@ const getProjectReportList = async (req, res) => {
   }
 };
 
+const getLeaveReportList = async (req, res) => {
+  try {
+    const leaves = await LeaveReport.find();
+    if (!leaves) throw new ApiError(400, "Leave Reports not found");
+    return res.status(200).json({ LeaveReports: leaves });
+  } catch (error) {
+    res.status(400).json({ message: "nikjhil" });
+  }
+};
+
 export {
+  loginAdmin,
   addSalary,
   addLeave,
   getEmployeesList,
@@ -205,4 +300,5 @@ export {
   getProjectList,
   getProjectReportList,
   registerUser,
+  getLeaveReportList,
 };

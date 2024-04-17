@@ -1,7 +1,44 @@
-import React from 'react'
-import AdminHeader from './AdminHeader'
+import React, { useRef } from "react";
+import AdminHeader from "./AdminHeader";
 
 const AdminAddEmployee = () => {
+  const username = useRef();
+  const fullname = useRef();
+  const email = useRef();
+  const password = useRef();
+  const phoneNumber = useRef();
+  const role = useRef();
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const userDetails = {
+      user_name: username.current.value,
+      full_name: fullname.current.value,
+      email: email.current.value,
+      password: password.current.value,
+      phone_Number: phoneNumber.current.value,
+      role: role.current.value,
+    };
+    const data1 = JSON.stringify(userDetails);
+    const url = "http://localhost:3001/api/additem";
+    const response = await fetch(url, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: data1,
+    });
+    const data = await response.json();
+    if (response.ok === true) {
+      console.log(data);
+      alert("item inserted successfully");
+    } else {
+      alert(data);
+      console.log(response.ok);
+      console.log(data);
+    }
+  };
+
   return (
     <div>
       <AdminHeader />
@@ -43,7 +80,7 @@ const AdminAddEmployee = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminAddEmployee
+export default AdminAddEmployee;

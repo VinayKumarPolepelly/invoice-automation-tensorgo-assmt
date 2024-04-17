@@ -1,9 +1,10 @@
 import mongoose, { Schema } from "mongoose";
+import { User } from "./user.model.js";
 const EmployeeSalaryScheema = new Schema(
   {
-    employeeId: {
+    user: {
       type: Schema.Types.ObjectId,
-      ref: "Employee",
+      ref: User,
     },
     salaryAmount: {
       type: Number,
