@@ -35,7 +35,7 @@ const AdminLogin = () => {
   return (
     <div>
       <Header />
-      <div className=" flex justify-center items-center  bg-violet-500 h-screen">
+      <div className=" flex justify-center items-center   h-screen">
         <div className="flex bg-white shadow-2xl h-[400px] w-[700px] ">
           <div>
             <img
@@ -53,16 +53,16 @@ const AdminLogin = () => {
               type="text"
               ref={username}
               placeholder="Enter Username"
-              className="mt-2 ml-5 mr-5 border-2  px-3 text-md pt-1 border-gray-500 rounded-lg h-9"
+              className="mt-2 ml-5 mr-5 border-2  px-3 text-md pt-1 border-gray-500 rounded-lg h-9 w-[200px]"
             />
             <label className="mt-2 ml-5  px-1 text-lg">Password</label>
             <input
-              type="text"
+              type="password"
               ref={password}
               placeholder="Enter Password"
-              className="mt-2 ml-5 mr-5 border-2 pt-1 border-gray-500 text-md rounded-lg h-9  px-3"
+              className="mt-2 ml-5 mr-5 border-2 pt-1 border-gray-500 text-md rounded-lg h-9 w-[200px] px-3"
             />
-            <button className=" mt-6 ml-5 text-center text-white h-[34px]  bg-violet-500 mr-5 rounded-md">
+            <button className=" mt-6 ml-5 text-center text-white h-[34px]  bg-violet-500 mr-5 w-[200px]  hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 active:border-collapse active:font-semibold active:shadow-2xl rounded-lg">
               Login
             </button>
           </form>
