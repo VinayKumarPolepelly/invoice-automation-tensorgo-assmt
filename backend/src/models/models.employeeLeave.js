@@ -1,8 +1,9 @@
 import mongoose, { Schema } from "mongoose";
+import { User } from "./user.model.js";
 const EmployeeAttendaneSchema = new Schema({
-  employeeId: {
+  user: {
     type: Schema.Types.ObjectId,
-    ref: "Employee",
+    ref: User,
   },
   reason: {
     type: String,

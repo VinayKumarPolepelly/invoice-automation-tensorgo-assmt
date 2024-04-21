@@ -151,12 +151,11 @@ const addSalary = async (req, res) => {
       return res
         .status(400)
         .json({ message: "Employee not found in the database" });
-    const userId = user._id;
     //console.log(userId);
     const newSalary = await EmployeeSalary.create({
       startDate,
       endDate,
-      userId,
+      user,
       salaryAmount,
     });
     //console.log(newSalary);
@@ -236,24 +235,16 @@ const getSalareeDetails = async (req, res) => {
 const addLeave = async (req, res) => {
   try {
     const { reason, status, startDate, endDate } = req.body;
-    const user = await User.findById(req?.user?._id);
-    if (!user)
-      return res
-        .status(400)
-        .json({ message: "Employee not found in the database" });
-    const userId = user._id;
     const newLeave = await EmployeeLeave.create({
       startDate,
       endDate,
-      userId,
+      user: req.user,
       status,
       reason,
     });
     if (!newLeave)
       return res.status(500).json({ message: "Internal server error" });
-    return res
-      .status(200)
-      .json({ message: `New Leave updated successfully to ${username}` });
+    return res.status(200).json({ message: "New Leave updated successfully" });
   } catch (error) {
     return res.status(400).send(error);
   }
@@ -286,6 +277,7 @@ const getLeaveReportList = async (req, res) => {
     if (!leaves) throw new ApiError(400, "Leave Reports not found");
     return res.status(200).json({ LeaveReports: leaves });
   } catch (error) {
+    console.log("nikhil");
     res.status(400).json({ message: "nikjhil" });
   }
 };

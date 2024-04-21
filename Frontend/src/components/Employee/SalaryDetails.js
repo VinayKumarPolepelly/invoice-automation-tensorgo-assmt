@@ -1,7 +1,16 @@
 import React from "react";
+//import { useEffect,useEffect } from "react";
 import EmployeeHeader from "./EmployeeHeader";
 
 const SalaryDetails = () => {
+  //   useEffect(()=>{
+  //     fetchData();
+  //   });
+
+  //   const fetchData=async ()=>{
+  //         const jsonData=await fetch("http://localhost:3000/users");
+  //   }
+
   return (
     <div>
       <div>

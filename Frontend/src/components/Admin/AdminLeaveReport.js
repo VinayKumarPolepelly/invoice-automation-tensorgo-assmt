@@ -1,6 +1,6 @@
 import React from "react";
 import AdminHeader from "./AdminHeader";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 const AdminLeaveReport = () => {
   const [selectedOption, setSelectedOption] = useState("Pending");
   const handleChange = (event) => {
@@ -9,6 +9,15 @@ const AdminLeaveReport = () => {
     setSelectedOption(selectedOptionText);
   };
 
+  useEffect(() => {
+    fetchData();
+  });
+  const fetchData = async () => {
+    const jsonData = await fetch(
+      "http://localhost:3000/api/v1/admins/getLeaveReports"
+    );
+    console.log(jsonData);
+  };
   return (
     <div>
       <AdminHeader />

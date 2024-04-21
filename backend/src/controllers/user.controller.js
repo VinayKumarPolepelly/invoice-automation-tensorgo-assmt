@@ -165,9 +165,11 @@ const addProjectReport = asyncHandler(async (req, res) => {
   if (!project) throw new ApiError(400, "project is required");
   if (!report) throw new ApiError(400, "report is required");
   const existedProject = await Project.findOne({ projectTitle: project });
+  const user = await User.findOne({ username: req.user.username });
   const newReport = await ProjectReport.create({
     report,
     project: existedProject,
+    user,
   });
   if (!newReport) throw new ApiError(500, "Internal server error");
   return res.status(200).json({ message: "report submitted successfully" });
@@ -190,7 +192,7 @@ const addLeaveReport = asyncHandler(async (req, res) => {
 });
 
 const getSalareeDetails = asyncHandler(async (req, res) => {
-  const user = req.user._id;
+  const user = req.user;
   //console.log(userId);
   const salarees = await EmployeeSalary.find({ user });
   if (!salarees) throw new ApiError(400, "salarees not found");
