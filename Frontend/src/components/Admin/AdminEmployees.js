@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import { Link } from "react-router-dom";
 
 const AdminEmployees = () => {
+  const [employees, setEmployees] = useState(null);
+  const [error, setError] = useState(null); // Add state for error
+
+  useEffect(() => {
+    const fetchEmployeeDetails = async () => {
+      try {
+        const data = await fetch(
+          "http://localhost:3000/api/v1/admins/getEmployees"
+        );
+        const json = await data.json();
+        setEmployees(json);
+      } catch (error) {
+        setError("Error fetching employee data"); // Set error message
+      }
+    };
+
+    fetchEmployeeDetails();
+  }, []);
+
   return (
     <div>
       <AdminHeader />
-      <div className="  h-[100vh]">
+      <div className="h-[100vh]">
         <div className="flex justify-center">
           <img
             className="w-7 ml-[-40px] mt-5"
@@ -21,64 +40,68 @@ const AdminEmployees = () => {
             </button>
           </Link>
         </div>
-        <div className="mt-5 p-2">
-          {" "}
-          <div className="bg-gray-50 rounded-t-2xl  h-[570px] m-auto  mt-6 p-1">
+        {error ? (
+          <p className="text-red-500">{error}</p>
+        ) : employees ? (
+          <div className="bg-gray-50 rounded-t-2xl h-[570px] m-auto mt-6 p-1">
             <div className="bg-violet-500 p-3 rounded-t-2xl text-center">
               <h1 className="text-white font-bold text-xl">EMPLOYEES</h1>
             </div>
-            <div className="bg-gray-200 text-black p-2  font-bold flex justify-between ">
+            <div className="bg-gray-200 text-black p-2 font-bold flex justify-between ">
               <table className="min-w-full divide-y divide-gray-200">
                 <thead>
                   <tr>
-                    <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                       User name
-                    </th>
-                    <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    </td>
+                    <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                       full name
-                    </th>
-                    <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    </td>
+                    <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                       email
-                    </th>
-                    <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                      Password
-                    </th>
-
-                    <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    </td>
+                    <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                       phone number
-                    </th>
-                    <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                    </td>
+
+                    <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                       role
-                    </th>
+                    </td>
+                    <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                      created At
+                    </td>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y divide-gray-200">
-                  <tr>
-                    <td className="px-6 py-4 whitespace-no-wrap font-normal">
-                      Nikhil
-                    </td>
-                    <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                      NikhilSathwika
-                    </td>
-                    <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                      dyagavontela@gmail.com
-                    </td>
-                    <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                      vontela
-                    </td>
-
-                    <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                      9999999888
-                    </td>
-                    <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                      Full Stack Developer
-                    </td>
-                  </tr>
+                <tbody>
+                  {employees.map((employee) => (
+                    <tr key={employee._id}>
+                      <td className="px-6 py-4 whitespace-no-wrap font-normal">
+                        {employee.username}
+                      </td>
+                      <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                        {employee.fullname}
+                      </td>
+                      <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                        {employee.email}
+                      </td>
+                      <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                        {employee.phoneNumber}
+                      </td>
+                      <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                        {employee.role}
+                      </td>
+                      <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                        {employee.createdAt}
+                      </td>
+                    </tr>
+                  ))}
                 </tbody>
               </table>
             </div>
           </div>
-        </div>
+        ) : (
+          <p>Loading employees...</p>
+        )}
       </div>
     </div>
   );

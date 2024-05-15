@@ -1,41 +1,46 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import AdminHeader from "./AdminHeader";
+import { useNavigate } from "react-router-dom";
 
 const AdminAddEmployee = () => {
+  const [error, setError] = useState(null);
   const username = useRef();
   const fullname = useRef();
   const email = useRef();
   const password = useRef();
   const phoneNumber = useRef();
   const role = useRef();
+  const navigate = useNavigate();
 
-  const handleSubmit = async (e) => {
+  const handlesubmitform = async (e) => {
     e.preventDefault();
-    const userDetails = {
-      user_name: username.current.value,
-      full_name: fullname.current.value,
-      email: email.current.value,
+    const url = "http://localhost:3000/api/v1/admins/register";
+
+    const data = {
+      username: username.current.value,
       password: password.current.value,
-      phone_Number: phoneNumber.current.value,
+      fullname: fullname.current.value,
+      email: email.current.value,
+      phoneNumber: phoneNumber.current.value,
       role: role.current.value,
     };
-    const data1 = JSON.stringify(userDetails);
-    const url = "http://localhost:3001/api/additem";
+
+    const userDetails = JSON.stringify(data);
+    console.log(userDetails);
     const response = await fetch(url, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: data1,
+      body: userDetails,
     });
-    const data = await response.json();
+    const data2 = await response.json();
     if (response.ok === true) {
-      console.log(data);
-      alert("item inserted successfully");
+      alert("employee added successfully");
+      navigate("/admin/employees");
     } else {
-      alert(data);
-      console.log(response.ok);
-      console.log(data);
+      console.log(data2);
+      setError(data2?.message);
     }
   };
 
@@ -51,7 +56,10 @@ const AdminAddEmployee = () => {
               className="h-[400px] w-[400px]"
             />
           </div>
-          <form className=" flex flex-col mt-10 ml-4">
+          <form
+            onSubmit={handlesubmitform}
+            className=" flex flex-col mt-10 ml-4"
+          >
             <h1 className="text-2xl text-violet-600  font-bold ml-6">
               Add Employee
             </h1>
@@ -59,6 +67,7 @@ const AdminAddEmployee = () => {
               <div>
                 <label className="mt-3 ml-5">Username</label>
                 <input
+                  ref={username}
                   type="text"
                   placeholder="Enter Employee Name"
                   className="mt-1 ml-5 mr-5 border-2 w-[200px] px-3 text-sm border-gray-500 rounded-lg h-9"
@@ -67,6 +76,7 @@ const AdminAddEmployee = () => {
               <div>
                 <label className="mt-3 m-2">Fullname</label>
                 <input
+                  ref={fullname}
                   type="text"
                   placeholder="Enter Employee Name"
                   className="mt-1 ml-1 mr-5 border-2 w-[200px] px-3 text-sm border-gray-500 rounded-lg h-9"
@@ -77,6 +87,7 @@ const AdminAddEmployee = () => {
               <div>
                 <label className="mt-3 ml-5">Password</label>
                 <input
+                  ref={password}
                   type="password"
                   placeholder="Enter Employee Name"
                   className="mt-1 ml-5 mr-5 border-2 w-[200px] px-3 text-sm border-gray-500 rounded-lg h-9"
@@ -85,6 +96,7 @@ const AdminAddEmployee = () => {
               <div className="flex-col">
                 <label className="mt-3 m-2 mr-7">Email</label>
                 <input
+                  ref={email}
                   type="text"
                   placeholder="Enter Employee Name"
                   className="mt-1 ml-1 mr-5 border-2 w-[200px] px-3 text-sm border-gray-500 rounded-lg h-9"
@@ -95,6 +107,7 @@ const AdminAddEmployee = () => {
               <div>
                 <label className="mt-3 ml-5">Phone No.</label>
                 <input
+                  ref={phoneNumber}
                   type="text"
                   placeholder="Enter Employee Name"
                   className="mt-1 ml-5 mr-5 border-2 w-[200px] px-3 text-sm border-gray-500 rounded-lg h-9"
@@ -103,6 +116,7 @@ const AdminAddEmployee = () => {
               <div>
                 <label className="mt-3 m-2 mr-7">Role</label>
                 <input
+                  ref={role}
                   type="text"
                   placeholder="Enter Employee Name"
                   className="mt-1 ml-1 mr-5 border-2 w-[200px] px-3 text-sm border-gray-500 rounded-lg h-9"

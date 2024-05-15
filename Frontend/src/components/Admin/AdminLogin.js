@@ -8,7 +8,7 @@ const AdminLogin = () => {
   const navigate = useNavigate();
   const handlesubmitform = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:3000/api/v1/admins/login";
+    const url = "http://localhost:1024/api/v1/admins/login";
 
     const data = {
       username: username.current.value,

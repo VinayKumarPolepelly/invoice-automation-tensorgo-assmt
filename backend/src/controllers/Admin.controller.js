@@ -60,6 +60,8 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
   const { accessToken, refreshToken } =
     await generateAccessTokenAndRefreshToken(existedUser._id);
+  console.log(accessToken);
+  console.log(refreshToken);
 
   //console.log(accessToken, refreshToken);
 
@@ -73,8 +75,8 @@ const loginAdmin = asyncHandler(async (req, res) => {
   //you can send with the key value pair within the string is key and another one is value
   return res
     .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
+    .cookie("accessToken", accessToken)
+    .cookie("refreshToken", refreshToken)
     .json(
       new ApiResponse(
         200,
@@ -109,7 +111,7 @@ const registerUser = asyncHandler(async (req, res) => {
 
   const { username, fullname, email, password, phoneNumber, role } = req.body;
 
-  if (!fullname || !email || !username || !password) {
+  if (!fullname || !email || !username || !password || !phoneNumber || !role) {
     throw new ApiError(400, "All feilds are required");
   }
 
@@ -144,9 +146,9 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const addSalary = async (req, res) => {
   try {
-    const { startDate, endDate, salaryAmount } = req.body;
+    const { startDate, endDate, salaryAmount, username } = req.body;
     //console.log(req.body);
-    const user = await User.findById(req?.user?._id);
+    const user = await User.findOne({ username });
     if (!user)
       return res
         .status(400)
@@ -232,24 +234,6 @@ const getSalareeDetails = async (req, res) => {
   }
 };
 
-const addLeave = async (req, res) => {
-  try {
-    const { reason, status, startDate, endDate } = req.body;
-    const newLeave = await EmployeeLeave.create({
-      startDate,
-      endDate,
-      user: req.user,
-      status,
-      reason,
-    });
-    if (!newLeave)
-      return res.status(500).json({ message: "Internal server error" });
-    return res.status(200).json({ message: "New Leave updated successfully" });
-  } catch (error) {
-    return res.status(400).send(error);
-  }
-};
-
 const getProjectList = async (req, res) => {
   try {
     const projects = await Project.find();
@@ -285,7 +269,6 @@ const getLeaveReportList = async (req, res) => {
 export {
   loginAdmin,
   addSalary,
-  addLeave,
   getEmployeesList,
   getSalareeDetails,
   addProject,

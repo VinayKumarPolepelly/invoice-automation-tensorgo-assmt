@@ -199,6 +199,30 @@ const getSalareeDetails = asyncHandler(async (req, res) => {
   return res.status(200).json({ salarees: salarees });
 });
 
+const getProjectDetails = asyncHandler(async (req, res) => {
+  const user = req.user;
+  //console.log(userId);
+  const projects = await Project.find({ projectManager: user });
+  if (!projects) throw new ApiError(400, "projects not found");
+  return res.status(200).json({ projects: projects });
+});
+
+const getLeaveDetails = asyncHandler(async (req, res) => {
+  const user = req.user;
+  //console.log(userId);
+  const leaves = await LeaveReport.find({ user });
+  if (!leaves) throw new ApiError(400, "leaves not found");
+  return res.status(200).json({ leaves: leaves });
+});
+
+const getProjectReportDetails = asyncHandler(async (req, res) => {
+  const user = req.user;
+  //console.log(userId);
+  const reports = await ProjectReport.find({ user });
+  if (!reports) throw new ApiError(400, "reports not found");
+  return res.status(200).json({ reports: reports });
+});
+
 export {
   refreshAccessToken,
   loginUser,
@@ -206,4 +230,7 @@ export {
   addProjectReport,
   addLeaveReport,
   getSalareeDetails,
+  getProjectDetails,
+  getLeaveDetails,
+  getProjectReportDetails,
 };

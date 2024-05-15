@@ -3,6 +3,22 @@ import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { useState } from "react";
 
+const handlesubmitform = async (e) => {
+  e.preventDefault();
+  const url = "http://localhost:1024/api/v1/users/logout";
+  const response = await fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  if (response.ok === true) {
+    alert("logout Successfull");
+  } else {
+    console.log("internal error");
+  }
+};
+
 const UserProfileIcon = (props) => {
   const { si } = props;
   return (
@@ -19,9 +35,11 @@ const Logout = () => {
           <UserProfileIcon si={48} />
         </div>
         <h1 className="mt-4 ml-2 mb-3">Vinay Kumar</h1>
-        <button className="text-sm text-white border-2 p-[6px]  bg-violet-500 hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 rounded-lg active:border-collapse active:font-semibold active:shadow-2xl">
-          LogOut
-        </button>
+        <form onSubmit={handlesubmitform}>
+          <button className="text-sm text-white border-2 p-[6px]  bg-violet-500 hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 rounded-lg active:border-collapse active:font-semibold active:shadow-2xl">
+            LogOut
+          </button>
+        </form>
       </div>
     </div>
   );

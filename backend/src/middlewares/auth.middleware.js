@@ -5,11 +5,11 @@ import jwt from "jsonwebtoken";
 
 export const verifyJwt = asyncHandler(async (req, res, next) => {
   try {
-    //console.log(req?.cookies);
+    console.log(req?.cookies);
     const token =
-      req?.cookies?.accessToken ||
+      req.cookies.accessToken ||
       req.header("Authorization")?.replace("Bearer ", "");
-    //console.log(token);
+    console.log(token);
     if (!token) {
       throw new ApiError(401, "unauthorized request");
     }
@@ -33,10 +33,8 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
 });
 
 export const verifyAdmin = (req, res, next) => {
-  //console.log(req.user);
   const { role } = req.user;
-  if (!role) res.status(403).send("Forbidden, you are not authorized");
-  if (role != "admin") {
+  if (!role || role !== "admin") {
     return res.status(403).send("Forbidden, you are not authorized");
   }
   next();
