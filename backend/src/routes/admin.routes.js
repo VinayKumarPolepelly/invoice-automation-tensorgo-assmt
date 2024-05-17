@@ -18,7 +18,7 @@ router.route("/addEmployeeSalary").post(verifyJwt, verifyAdmin, addSalary);
 router.route("/getEmployees").get(getEmployeesList);
 router.route("/getSalarees").get(verifyJwt, verifyAdmin, getSalareeDetails);
 router.route("/addProject").post(verifyJwt, verifyAdmin, addProject);
-router.route("/getProjects").get(verifyJwt, verifyAdmin, getProjectList);
+router.route("/getProjects").get(getProjectList);
 router
   .route("/getProjectReports")
   .get(verifyJwt, verifyAdmin, getProjectReportList);

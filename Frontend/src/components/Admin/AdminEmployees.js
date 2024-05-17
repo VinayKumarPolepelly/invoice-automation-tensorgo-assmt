@@ -10,7 +10,7 @@ const AdminEmployees = () => {
     const fetchEmployeeDetails = async () => {
       try {
         const data = await fetch(
-          "http://localhost:3000/api/v1/admins/getEmployees"
+          "http://localhost:3001/api/v1/admins/getEmployees"
         );
         const json = await data.json();
         setEmployees(json);

@@ -14,7 +14,7 @@ const AdminAddEmployee = () => {
 
   const handlesubmitform = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:3000/api/v1/admins/register";
+    const url = "http://localhost:3001/api/v1/admins/register";
 
     const data = {
       username: username.current.value,
@@ -123,8 +123,12 @@ const AdminAddEmployee = () => {
                 />
               </div>
             </div>
-
-            <button className="mt-7  ml-[170px] text-center w-[200px] text-white h-[34px]  bg-violet-500 mr-5  hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 rounded-xl active:border-collapse active:font-semibold active:shadow-2xl">
+            {error && (
+              <div className="text-red-900  ml-[130px] text-center w-[200px] mt-3 font-bold">
+                <h2>{error}</h2>
+              </div>
+            )}
+            <button className="mt-3  ml-[130px] text-center w-[200px] text-white h-[34px]  bg-violet-500 mr-5  hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 rounded-xl active:border-collapse active:font-semibold active:shadow-2xl">
               Register
             </button>
           </form>

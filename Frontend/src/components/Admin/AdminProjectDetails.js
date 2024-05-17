@@ -1,7 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
 
 const AdminProjectDetails = () => {
+  const [projects, setProjects] = useState(null);
+  const [error, setError] = useState(null); // Add state for error
+
+  useEffect(() => {
+    const fetchProjectDetails = async () => {
+      try {
+        const data = await fetch(
+          "http://localhost:3001/api/v1/admins/getProjects"
+        );
+        const json = await data.json();
+        setProjects(json);
+      } catch (error) {
+        setError("Error fetching employee data"); // Set error message
+      }
+    };
+
+    fetchProjectDetails();
+  }, []);
   return (
     <div>
       <AdminHeader />
@@ -38,30 +56,33 @@ const AdminProjectDetails = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody className="bg-white divide-y divide-gray-200">
-                <tr>
-                  <td className="px-6 py-4 whitespace-no-wrap font-normal">
-                    HR-mangement
-                  </td>
-                  <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                    Sathwika
-                  </td>
-                  <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                    Web Application
-                  </td>
-                  <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                    Venkat Ramana
-                  </td>
-                  <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                    MERN_STACK
-                  </td>
-                  <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                    MongoDB
-                  </td>
-                  <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                    description
-                  </td>
-                </tr>
+              <tbody> 
+                {projects?.length > 0 &&
+                  projects.map((project) => (
+                    <tr key={project._id}>
+                      <td className="px-6 py-4 whitespace-no-wrap font-normal">
+                        {project.projectTitle}
+                      </td>
+                      <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                        {project.clientName}
+                      </td>
+                      <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                        {project.projectType}
+                      </td>
+                      <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                        {project.projectManager}
+                      </td>
+                      <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                        {project.developingPlatform}
+                      </td>
+                      <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                        {project.databaseTechnology}
+                      </td>
+                      <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                        {project.projectDescription}
+                      </td>
+                    </tr>
+                  ))}
               </tbody>
             </table>
           </div>
