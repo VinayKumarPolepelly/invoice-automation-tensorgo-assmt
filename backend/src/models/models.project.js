@@ -13,10 +13,6 @@ const projectSchema = new Schema({
     type: String,
     required: true,
   },
-  projectManager: {
-    type: mongoose.Types.ObjectId,
-    ref: User,
-  },
   developingPlatform: {
     type: String,
     required: true,

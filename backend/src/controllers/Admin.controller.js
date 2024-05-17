@@ -157,7 +157,7 @@ const addSalary = async (req, res) => {
     const newSalary = await EmployeeSalary.create({
       startDate,
       endDate,
-      user,
+      username,
       salaryAmount,
     });
     //console.log(newSalary);
@@ -179,7 +179,6 @@ const addProject = async (req, res) => {
       projectTitle,
       clientName,
       projectType,
-      username,
       developingPlatform,
       databaseTechnology,
       projectDescription,
@@ -193,9 +192,6 @@ const addProject = async (req, res) => {
     if (!projectType) {
       res.status(400).json({ message: "projectType is required" });
     }
-    if (!username) {
-      res.status(400).json({ message: "projectManager is required" });
-    }
     if (!databaseTechnology) {
       res.status(400).json({ message: "databaseTechnology is required" });
     }
@@ -205,19 +201,20 @@ const addProject = async (req, res) => {
     if (!projectDescription) {
       res.status(400).json({ message: "projectDescription is required" });
     }
-    const user = await User.findOne({ username });
     const newProject = await Project.create({
       projectTitle,
       clientName,
       projectType,
-      projectManager: user,
       developingPlatform,
       databaseTechnology,
       projectDescription,
     });
-    if (!newProject)
-      res.status(400).json({ message: "project is not created" });
-    res.status(200).json({ message: "project created successfully" });
+    if (!newProject) {
+      return res.status(400).json({ message: "Project could not be created" });
+    }
+
+    // Send success response
+    return res.status(200).json({ message: "Project created successfully" });
   } catch (error) {
     res.status(400).send(error);
   }
@@ -238,6 +235,7 @@ const getProjectList = async (req, res) => {
   try {
     const projects = await Project.find();
     if (!projects) res.status(400).json({ message: "projects not found" });
+
     res.status(200).json({ projects: projects });
   } catch (error) {
     res.status(400).json({ error });
