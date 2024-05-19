@@ -1,4 +1,4 @@
-import mongoose, { Schema } from "mongoose";
+import mongoose from "mongoose";
 import { DB_NAME } from "../../utils.js";
 const connectDB = async () => {
   try {

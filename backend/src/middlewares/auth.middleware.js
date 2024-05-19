@@ -3,32 +3,30 @@ import { ApiError } from "../utils/ApiError.js";
 import { asyncHandler } from "../utils/asyncHandler.js";
 import jwt from "jsonwebtoken";
 
+// Middleware to verify JWT
 export const verifyJwt = asyncHandler(async (req, res, next) => {
   try {
-    console.log(req?.cookies);
-    const token =
-      req.cookies.accessToken ||
-      req.header("Authorization")?.replace("Bearer ", "");
-    console.log(token);
+    const token = req.cookies.accessToken;
+    //console.log("Token received:", token); // Log the token
+
     if (!token) {
-      throw new ApiError(401, "unauthorized request");
+      throw new ApiError(401, "Unauthorized request");
     }
-    const decodedToken = await jwt.verify(
-      token,
-      process.env.ACCESS_TOKEN_SECRET
-    );
-    //here while signing the access token we have used the usename email and id as input to be decoded, hence
-    //we will have the instances of those values
+
+    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET);
     const loggedInUser = await User.findById(decodedToken?._id).select(
       "-password -refreshToken"
     );
+
     if (!loggedInUser) {
-      throw new ApiError(400, "Invalid Access Token");
+      throw new ApiError(400, "Invalid access token");
     }
+
     req.user = loggedInUser;
     next();
   } catch (error) {
-    throw new ApiError(401, error?.message || "Invalid Access Token");
+    //console.error("Error verifying JWT:", error);
+    throw new ApiError(401, error.message || "Invalid access token");
   }
 });
 

@@ -34,15 +34,8 @@ const generateAccessTokenAndRefreshToken = async (userId) => {
 // };
 
 const loginUser = asyncHandler(async (req, res) => {
-  //req body ->data
-  //username or email
-  //find the user
-  //check the password
-  //access and refresh token generation
-  //send cookies
-
   const { username, password } = req.body;
-  //console.log(req.body);
+
   if (!username) {
     throw new ApiError(400, "username is required");
   }
@@ -56,45 +49,36 @@ const loginUser = asyncHandler(async (req, res) => {
   }
 
   const isPasswordValid = await existedUser.isPasswordCorrect(password);
-  //console.log(isPasswordValid);
   if (!isPasswordValid) {
     throw new ApiError(404, "invalid user credentials");
   }
-  // res.status(200).json({
-  //   user: existedUser,
-  // });
 
   const { accessToken, refreshToken } =
     await generateAccessTokenAndRefreshToken(existedUser._id);
 
-  //console.log(accessToken, refreshToken);
+  //const accessToken = existedUser.generateAccessToken();
 
-  //by default anyone from the frontend also can modify the cookies
-  //but we dont want that to happen, we want to modify the cookies only from the server
-  //hence we use this
-  const options = {
+  const cookieOptions = {
     httpOnly: true,
-    secure: true,
+    secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+    sameSite: "None",
   };
-  //you can send with the key value pair within the string is key and another one is value
-  return res
+
+  res
     .status(200)
-    .cookie("accessToken", accessToken, options)
-    .cookie("refreshToken", refreshToken, options)
+    .cookie("accessToken", accessToken, cookieOptions)
+    .cookie("refreshToken", refreshToken, cookieOptions)
     .json(
       new ApiResponse(
         200,
-        {
-          user: existedUser,
-          accessToken,
-          refreshToken,
-        },
-        "user loggedin successfully"
+        { user: existedUser, accessToken },
+        "user logged in successfully"
       )
     );
 });
 
 const logoutUser = asyncHandler(async (req, res) => {
+  //console.log(req.user);
   await User.findByIdAndUpdate(
     req.user._id,
     {
@@ -192,20 +176,26 @@ const addLeaveReport = asyncHandler(async (req, res) => {
 });
 
 const getSalareeDetails = asyncHandler(async (req, res) => {
+  //console.log("nikhil");
   const user = req.user;
-  //console.log(userId);
-  const salarees = await EmployeeSalary.find({ user });
+  const username = user.username;
+  //console.log(user);
+  const salarees = await EmployeeSalary.find({ user: username });
+  //console.log(salarees);
   if (!salarees) throw new ApiError(400, "salarees not found");
   return res.status(200).json({ salarees: salarees });
 });
 
-const getProjectDetails = asyncHandler(async (req, res) => {
-  const user = req.user;
-  //console.log(userId);
-  const projects = await Project.find({ projectManager: user });
-  if (!projects) throw new ApiError(400, "projects not found");
-  return res.status(200).json({ projects: projects });
-});
+const getProjectDetails = async (req, res) => {
+  try {
+    const projects = await Project.find();
+    if (!projects) res.status(400).json({ message: "projects not found" });
+
+    res.status(200).json({ projects: projects });
+  } catch (error) {
+    res.status(400).json({ error });
+  }
+};
 
 const getLeaveDetails = asyncHandler(async (req, res) => {
   const user = req.user;

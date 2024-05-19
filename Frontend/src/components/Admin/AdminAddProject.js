@@ -29,6 +29,7 @@ const AdminAddProject = () => {
     console.log(projectDetails);
     const response = await fetch(url, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -52,7 +53,7 @@ const AdminAddProject = () => {
           ADD PROJECT
         </h1>
         <form onSubmit={handlesubmitform}>
-          <div className="flex flex-row m-10 flex-wrap">
+          <div className="flex flex-row m-4 flex-wrap">
             <div className=" px-8 py-5 ">
               <div className="flex flex-col">
                 <label className="text-white pl-1 py-2">Project Name</label>
@@ -112,8 +113,14 @@ const AdminAddProject = () => {
               </div>
             </div>
           </div>
-          {error && <div className="text-red-500 text-center">{error}</div>}
-          <button>Add Project</button>
+          {error && (
+            <div className="text-red-500 font-bold text-center mt-0">
+              {error}
+            </div>
+          )}
+          <button className=" mx-[46%] w-28 mt-0 text-center text-white h-[34px] bg-violet-500 mr-5 hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 rounded-lg active:font-semibold active:shadow-2xl">
+            Submit
+          </button>
         </form>
       </div>
     </div>

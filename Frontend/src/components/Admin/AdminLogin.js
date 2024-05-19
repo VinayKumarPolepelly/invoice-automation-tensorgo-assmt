@@ -6,6 +6,7 @@ const AdminLogin = () => {
   const username = useRef();
   const password = useRef();
   const navigate = useNavigate();
+
   const handlesubmitform = async (e) => {
     e.preventDefault();
     const url = "http://localhost:3001/api/v1/admins/login";
@@ -15,23 +16,35 @@ const AdminLogin = () => {
       password: password.current.value,
     };
 
-    const userDetails = JSON.stringify(data);
-    console.log(userDetails);
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: userDetails,
-    });
-    const data2 = await response.json();
-    if (response.ok === true) {
-      console.log(data2);
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify(data),
+      });
+
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+
+      const responseData = await response.json();
+      console.log(responseData);
+      console.log(responseData.data.accessToken);
+
+      // Assuming responseData.accessToken contains the access token
+      // Set the accessToken cookie
+      document.cookie = `accessToken=${responseData.data.accessToken}; Secure; SameSite=None; Path=/`;
+
       navigate("/admin");
-    } else {
-      console.log(data2);
+    } catch (error) {
+      console.error("Login error:", error);
+      // Handle login error
     }
   };
+
   return (
     <div>
       <Header />
@@ -53,16 +66,16 @@ const AdminLogin = () => {
               type="text"
               ref={username}
               placeholder="Enter Username"
-              className="mt-2 ml-5 mr-5 border-2  px-3 text-md pt-1 border-gray-500 rounded-lg h-9 w-[200px]"
+              className="mt-2 ml-5 mr-5 border-2  px-3 text-md pt-1 border-gray-500   w-[200px] rounded-lg h-9"
             />
             <label className="mt-2 ml-5  px-1 text-lg">Password</label>
             <input
               type="password"
               ref={password}
               placeholder="Enter Password"
-              className="mt-2 ml-5 mr-5 border-2 pt-1 border-gray-500 text-md rounded-lg h-9 w-[200px] px-3"
+              className="mt-2 ml-5 mr-5 border-2 pt-1 border-gray-500 text-md rounded-lg h-9  w-[200px] px-3"
             />
-            <button className=" mt-6 ml-5 text-center text-white h-[34px]  bg-violet-500 mr-5 w-[200px]  hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 active:border-collapse active:font-semibold active:shadow-2xl rounded-lg">
+            <button className=" mt-6 ml-5 text-center text-white h-[34px]  bg-violet-500 mr-5 w-[200px] hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 active:border-collapse active:font-semibold active:shadow-2xl rounded-lg">
               Login
             </button>
           </form>

@@ -3,19 +3,15 @@ import { User } from "./user.model.js";
 const EmployeeSalaryScheema = new Schema(
   {
     user: {
-      type: Schema.Types.ObjectId,
-      ref: User,
+      type: String,
+      required: true,
     },
     salaryAmount: {
       type: Number,
       required: true,
     },
-    startDate: {
-      type: Date,
-      required: true,
-    },
-    endDate: {
-      type: Date,
+    month: {
+      type: String,
       required: true,
     },
   },

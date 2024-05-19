@@ -58,19 +58,26 @@ userSchema.methods.isPasswordCorrect = async function (password) {
   return await bcrypt.compare(password, this.password);
 };
 
-userSchema.methods.generateAccessToken = async function () {
-  return jwt.sign(
-    {
-      _id: this._id,
-      email: this.email,
-      username: this.username,
-      fullname: this.fullname,
-    },
-    process.env.ACCESS_TOKEN_SECRET,
-    {
-      expiresIn: process.env.ACCESS_TOKEN_EXPIRY,
-    }
-  );
+userSchema.methods.generateAccessToken = function () {
+  try {
+    const token = jwt.sign(
+      {
+        _id: this._id,
+        email: this.email,
+        username: this.username,
+        fullname: this.fullname,
+      },
+      process.env.ACCESS_TOKEN_SECRET,
+      {
+        expiresIn: 432000,
+      }
+    );
+    return token;
+  } catch (error) {
+    // Handle error
+    console.error("Error generating access token:", error);
+    throw new Error("Failed to generate access token");
+  }
 };
 
 userSchema.methods.generateSessionToken = async function () {

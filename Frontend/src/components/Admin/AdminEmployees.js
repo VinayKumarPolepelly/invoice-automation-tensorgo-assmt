@@ -9,10 +9,17 @@ const AdminEmployees = () => {
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
       try {
-        const data = await fetch(
-          "http://localhost:3001/api/v1/admins/getEmployees"
+        const response = await fetch(
+          "http://localhost:3001/api/v1/admins/getEmployees",
+          {
+            method: "GET",
+            credentials: "include", // Include credentials (cookies)
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
-        const json = await data.json();
+        const json = await response.json();
         setEmployees(json);
       } catch (error) {
         setError("Error fetching employee data"); // Set error message

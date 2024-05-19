@@ -60,8 +60,8 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
   const { accessToken, refreshToken } =
     await generateAccessTokenAndRefreshToken(existedUser._id);
-  console.log(accessToken);
-  console.log(refreshToken);
+  // console.log(accessToken);
+  // console.log(refreshToken);
 
   //console.log(accessToken, refreshToken);
 
@@ -146,30 +146,18 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const addSalary = async (req, res) => {
   try {
-    const { startDate, endDate, salaryAmount, username } = req.body;
-    //console.log(req.body);
-    const user = await User.findOne({ username });
-    if (!user)
-      return res
-        .status(400)
-        .json({ message: "Employee not found in the database" });
-    //console.log(userId);
+    const { month, salaryAmount, user } = req.body;
     const newSalary = await EmployeeSalary.create({
-      startDate,
-      endDate,
-      username,
+      month,
+      user,
       salaryAmount,
     });
-    //console.log(newSalary);
     if (!newSalary) {
       return res.status(500).json({ message: "Internal server error" });
     }
-    //console.log("nikhil ");
     return res.status(200).json({ salaree: newSalary });
   } catch (error) {
-    //console.log("Nikhil");
-    //console.log(error);
-    return res.status(400).send("error");
+    return res.status(400).send(error);
   }
 };
 
@@ -259,7 +247,7 @@ const getLeaveReportList = async (req, res) => {
     if (!leaves) throw new ApiError(400, "Leave Reports not found");
     return res.status(200).json({ LeaveReports: leaves });
   } catch (error) {
-    console.log("nikhil");
+    // console.log("nikhil");
     res.status(400).json({ message: "nikjhil" });
   }
 };

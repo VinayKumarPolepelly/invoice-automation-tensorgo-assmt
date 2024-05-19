@@ -29,6 +29,7 @@ const AdminAddEmployee = () => {
     console.log(userDetails);
     const response = await fetch(url, {
       method: "POST",
+      credentials: "include",
       headers: {
         "Content-Type": "application/json",
       },
@@ -69,7 +70,7 @@ const AdminAddEmployee = () => {
                 <input
                   ref={username}
                   type="text"
-                  placeholder="Enter Employee Name"
+                  placeholder="Enter Employee username"
                   className="mt-1 ml-5 mr-5 border-2 w-[200px] px-3 text-sm border-gray-500 rounded-lg h-9"
                 />
               </div>
@@ -78,7 +79,7 @@ const AdminAddEmployee = () => {
                 <input
                   ref={fullname}
                   type="text"
-                  placeholder="Enter Employee Name"
+                  placeholder="Enter Employee Fullname"
                   className="mt-1 ml-1 mr-5 border-2 w-[200px] px-3 text-sm border-gray-500 rounded-lg h-9"
                 />
               </div>
@@ -89,7 +90,7 @@ const AdminAddEmployee = () => {
                 <input
                   ref={password}
                   type="password"
-                  placeholder="Enter Employee Name"
+                  placeholder="Enter Employee Password"
                   className="mt-1 ml-5 mr-5 border-2 w-[200px] px-3 text-sm border-gray-500 rounded-lg h-9"
                 />
               </div>
@@ -98,7 +99,7 @@ const AdminAddEmployee = () => {
                 <input
                   ref={email}
                   type="text"
-                  placeholder="Enter Employee Name"
+                  placeholder="Enter Employee Email"
                   className="mt-1 ml-1 mr-5 border-2 w-[200px] px-3 text-sm border-gray-500 rounded-lg h-9"
                 />
               </div>
@@ -109,7 +110,7 @@ const AdminAddEmployee = () => {
                 <input
                   ref={phoneNumber}
                   type="text"
-                  placeholder="Enter Employee Name"
+                  placeholder="Enter Employee Phone No"
                   className="mt-1 ml-5 mr-5 border-2 w-[200px] px-3 text-sm border-gray-500 rounded-lg h-9"
                 />
               </div>
@@ -118,7 +119,7 @@ const AdminAddEmployee = () => {
                 <input
                   ref={role}
                   type="text"
-                  placeholder="Enter Employee Name"
+                  placeholder="Enter Employee Role"
                   className="mt-1 ml-1 mr-5 border-2 w-[200px] px-3 text-sm border-gray-500 rounded-lg h-9"
                 />
               </div>

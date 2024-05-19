@@ -9,8 +9,16 @@ const AdminProjectDetails = () => {
     const fetchProjectDetails = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/v1/admins/getProjects"
+          "http://localhost:3001/api/v1/admins/getProjects",
+          {
+            method: "GET",
+            credentials: "include", // Include credentials (cookies)
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
         );
+
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
