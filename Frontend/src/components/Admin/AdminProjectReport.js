@@ -1,7 +1,40 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
 
 const AdminProjectReport = () => {
+  const [projectReports, setProjectReports] = useState([]);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchProjectReportDetails = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:3001/api/v1/admins/getProjectReports",
+          {
+            method: "GET",
+            credentials: "include", // Include credentials (cookies)
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const json = await response.json();
+        if (json?.projectReports) {
+          setProjectReports(json.projectReports);
+          console.log(json.projectReports);
+        } else {
+          throw new Error("No project Reports field in response");
+        }
+      } catch (error) {
+        setError("Error fetching project Reports data");
+      }
+    };
+
+    fetchProjectReportDetails();
+  }, []);
   return (
     <div>
       <AdminHeader />
@@ -14,31 +47,34 @@ const AdminProjectReport = () => {
             <table className="min-w-full divide-y divide-gray-200">
               <thead>
                 <tr>
-                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                     Project
                   </th>
-                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                     User
                   </th>
 
-                  <th className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  <th className="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                     Report
                   </th>
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                <tr>
-                  <td className="px-6 py-4 whitespace-no-wrap font-normal">
-                    HR-mangement
-                  </td>
-                  <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                    Nikhil Kumar
-                  </td>
-
-                  <td className=" py-4 whitespace-no-wrap font-normal">
-                    Assigned to 3 members
-                  </td>
-                </tr>
+                {projectReports.map((report) => {
+                  return (
+                    <tr>
+                      <td className="px-6 py-4 whitespace-no-wrap font-normal text-center">
+                        {report.project}
+                      </td>
+                      <td className="px-6 py-4 whitespace-no-wrap font-normal text-center">
+                        {report.user}
+                      </td>
+                      <td className="px-6 py-4 whitespace-no-wrap font-normal text-center">
+                        {report.report}
+                      </td>
+                    </tr>
+                  );
+                })}
               </tbody>
             </table>
           </div>

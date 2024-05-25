@@ -148,12 +148,10 @@ const addProjectReport = asyncHandler(async (req, res) => {
   const { project, report } = req.body;
   if (!project) throw new ApiError(400, "project is required");
   if (!report) throw new ApiError(400, "report is required");
-  const existedProject = await Project.findOne({ projectTitle: project });
-  const user = await User.findOne({ username: req.user.username });
   const newReport = await ProjectReport.create({
     report,
-    project: existedProject,
-    user,
+    project,
+    user: req.user.username,
   });
   if (!newReport) throw new ApiError(500, "Internal server error");
   return res.status(200).json({ message: "report submitted successfully" });
@@ -169,7 +167,7 @@ const addLeaveReport = asyncHandler(async (req, res) => {
     toDate,
     reason,
     status,
-    user: req.user,
+    user: req.user.username,
   });
   if (!newLeave) throw new ApiError(500, "Internal server error");
   return res.status(200).json({ Leave: newLeave });
@@ -188,7 +186,8 @@ const getSalareeDetails = asyncHandler(async (req, res) => {
 
 const getProjectDetails = async (req, res) => {
   try {
-    const projects = await Project.find();
+    const username = req.user.username;
+    const projects = await Project.find({ projectManager: username });
     if (!projects) res.status(400).json({ message: "projects not found" });
 
     res.status(200).json({ projects: projects });
@@ -198,9 +197,9 @@ const getProjectDetails = async (req, res) => {
 };
 
 const getLeaveDetails = asyncHandler(async (req, res) => {
-  const user = req.user;
+  const username = req.user.username;
   //console.log(userId);
-  const leaves = await LeaveReport.find({ user });
+  const leaves = await LeaveReport.find({ user: username });
   if (!leaves) throw new ApiError(400, "leaves not found");
   return res.status(200).json({ leaves: leaves });
 });

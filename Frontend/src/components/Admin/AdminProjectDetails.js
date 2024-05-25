@@ -56,10 +56,10 @@ const AdminProjectDetails = () => {
                       Project Title
                     </th>
                     <th className="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                      Client Name
+                      Project Type
                     </th>
                     <th className="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                      Project Type
+                      Client Name
                     </th>
                     <th className="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                       Developing Platform
@@ -69,6 +69,9 @@ const AdminProjectDetails = () => {
                     </th>
                     <th className="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                       Project Description
+                    </th>
+                    <th className="px-6 py-3 bg-gray-50 text-center text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                      Employee
                     </th>
                   </tr>
                 </thead>
@@ -91,8 +94,11 @@ const AdminProjectDetails = () => {
                         <td className="px-5 py-4 whitespace-no-wrap font-normal text-center">
                           {project.databaseTechnology}
                         </td>
-                        <td className="px-5 py-4 whitespace-no-wrap font-normal text-center">
+                        <td className="px-5 py-4  whitespace-no-wrap font-normal text-center">
                           {project.projectDescription}
+                        </td>
+                        <td className="px-5 py-4 whitespace-no-wrap font-normal text-center">
+                          {project.projectManager}
                         </td>
                       </tr>
                     ))

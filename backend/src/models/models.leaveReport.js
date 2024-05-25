@@ -15,12 +15,13 @@ const leaveReportSchema = new Schema(
       required: true,
     },
     user: {
-      type: mongoose.Types.ObjectId,
-      ref: User,
+      type: String,
+      required: true,
     },
     status: {
-      type: Boolean,
-      default: false,
+      type: String,
+      enum: ["pending", "accept", "reject"],
+      default: "pending",
     },
   },
   { timestamps: true }

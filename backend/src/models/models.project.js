@@ -25,6 +25,10 @@ const projectSchema = new Schema({
     type: String,
     required: true,
   },
+  projectManager: {
+    type: String,
+    required: true,
+  },
 });
 
 export const Project = mongoose.model("Project", projectSchema);

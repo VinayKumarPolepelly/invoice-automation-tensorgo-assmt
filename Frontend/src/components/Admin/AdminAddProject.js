@@ -1,8 +1,35 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import { useNavigate } from "react-router-dom";
+import Select from "react-select";
 
 const AdminAddProject = () => {
+  const [employees, setEmployees] = useState([]);
+  const [selectedEmployees, setSelectedEmployees] = useState([]);
+
+  useEffect(() => {
+    const fetchEmployeeDetails = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:3001/api/v1/admins/getEmployees",
+          {
+            method: "GET",
+            credentials: "include", // Include credentials (cookies)
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const json = await response.json();
+        setEmployees(json);
+      } catch (error) {
+        setError("Error fetching employee data"); // Set error message
+      }
+    };
+
+    fetchEmployeeDetails();
+  }, []);
+
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const projectTitle = useRef();
@@ -15,35 +42,51 @@ const AdminAddProject = () => {
   const handlesubmitform = async (e) => {
     e.preventDefault();
     const url = "http://localhost:3001/api/v1/admins/addProject";
+    for (const employee of selectedEmployees) {
+      const data = {
+        projectTitle: projectTitle.current.value,
+        clientName: clientName.current.value,
+        projectType: projectType.current.value,
+        developingPlatform: developingPlatform.current.value,
+        databaseTechnology: databaseTechnology.current.value,
+        projectDescription: projectDescription.current.value,
+        projectManager: employee.value,
+      };
 
-    const data = {
-      projectTitle: projectTitle.current.value,
-      clientName: clientName.current.value,
-      projectType: projectType.current.value,
-      developingPlatform: developingPlatform.current.value,
-      databaseTechnology: databaseTechnology.current.value,
-      projectDescription: projectDescription.current.value,
-    };
+      const projectDetails = JSON.stringify(data);
+      console.log(projectDetails);
 
-    const projectDetails = JSON.stringify(data);
-    console.log(projectDetails);
-    const response = await fetch(url, {
-      method: "POST",
-      credentials: "include",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: projectDetails,
-    });
-    const data2 = await response.json();
-    if (response.ok === true) {
-      alert("project added successfully");
+      try {
+        const response = await fetch(url, {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: projectDetails,
+        });
+
+        const data2 = await response.json();
+        if (!response.ok) {
+          console.log(data2);
+          setError(data2?.message);
+        }
+      } catch (error) {
+        console.error("Submit error:", error);
+        setError("Error submitting project data");
+      }
+    }
+
+    if (!error) {
+      alert("Project(s) added successfully");
       navigate("/admin/projectdetails");
-    } else {
-      console.log(data2);
-      setError(data2?.message);
     }
   };
+  const employeeOptions = employees.map((employee) => ({
+    value: employee.username,
+    label: employee.username,
+  }));
+
   return (
     <div>
       <AdminHeader />
@@ -77,6 +120,17 @@ const AdminAddProject = () => {
                   ref={projectType}
                   type="text"
                   className="w-[40vw ] h-[40px] rounded-xl"
+                />
+              </div>
+              <div className="flex flex-col">
+                <label className="text-white pl-1 py-2">Project Manager</label>
+                <Select
+                  isMulti
+                  name="projectManagers"
+                  options={employeeOptions}
+                  className="basic-multi-select"
+                  classNamePrefix="select"
+                  onChange={setSelectedEmployees}
                 />
               </div>
             </div>

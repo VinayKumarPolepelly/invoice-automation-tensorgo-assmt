@@ -1,11 +1,67 @@
 import EmployeeHeader from "./EmployeeHeader";
 import ApplyForLeave from "./ApplyForLeave";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const LeaveReport = () => {
   const [showItem, setShowItem] = useState(false);
   const handlerClick = () => {
     setShowItem(true);
+  };
+
+  const [leaves, setLeaves] = useState([]);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchLeaves = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:3001/api/v1/users/getLeaveDetails",
+          {
+            method: "GET",
+            credentials: "include", // Include credentials (cookies)
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const json = await response.json();
+        if (json?.leaves) {
+          setLeaves(json.leaves);
+          console.log(json.leaves);
+          navigate("/employeeLeaveReport");
+        } else {
+          throw new Error("No Leaves field in response");
+        }
+      } catch (error) {
+        setError("Error fetching Leaves data");
+      }
+    };
+
+    fetchLeaves();
+  }, []);
+
+  const formatDateAndTime = (timestamp) => {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
+    const hours = String(date.getHours()).padStart(2, "0");
+    const minutes = String(date.getMinutes()).padStart(2, "0");
+    const seconds = String(date.getSeconds()).padStart(2, "0");
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+  };
+
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Months are zero-based
+    const day = String(date.getDate()).padStart(2, "0");
+    return `${year}-${month}-${day}`;
   };
 
   return (
@@ -70,36 +126,27 @@ const LeaveReport = () => {
                     </tr>
                   </thead>
                   <tbody className="bg-white divide-y divide-gray-200">
-                    <tr>
-                      <td className="px-6 py-4 whitespace-no-wrap">
-                        15-04-2024
-                      </td>
-                      <td className="px-6 py-4 whitespace-no-wrap">
-                        17-04-2024
-                      </td>
-                      <td className="px-6 py-4 whitespace-no-wrap">
-                        20-04-2024
-                      </td>
-                      <td className="px-6 py-4 whitespace-no-wrap">
-                        Family Trip
-                      </td>
-                      <td className="px-6 py-4 whitespace-no-wrap">Pending</td>
-                    </tr>
-                    <tr>
-                      <td className="px-6 py-4 whitespace-no-wrap">
-                        18-03-2024
-                      </td>
-                      <td className="px-6 py-4 whitespace-no-wrap">
-                        19-03-2024
-                      </td>
-                      <td className="px-6 py-4 whitespace-no-wrap">
-                        21-03-2024
-                      </td>
-                      <td className="px-6 py-4 whitespace-no-wrap">
-                        Health Issue
-                      </td>
-                      <td className="px-6 py-4 whitespace-no-wrap">Approved</td>
-                    </tr>
+                    {leaves.map((leave) => {
+                      return (
+                        <tr>
+                          <td className="px-6 py-4 whitespace-no-wrap">
+                            {formatDateAndTime(leave.createdAt)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-no-wrap">
+                            {formatDate(leave.fromDate)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-no-wrap">
+                            {formatDate(leave.toDate)}
+                          </td>
+                          <td className="px-6 py-4 whitespace-no-wrap">
+                            {leave.reason}
+                          </td>
+                          <td className="px-6 py-4 whitespace-no-wrap">
+                            {leave.status}
+                          </td>
+                        </tr>
+                      );
+                    })}
                   </tbody>
                 </table>
               </div>

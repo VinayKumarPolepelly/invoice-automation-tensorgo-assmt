@@ -170,6 +170,7 @@ const addProject = async (req, res) => {
       developingPlatform,
       databaseTechnology,
       projectDescription,
+      projectManager,
     } = req.body;
     if (!projectTitle) {
       res.status(400).json({ message: "project Name is required" });
@@ -189,6 +190,9 @@ const addProject = async (req, res) => {
     if (!projectDescription) {
       res.status(400).json({ message: "projectDescription is required" });
     }
+    if (!projectManager) {
+      res.status(400).json({ message: "projectDescription is required" });
+    }
     const newProject = await Project.create({
       projectTitle,
       clientName,
@@ -196,6 +200,7 @@ const addProject = async (req, res) => {
       developingPlatform,
       databaseTechnology,
       projectDescription,
+      projectManager,
     });
     if (!newProject) {
       return res.status(400).json({ message: "Project could not be created" });
