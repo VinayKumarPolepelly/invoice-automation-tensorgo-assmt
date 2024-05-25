@@ -2,6 +2,8 @@ import { Router } from "express";
 import {
   addProject,
   addSalary,
+  deleteEmployee,
+  deleteSalary,
   getEmployeesList,
   getLeaveReportList,
   getProjectList,
@@ -9,6 +11,7 @@ import {
   getSalareeDetails,
   loginAdmin,
   registerUser,
+  updateLeaveReport,
 } from "../controllers/Admin.controller.js";
 import { verifyAdmin, verifyJwt } from "../middlewares/auth.middleware.js";
 const router = Router();
@@ -25,4 +28,9 @@ router
 router
   .route("/getLeaveReports")
   .get(verifyJwt, verifyAdmin, getLeaveReportList);
+router
+  .route("/updateLeaveReport")
+  .post(verifyJwt, verifyAdmin, updateLeaveReport);
+router.route("/deleteEmployee").post(verifyJwt, verifyAdmin, deleteEmployee);
+router.route("/deleteSalary").post(verifyJwt, verifyAdmin, deleteSalary);
 export default router;

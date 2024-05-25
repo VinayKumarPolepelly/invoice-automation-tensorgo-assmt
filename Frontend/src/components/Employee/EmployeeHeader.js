@@ -1,17 +1,17 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import { FaUser } from 'react-icons/fa'
-import { useState } from 'react'
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FaUser } from "react-icons/fa";
+import { useState } from "react";
 
 const UserProfileIcon = (props) => {
-  const { si } = props
+  const { si } = props;
   return (
     <div>
       <FaUser size={si} />
     </div>
-  )
-}
-const Logout = () => {
+  );
+};
+const Logout = ({ handleLogout }) => {
   return (
     <div className="flex justify-end ">
       <div className="w-[200px]  h-[200px] text-center p-5 bg-gray-100 border-4 border-violet-200 shadow-2xl mt-[-22px] mr-[65px]  absolute rounded-xl rounded-tr-none ">
@@ -19,18 +19,25 @@ const Logout = () => {
           <UserProfileIcon si={48} />
         </div>
         <h1 className="mt-4 ml-1 mb-3">Nikhil</h1>
-        <button className="text-sm text-white ml-1 border-2 p-[6px]  bg-violet-500 hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 rounded-lg active:border-collapse active:font-semibold active:shadow-2xl">
+        <button
+          onClick={handleLogout}
+          className="text-sm text-white ml-1 border-2 p-[6px]  bg-violet-500 hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 rounded-lg active:border-collapse active:font-semibold active:shadow-2xl"
+        >
           LogOut
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 const EmployeeHeader = () => {
-  const [showItem, setShowItem] = useState(false)
+  const [showItem, setShowItem] = useState(false);
+  const navigate = useNavigate();
   const handleClick = () => {
-    setShowItem(!showItem)
-  }
+    setShowItem(!showItem);
+  };
+  const handleLogout = () => {
+    navigate("/employeeLogin");
+  };
   return (
     <div>
       <div className="sticky top-0">
@@ -50,21 +57,17 @@ const EmployeeHeader = () => {
           <Link to="/employeeLeaveReport/">
             <li className="text-white active:font-semibold">Leave Report</li>
           </Link>
-          <Link to="/employeeLogin/">
-            <li>
-              <div
-                className="h-9 w-10 mt-[-6px] text-white rounded-3xl border-solid  border-4 p-1 cursor-pointer active:border-gray-400 "
-                onClick={handleClick}
-              >
-                <UserProfileIcon si={25} />
-              </div>
-            </li>
-          </Link>
+          <div
+            className="h-9 w-10 mt-[-6px] text-white rounded-3xl border-solid  border-4 p-1 cursor-pointer active:border-gray-400 "
+            onClick={handleClick}
+          >
+            <UserProfileIcon si={25} />
+          </div>
         </ul>
-        {showItem && <Logout />}
+        {showItem && <Logout handleLogout={handleLogout} />}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default EmployeeHeader
+export default EmployeeHeader;

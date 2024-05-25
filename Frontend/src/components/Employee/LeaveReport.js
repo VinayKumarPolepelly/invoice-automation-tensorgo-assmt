@@ -33,7 +33,6 @@ const LeaveReport = () => {
         if (json?.leaves) {
           setLeaves(json.leaves);
           console.log(json.leaves);
-          navigate("/employeeLeaveReport");
         } else {
           throw new Error("No Leaves field in response");
         }

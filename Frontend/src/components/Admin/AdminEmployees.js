@@ -1,33 +1,69 @@
-import React, { useEffect, useState } from 'react'
-import AdminHeader from './AdminHeader'
-import { Link } from 'react-router-dom'
-import { MdDelete } from 'react-icons/md'
+import React, { useEffect, useState } from "react";
+import AdminHeader from "./AdminHeader";
+import { Link } from "react-router-dom";
+import { MdDelete } from "react-icons/md";
+
 const AdminEmployees = () => {
-  const [employees, setEmployees] = useState(null)
-  const [error, setError] = useState(null) // Add state for error
+  const [employees, setEmployees] = useState(null);
+  const [error, setError] = useState(null); // Add state for error
 
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
       try {
         const response = await fetch(
-          'http://localhost:3001/api/v1/admins/getEmployees',
+          "http://localhost:3001/api/v1/admins/getEmployees",
           {
-            method: 'GET',
-            credentials: 'include', // Include credentials (cookies)
+            method: "GET",
+            credentials: "include", // Include credentials (cookies)
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           }
-        )
-        const json = await response.json()
-        setEmployees(json)
+        );
+        const json = await response.json();
+        setEmployees(json);
       } catch (error) {
-        setError('Error fetching employee data') // Set error message
+        setError("Error fetching employee data"); // Set error message
       }
-    }
+    };
 
-    fetchEmployeeDetails()
-  }, [])
+    fetchEmployeeDetails();
+  }, []);
+
+  const handleDeleteEmployee = async (username) => {
+    const url = "http://localhost:3001/api/v1/admins/deleteEmployee";
+    const data = {
+      username: username,
+    };
+
+    const userdetails = JSON.stringify(data);
+
+    try {
+      const response = await fetch(url, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: userdetails,
+      });
+
+      const data2 = await response.json();
+      if (!response.ok) {
+        console.log(data2);
+        setError(data2?.message);
+      } else {
+        alert("Employee Deleted Successfully");
+        // Remove the deleted employee from the state
+        setEmployees((prevEmployees) =>
+          prevEmployees.filter((employee) => employee.username !== username)
+        );
+      }
+    } catch (error) {
+      console.error("Submit error:", error);
+      setError("Error submitting employee data");
+    }
+  };
 
   return (
     <div>
@@ -41,7 +77,7 @@ const AdminEmployees = () => {
           />
         </div>
         <div className="mx-auto w-40 ">
-          <Link to={'/admin/addEmployee'}>
+          <Link to={"/admin/addEmployee"}>
             <button className="mt-1  border p-2  rounded-lg bg-violet-500 text-white  hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 active:border-collapse active:font-semibold active:shadow-2xl">
               Add Employee
             </button>
@@ -62,21 +98,22 @@ const AdminEmployees = () => {
                       User name
                     </td>
                     <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                      full name
+                      Full name
                     </td>
                     <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                      email
+                      Email
                     </td>
                     <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                      phone number
+                      Phone number
                     </td>
 
                     <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                      role
+                      Role
                     </td>
                     <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
-                      created At
+                      Created At
                     </td>
+                    <td className="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider"></td>
                   </tr>
                 </thead>
                 <tbody>
@@ -98,12 +135,17 @@ const AdminEmployees = () => {
                         {employee.role}
                       </td>
                       <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                        <div className="flex justify-center items-center">
-                          <span> {employee.createdAt}</span>
-                          <button className=" text-purple-500  hover:text-purple-700">
-                            <MdDelete className="ml-5 w-6 h-6" />
-                          </button>
-                        </div>
+                        {employee.createdAt}
+                      </td>
+                      <td>
+                        <button
+                          onClick={() =>
+                            handleDeleteEmployee(employee.username)
+                          }
+                          className="text-purple-500 hover:text-purple-700"
+                        >
+                          <MdDelete className="ml-5 w-7 h-7" />
+                        </button>
                       </td>
                     </tr>
                   ))}
@@ -116,7 +158,7 @@ const AdminEmployees = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminEmployees
+export default AdminEmployees;

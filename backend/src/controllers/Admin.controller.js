@@ -257,6 +257,46 @@ const getLeaveReportList = async (req, res) => {
   }
 };
 
+const updateLeaveReport = async (req, res) => {
+  try {
+    const { user, status, leaveId } = req.body;
+    const leaves = await LeaveReport.findByIdAndUpdate(
+      { _id: leaveId },
+      { status: status }
+    );
+
+    if (!leaves) throw new ApiError(400, "Leave Reports not found");
+    return res.status(200).json({ LeaveReports: leaves });
+  } catch (error) {
+    // console.log("nikhil");
+    res.status(400).json({ message: "something went wrong" });
+  }
+};
+
+const deleteEmployee = async (req, res) => {
+  try {
+    const { username } = req.body;
+    const instance = await User.findOneAndDelete({ username });
+    if (!instance)
+      return res.status(400).json({ message: "Something went wrong" });
+    return res.status(200).json({ message: "Employee deleted successfully" });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
+const deleteSalary = async (req, res) => {
+  try {
+    const { salaryId } = req.body;
+    const instance = await EmployeeSalary.findByIdAndDelete({ _id: salaryId });
+    if (!instance)
+      return res.status(400).json({ message: "Something went wrong" });
+    return res.status(200).json({ message: "Salary deleted successfully" });
+  } catch (error) {
+    return res.status(400).json({ message: error.message });
+  }
+};
+
 export {
   loginAdmin,
   addSalary,
@@ -267,4 +307,7 @@ export {
   getProjectReportList,
   registerUser,
   getLeaveReportList,
+  updateLeaveReport,
+  deleteEmployee,
+  deleteSalary,
 };

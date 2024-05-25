@@ -1,32 +1,75 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import AdminHeader from "./AdminHeader";
-import { useState, useEffect } from "react";
+
 const AdminLeaveReport = () => {
-  const [selectedOption, setSelectedOption] = useState("Pending");
-  const handleChange = (event) => {
-    const selectedIndex = event.target.selectedIndex;
-    const selectedOptionText = event.target.options[selectedIndex].text;
-    setSelectedOption(selectedOptionText);
-  };
+  const [leaves, setLeaves] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetchData();
-  });
-  const fetchData = async () => {
-    const jsonData = await fetch(
-      "http://localhost:3000/api/v1/admins/getLeaveReports"
-    );
-    console.log(jsonData);
+    const fetchLeaveReports = async () => {
+      try {
+        const response = await fetch(
+          "http://localhost:3001/api/v1/admins/getLeaveReports",
+          {
+            method: "GET",
+            credentials: "include", // Include credentials (cookies)
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        const json = await response.json();
+        setLeaves(json.LeaveReports);
+      } catch (error) {
+        setError("Error fetching leave data");
+      }
+    };
+
+    fetchLeaveReports();
+  }, []);
+
+  const handleStatusSubmit = async (leaveId, user, status) => {
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/v1/admins/updateLeaveReport`,
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            user: user,
+            status: status,
+            leaveId: leaveId,
+          }),
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      alert("Status updated successfully");
+      // Optionally, update the state to reflect the changes without reloading
+      setLeaves((prevLeaves) =>
+        prevLeaves.map((leave) =>
+          leave._id === leaveId ? { ...leave, status: status } : leave
+        )
+      );
+    } catch (error) {
+      console.log(error);
+      setError("Error updating leave status");
+    }
   };
+
   return (
     <div>
       <AdminHeader />
       <div className="p-2">
-        <div className="bg-gray-100  h-[600px] m-auto  mt-6">
+        <div className="bg-gray-100 h-[600px] m-auto mt-6">
           <div className="bg-violet-500 p-3 rounded-t-2xl text-center">
             <h1 className="text-white font-bold text-xl">LEAVE REQUESTS</h1>
           </div>
-          <div className="bg-gray-200 text-black p-2  font-bold flex justify-between ">
+          <div className="bg-gray-200 text-black p-2 font-bold flex justify-between">
             <table className="min-w-full divide-y divide-gray-200">
               <thead>
                 <tr>
@@ -51,43 +94,49 @@ const AdminLeaveReport = () => {
                 </tr>
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
-                <tr>
-                  <td className="px-6 py-4 whitespace-no-wrap font-normal">
-                    Mike
-                  </td>
-                  <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                    21-03-2024
-                  </td>
-                  <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                    19-03-2024
-                  </td>
-                  <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                    21-03-2024
-                  </td>
-                  <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                    Health Issue
-                  </td>
-                  <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                    <select
-                      id="dropdown"
-                      value={selectedOption}
-                      onChange={handleChange}
-                    >
-                      <option
-                        value="option1"
-                        className="text-gray-500 text-sm "
+                {leaves.map((leave) => (
+                  <tr key={leave._id}>
+                    <td className="px-6 py-4 whitespace-no-wrap font-normal">
+                      {leave.user}
+                    </td>
+                    <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                      {new Date(leave.createdAt).toLocaleDateString()}
+                    </td>
+                    <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                      {new Date(leave.fromDate).toLocaleDateString()}
+                    </td>
+                    <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                      {new Date(leave.toDate).toLocaleDateString()}
+                    </td>
+                    <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                      {leave.reason}
+                    </td>
+                    <td className="px-5 py-4 whitespace-no-wrap font-normal">
+                      <select
+                        defaultValue={leave.status}
+                        onChange={(e) =>
+                          handleStatusSubmit(
+                            leave._id,
+                            leave.user,
+                            e.target.value
+                          )
+                        }
                       >
-                        {selectedOption}
-                      </option>
-                      <option value="option1">Pending</option>
-                      <option value="option2">Approve</option>
-                      <option value="option3">Decline</option>
-                    </select>
-                  </td>
-                </tr>
+                        <option value="Pending">Pending</option>
+                        <option value="Approved">Approve</option>
+                        <option value="Declined">Decline</option>
+                      </select>
+                    </td>
+                  </tr>
+                ))}
               </tbody>
             </table>
           </div>
+          {error && (
+            <div className="bg-red-200 text-red-700 p-2 mt-2 rounded">
+              {error}
+            </div>
+          )}
         </div>
       </div>
     </div>
