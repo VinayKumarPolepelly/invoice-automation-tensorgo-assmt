@@ -1,46 +1,46 @@
-import React, { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import { FaUser } from 'react-icons/fa'
 
 const UserProfileIcon = (props) => {
-  const { size } = props;
+  const { size } = props
   return (
     <div>
       <FaUser size={size} />
     </div>
-  );
-};
+  )
+}
 
 const Logout = () => {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
 
   const handleLogout = async (e) => {
-    e.preventDefault();
-    const url = "http://localhost:3001/api/v1/users/logout";
+    e.preventDefault()
+    const url = 'http://localhost:3001/api/v1/users/logout'
     try {
       const response = await fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({}), // Ensure body is an empty JSON object
-      });
+      })
 
       if (response.ok) {
-        alert("Logout Successful");
-        navigate("/");
+        alert('Logout Successful')
+        navigate('/')
       } else {
-        const errorData = await response.json();
-        console.error("Logout failed:", errorData);
-        alert("Logout failed. Please try again.");
+        const errorData = await response.json()
+        console.error('Logout failed:', errorData)
+        alert('Logout failed. Please try again.')
       }
     } catch (error) {
-      console.error("Network error:", error);
+      console.error('Network error:', error)
       alert(
-        "Failed to fetch. Please check your network connection and try again."
-      );
+        'Failed to fetch. Please check your network connection and try again.'
+      )
     }
-  };
+  }
 
   return (
     <div className="flex justify-end absolute right-0 mt-2 mr-5">
@@ -56,41 +56,41 @@ const Logout = () => {
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const AdminHeader = () => {
-  const [showItem, setShowItem] = useState(false);
+  const [showItem, setShowItem] = useState(false)
 
   const handleClick = () => {
-    setShowItem(!showItem);
-  };
+    setShowItem(!showItem)
+  }
 
   return (
-    <div>
-      <ul className="flex justify-between border rounded-b-lg shadow-lg bg-violet-500 text-white">
-        <Link to={"/admin"}>
+    <div className="sticky top-0">
+      <ul className="flex justify-between border rounded-b-lg shadow-lg   bg-violet-500 text-white">
+        <Link to={'/admin'}>
           <li className="m-5 active:font-semibold">Home</li>
         </Link>
-        <Link to={"/admin/employees"}>
+        <Link to={'/admin/employees'}>
           <li className="m-5 active:font-semibold">Employees</li>
         </Link>
-        <Link to={"/admin/addsalary"}>
+        <Link to={'/admin/addsalary'}>
           <li className="m-5 active:font-semibold">Add Salary</li>
         </Link>
-        <Link to={"/admin/addproject"}>
+        <Link to={'/admin/addproject'}>
           <li className="m-5 active:font-semibold">Add Project</li>
         </Link>
-        <Link to={"/admin/salarydetails"}>
+        <Link to={'/admin/salarydetails'}>
           <li className="m-5 active:font-semibold">Salary Details</li>
         </Link>
-        <Link to={"/admin/projectdetails"}>
+        <Link to={'/admin/projectdetails'}>
           <li className="m-5 active:font-semibold">Project Details</li>
         </Link>
-        <Link to={"/admin/projectreport"}>
+        <Link to={'/admin/projectreport'}>
           <li className="m-5 active:font-semibold">Project Report</li>
         </Link>
-        <Link to={"/admin/leavereport"}>
+        <Link to={'/admin/leavereport'}>
           <li className="m-5 active:font-semibold">Leave Reports</li>
         </Link>
         <li>
@@ -104,7 +104,7 @@ const AdminHeader = () => {
       </ul>
       {showItem && <Logout />}
     </div>
-  );
-};
+  )
+}
 
-export default AdminHeader;
+export default AdminHeader

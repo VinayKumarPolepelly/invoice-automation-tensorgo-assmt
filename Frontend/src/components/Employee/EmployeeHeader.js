@@ -1,15 +1,16 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import { FaUser } from "react-icons/fa";
-import { useState } from "react";
+import React from 'react'
+import { Link } from 'react-router-dom'
+import { FaUser } from 'react-icons/fa'
+import { useState } from 'react'
+
 const UserProfileIcon = (props) => {
-  const { si } = props;
+  const { si } = props
   return (
     <div>
       <FaUser size={si} />
     </div>
-  );
-};
+  )
+}
 const Logout = () => {
   return (
     <div className="flex justify-end ">
@@ -23,17 +24,17 @@ const Logout = () => {
         </button>
       </div>
     </div>
-  );
-};
+  )
+}
 const EmployeeHeader = () => {
-  const [showItem, setShowItem] = useState(false);
+  const [showItem, setShowItem] = useState(false)
   const handleClick = () => {
-    setShowItem(!showItem);
-  };
+    setShowItem(!showItem)
+  }
   return (
     <div>
-      <div className="">
-        <ul className="flex justify-between px-10 py-4 text-center rounded-b-lg  bg-violet-500">
+      <div className="sticky top-0">
+        <ul className="flex justify-between px-10 py-4 text-center rounded-b-lg  sticky top-0  bg-violet-500">
           <Link to="/employeeHomepage/">
             <li className="active:font-semibold text-white">Home</li>
           </Link>
@@ -49,20 +50,21 @@ const EmployeeHeader = () => {
           <Link to="/employeeLeaveReport/">
             <li className="text-white active:font-semibold">Leave Report</li>
           </Link>
-
-          <li>
-            <div
-              className="h-9 w-10 mt-[-6px] text-white rounded-3xl border-solid  border-4 p-1 cursor-pointer active:border-gray-400 "
-              onClick={handleClick}
-            >
-              <UserProfileIcon si={25} />
-            </div>
-          </li>
+          <Link to="/employeeLogin/">
+            <li>
+              <div
+                className="h-9 w-10 mt-[-6px] text-white rounded-3xl border-solid  border-4 p-1 cursor-pointer active:border-gray-400 "
+                onClick={handleClick}
+              >
+                <UserProfileIcon si={25} />
+              </div>
+            </li>
+          </Link>
         </ul>
         {showItem && <Logout />}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default EmployeeHeader;
+export default EmployeeHeader

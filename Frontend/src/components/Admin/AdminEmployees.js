@@ -1,33 +1,33 @@
-import React, { useEffect, useState } from "react";
-import AdminHeader from "./AdminHeader";
-import { Link } from "react-router-dom";
-
+import React, { useEffect, useState } from 'react'
+import AdminHeader from './AdminHeader'
+import { Link } from 'react-router-dom'
+import { MdDelete } from 'react-icons/md'
 const AdminEmployees = () => {
-  const [employees, setEmployees] = useState(null);
-  const [error, setError] = useState(null); // Add state for error
+  const [employees, setEmployees] = useState(null)
+  const [error, setError] = useState(null) // Add state for error
 
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/v1/admins/getEmployees",
+          'http://localhost:3001/api/v1/admins/getEmployees',
           {
-            method: "GET",
-            credentials: "include", // Include credentials (cookies)
+            method: 'GET',
+            credentials: 'include', // Include credentials (cookies)
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           }
-        );
-        const json = await response.json();
-        setEmployees(json);
+        )
+        const json = await response.json()
+        setEmployees(json)
       } catch (error) {
-        setError("Error fetching employee data"); // Set error message
+        setError('Error fetching employee data') // Set error message
       }
-    };
+    }
 
-    fetchEmployeeDetails();
-  }, []);
+    fetchEmployeeDetails()
+  }, [])
 
   return (
     <div>
@@ -41,7 +41,7 @@ const AdminEmployees = () => {
           />
         </div>
         <div className="mx-auto w-40 ">
-          <Link to={"/admin/addEmployee"}>
+          <Link to={'/admin/addEmployee'}>
             <button className="mt-1  border p-2  rounded-lg bg-violet-500 text-white  hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 active:border-collapse active:font-semibold active:shadow-2xl">
               Add Employee
             </button>
@@ -98,7 +98,12 @@ const AdminEmployees = () => {
                         {employee.role}
                       </td>
                       <td className="px-5 py-4 whitespace-no-wrap font-normal">
-                        {employee.createdAt}
+                        <div className="flex justify-center items-center">
+                          <span> {employee.createdAt}</span>
+                          <button className=" text-purple-500  hover:text-purple-700">
+                            <MdDelete className="ml-5 w-6 h-6" />
+                          </button>
+                        </div>
                       </td>
                     </tr>
                   ))}
@@ -111,7 +116,7 @@ const AdminEmployees = () => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdminEmployees;
+export default AdminEmployees
