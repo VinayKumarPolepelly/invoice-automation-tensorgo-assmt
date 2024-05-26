@@ -35,8 +35,30 @@ const EmployeeHeader = () => {
   const handleClick = () => {
     setShowItem(!showItem);
   };
-  const handleLogout = () => {
-    navigate("/employeeLogin");
+  const handleLogout = async () => {
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/v1/users/logout",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      if (response.ok) {
+        navigate("/employeeLogin"); // Redirect to the login page after successful logout
+      } else {
+        console.error("Logout failed:", response.statusText);
+      }
+    } catch (error) {
+      if (error.message === "Network response was not ok") navigate("/");
+      console.error("Error logging out:", error);
+    }
   };
   return (
     <div>

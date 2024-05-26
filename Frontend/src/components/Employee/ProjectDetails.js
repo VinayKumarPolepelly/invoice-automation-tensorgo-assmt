@@ -1,40 +1,43 @@
-import React, { useEffect, useState } from 'react'
-import EmployeeHeader from './EmployeeHeader'
+import React, { useEffect, useState } from "react";
+import EmployeeHeader from "./EmployeeHeader";
+import { useNavigate } from "react-router-dom";
 
 const ProjectDetails = () => {
-  const [projects, setProjects] = useState([])
-  const [error, setError] = useState(null)
+  const [projects, setProjects] = useState([]);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
         const response = await fetch(
-          'http://localhost:3001/api/v1/users/getProjectDetails',
+          "http://localhost:3001/api/v1/users/getProjectDetails",
           {
-            method: 'GET',
-            credentials: 'include', // Include credentials (cookies)
+            method: "GET",
+            credentials: "include", // Include credentials (cookies)
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           }
-        )
+        );
         if (!response.ok) {
-          throw new Error('Network response was not ok')
+          throw new Error("Network response was not ok");
         }
-        const json = await response.json()
+        const json = await response.json();
         if (json?.projects) {
-          setProjects(json.projects)
-          console.log(json.projects)
+          setProjects(json.projects);
+          console.log(json.projects);
         } else {
-          throw new Error('No projects field in response')
+          throw new Error("No projects field in response");
         }
       } catch (error) {
-        setError('Error fetching project data')
+        if (error.message === "Network response was not ok") navigate("/");
+        setError("Error fetching project data");
       }
-    }
+    };
 
-    fetchProjectDetails()
-  }, [])
+    fetchProjectDetails();
+  }, []);
 
   return (
     <div>
@@ -114,7 +117,7 @@ const ProjectDetails = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProjectDetails
+export default ProjectDetails;

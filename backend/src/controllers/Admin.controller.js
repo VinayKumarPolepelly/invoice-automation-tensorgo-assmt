@@ -75,8 +75,8 @@ const loginAdmin = asyncHandler(async (req, res) => {
   //you can send with the key value pair within the string is key and another one is value
   return res
     .status(200)
-    .cookie("accessToken", accessToken)
-    .cookie("refreshToken", refreshToken)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
     .json(
       new ApiResponse(
         200,

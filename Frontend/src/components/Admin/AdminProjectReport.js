@@ -1,40 +1,43 @@
-import React, { useEffect, useState } from 'react'
-import AdminHeader from './AdminHeader'
-import { MdDelete } from 'react-icons/md'
+import React, { useEffect, useState } from "react";
+import AdminHeader from "./AdminHeader";
+import { MdDelete } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 const AdminProjectReport = () => {
-  const [projectReports, setProjectReports] = useState([])
-  const [error, setError] = useState(null)
+  const [projectReports, setProjectReports] = useState([]);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjectReportDetails = async () => {
       try {
         const response = await fetch(
-          'http://localhost:3001/api/v1/admins/getProjectReports',
+          "http://localhost:3001/api/v1/admins/getProjectReports",
           {
-            method: 'GET',
-            credentials: 'include', // Include credentials (cookies)
+            method: "GET",
+            credentials: "include", // Include credentials (cookies)
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           }
-        )
+        );
         if (!response.ok) {
-          throw new Error('Network response was not ok')
+          throw new Error("Network response was not ok");
         }
-        const json = await response.json()
+        const json = await response.json();
         if (json?.projectReports) {
-          setProjectReports(json.projectReports)
-          console.log(json.projectReports)
+          setProjectReports(json.projectReports);
+          console.log(json.projectReports);
         } else {
-          throw new Error('No project Reports field in response')
+          throw new Error("No project Reports field in response");
         }
       } catch (error) {
-        setError('Error fetching project Reports data')
+        if (error.message === "Network response was not ok") navigate("/");
+        setError("Error fetching project Reports data");
       }
-    }
+    };
 
-    fetchProjectReportDetails()
-  }, [])
+    fetchProjectReportDetails();
+  }, []);
   return (
     <div>
       <AdminHeader />
@@ -78,7 +81,7 @@ const AdminProjectReport = () => {
                         </div>
                       </td>
                     </tr>
-                  )
+                  );
                 })}
               </tbody>
             </table>
@@ -86,7 +89,7 @@ const AdminProjectReport = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminProjectReport
+export default AdminProjectReport;

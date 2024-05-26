@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import { MdDelete } from "react-icons/md";
+import { useNavigate } from "react-router-dom";
 const AdminSalaryDetails = () => {
   const [salaries, setSalaries] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSalaryDetails = async () => {
@@ -28,6 +30,7 @@ const AdminSalaryDetails = () => {
           throw new Error("No Salary field in response");
         }
       } catch (error) {
+        if (error.message === "Network response was not ok") navigate("/");
         setError("Error fetching Salaries data");
       }
     };

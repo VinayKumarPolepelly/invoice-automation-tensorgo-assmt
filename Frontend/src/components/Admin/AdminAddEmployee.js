@@ -40,7 +40,8 @@ const AdminAddEmployee = () => {
       alert("employee added successfully");
       navigate("/admin/employees");
     } else {
-      console.log(data2);
+      console.log(data2?.message);
+      if (error.message === "Network response was not ok") navigate("/");
       setError(data2?.message);
     }
   };

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
 import AdminHeader from "./AdminHeader";
+import { useNavigate } from "react-router-dom";
 
 const AdminLeaveReport = () => {
   const [leaves, setLeaves] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchLeaveReports = async () => {
@@ -18,9 +20,13 @@ const AdminLeaveReport = () => {
             },
           }
         );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
         const json = await response.json();
         setLeaves(json.LeaveReports);
       } catch (error) {
+        if (error.message === "Network response was not ok") navigate("/");
         setError("Error fetching leave data");
       }
     };

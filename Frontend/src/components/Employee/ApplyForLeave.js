@@ -26,7 +26,7 @@ const ApplyForLeave = () => {
       });
 
       if (!response.ok) {
-        throw new Error("Error");
+        throw new Error("Network response was not ok");
       }
       alert("Leave added successfully");
       const responseData = await response.json();
@@ -41,6 +41,7 @@ const ApplyForLeave = () => {
       setToDate("");
       setReason("");
     } catch (error) {
+      if (error.message === "Network response was not ok") navigate("/");
       console.error("Submission error:", error);
       // Handle submission error
     }

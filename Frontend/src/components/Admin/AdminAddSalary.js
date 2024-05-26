@@ -25,6 +25,7 @@ const AdminAddSalary = () => {
         const data = await response.json();
         setEmployees(data);
       } catch (error) {
+        if (error.message === "Network response was not ok") navigate("/");
         setError("Error fetching employee data"); // Set error message
       }
     };
@@ -62,6 +63,7 @@ const AdminAddSalary = () => {
       navigate("/admin/salarydetails");
     } else {
       console.log(data2);
+      if (error.message === "Network response was not ok") navigate("/");
       setError(data2?.message);
     }
   };

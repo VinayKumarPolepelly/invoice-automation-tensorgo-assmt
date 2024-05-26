@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
 import EmployeeHeader from "./EmployeeHeader";
+import { useNavigate } from "react-router-dom";
 
 const SalaryDetails = () => {
   const [salary, setSalary] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSalaryDetails = async () => {
@@ -30,6 +32,7 @@ const SalaryDetails = () => {
           throw new Error("No salaries field in response");
         }
       } catch (error) {
+        if (error.message === "Network response was not ok") navigate("/");
         console.log(error);
         setError("Error fetching project data");
       }

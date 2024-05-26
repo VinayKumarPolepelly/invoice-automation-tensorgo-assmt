@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 
 const AdminEmployees = () => {
   const [employees, setEmployees] = useState(null);
   const [error, setError] = useState(null); // Add state for error
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
@@ -20,9 +21,13 @@ const AdminEmployees = () => {
             },
           }
         );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
         const json = await response.json();
         setEmployees(json);
       } catch (error) {
+        if (error.message === "Network response was not ok") navigate("/");
         setError("Error fetching employee data"); // Set error message
       }
     };
@@ -60,6 +65,7 @@ const AdminEmployees = () => {
         );
       }
     } catch (error) {
+      if (error.message === "Network response was not ok") navigate("/");
       console.error("Submit error:", error);
       setError("Error submitting employee data");
     }

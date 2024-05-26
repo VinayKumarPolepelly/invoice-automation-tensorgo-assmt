@@ -30,7 +30,27 @@ const AdminHeader = () => {
   const navigate = useNavigate();
 
   const handleLogout = async () => {
-    navigate("/Adminlogin");
+    try {
+      const response = await fetch(
+        "http://localhost:3001/api/v1/users/logout",
+        {
+          method: "POST",
+          credentials: "include",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        navigate("/Adminlogin"); // Redirect to the login page after successful logout
+      } else {
+        console.error("Logout failed:", response.statusText);
+      }
+    } catch (error) {
+      if (error.message === "Network response was not ok") navigate("/");
+      console.error("Error logging out:", error);
+    }
   };
 
   return (

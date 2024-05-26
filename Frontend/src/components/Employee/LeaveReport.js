@@ -37,6 +37,7 @@ const LeaveReport = () => {
           throw new Error("No Leaves field in response");
         }
       } catch (error) {
+        if (error.message === "Network response was not ok") navigate("/");
         setError("Error fetching Leaves data");
       }
     };

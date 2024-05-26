@@ -58,16 +58,15 @@ const loginUser = asyncHandler(async (req, res) => {
 
   //const accessToken = existedUser.generateAccessToken();
 
-  const cookieOptions = {
+  const options = {
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production", // Use secure cookies in production
-    sameSite: "None",
+    secure: true,
   };
 
   res
     .status(200)
-    .cookie("accessToken", accessToken, cookieOptions)
-    .cookie("refreshToken", refreshToken, cookieOptions)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
     .json(
       new ApiResponse(
         200,
@@ -89,13 +88,15 @@ const logoutUser = asyncHandler(async (req, res) => {
     }
   );
   const options = {
+    path: "/",
     httpOnly: true,
     secure: true,
+    sameSite: "Strict",
   };
   return res
     .status(200)
-    .clearCookie("accessToken")
-    .clearCookie("refreshToken")
+    .clearCookie("accessToken", options)
+    .clearCookie("refreshToken", options)
     .json(new ApiResponse(200, {}, "User logged out successfully"));
   // .json({
   //   tokens: { accessToken, refreshToken },
