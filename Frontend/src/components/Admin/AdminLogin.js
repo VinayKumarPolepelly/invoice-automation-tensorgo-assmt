@@ -37,8 +37,8 @@ const AdminLogin = () => {
       // Assuming responseData.accessToken contains the access token
       // Set the accessToken cookie
       document.cookie = `accessToken=${responseData.data.accessToken}; Secure; SameSite=None; Path=/`;
-
-      navigate("/admin");
+      if (responseData.data.user.role === "admin") navigate("/admin");
+      else navigate("/employeeHomepage");
     } catch (error) {
       if (error.message === "Unauthorized request") navigate("/");
       console.error("Login error:", error);

@@ -45,10 +45,6 @@ const loginAdmin = asyncHandler(async (req, res) => {
     throw new ApiError(404, "you are not registered yet");
   }
 
-  if (existedUser.role != "admin") {
-    throw new ApiError(404, "you are not authorized");
-  }
-
   const isPasswordValid = await existedUser.isPasswordCorrect(password);
   //console.log(isPasswordValid);
   if (!isPasswordValid) {
