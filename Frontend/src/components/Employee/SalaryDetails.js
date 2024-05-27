@@ -1,63 +1,63 @@
-import React, { useEffect, useState } from "react";
-import EmployeeHeader from "./EmployeeHeader";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import EmployeeHeader from './EmployeeHeader'
+import { useNavigate } from 'react-router-dom'
 
 const SalaryDetails = () => {
-  const [salary, setSalary] = useState([]);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [salary, setSalary] = useState([])
+  const [error, setError] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchSalaryDetails = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/v1/users/getSalareeDetails",
+          'http://localhost:3001/api/v1/users/getSalareeDetails',
           {
-            method: "GET",
-            credentials: "include", // Include credentials (cookies)
+            method: 'GET',
+            credentials: 'include', // Include credentials (cookies)
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           }
-        );
+        )
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok')
         }
-        const json = await response.json();
-        console.log(json);
+        const json = await response.json()
+        console.log(json)
         if (json?.salarees) {
-          setSalary(json.salarees);
+          setSalary(json.salarees)
           //console.log(json.salarees);
         } else {
-          throw new Error("No salaries field in response");
+          throw new Error('No salaries field in response')
         }
       } catch (error) {
-        if (error.message === "Network response was not ok") navigate("/");
-        console.log(error);
-        setError("Error fetching project data");
+        if (error.message === 'Network response was not ok') navigate('/')
+        console.log(error)
+        setError('Error fetching project data')
       }
-    };
+    }
 
-    fetchSalaryDetails();
-  }, []);
+    fetchSalaryDetails()
+  }, [])
 
   const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  };
+    const date = new Date(timestamp)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    const seconds = String(date.getSeconds()).padStart(2, '0')
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+  }
 
   return (
     <div>
       <EmployeeHeader />
       <div className="p-2">
         <div className="bg-gray-50 h-[570px] m-auto mt-6 p-1">
-          <div className="bg-violet-500 p-3 rounded-t-2xl text-center">
+          <div className="bg-blue-900 p-3 rounded-t-2xl text-center">
             <h1 className="text-white font-bold text-xl">SALARY DETAILS</h1>
           </div>
           <div className="bg-gray-200 text-black p-2 font-bold flex justify-between">
@@ -80,7 +80,10 @@ const SalaryDetails = () => {
                 </thead>
                 <tbody>
                   {salary.map((salaree) => (
-                    <tr key={salaree._id}>
+                    <tr
+                      key={salaree._id}
+                      className="hover:bg-gray-50 dark:hover:bg-gray-600"
+                    >
                       <td className="px-6 py-4 whitespace-no-wrap font-normal">
                         {salaree.salaryAmount}
                       </td>
@@ -99,7 +102,7 @@ const SalaryDetails = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SalaryDetails;
+export default SalaryDetails

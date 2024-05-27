@@ -1,95 +1,95 @@
-import React, { useEffect, useState } from "react";
-import AdminHeader from "./AdminHeader";
-import { MdDelete } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import AdminHeader from './AdminHeader'
+import { AiTwotoneDelete } from 'react-icons/ai'
+import { useNavigate } from 'react-router-dom'
 const AdminSalaryDetails = () => {
-  const [salaries, setSalaries] = useState([]);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [salaries, setSalaries] = useState([])
+  const [error, setError] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchSalaryDetails = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/v1/admins/getSalarees",
+          'http://localhost:3001/api/v1/admins/getSalarees',
           {
-            method: "GET",
-            credentials: "include", // Include credentials (cookies)
+            method: 'GET',
+            credentials: 'include', // Include credentials (cookies)
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           }
-        );
+        )
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok')
         }
-        const json = await response.json();
+        const json = await response.json()
         if (json?.salarees) {
-          setSalaries(json.salarees);
+          setSalaries(json.salarees)
         } else {
-          throw new Error("No Salary field in response");
+          throw new Error('No Salary field in response')
         }
       } catch (error) {
-        if (error.message === "Network response was not ok") navigate("/");
-        setError("Error fetching Salaries data");
+        if (error.message === 'Network response was not ok') navigate('/')
+        setError('Error fetching Salaries data')
       }
-    };
+    }
 
-    fetchSalaryDetails();
-  }, []);
+    fetchSalaryDetails()
+  }, [])
 
   const handleDeleteSalary = async (salaryId) => {
-    const url = "http://localhost:3001/api/v1/admins/deleteSalary";
+    const url = 'http://localhost:3001/api/v1/admins/deleteSalary'
     const data = {
       salaryId: salaryId,
-    };
+    }
 
-    const salarydetails = JSON.stringify(data);
+    const salarydetails = JSON.stringify(data)
 
     try {
       const response = await fetch(url, {
-        method: "POST",
-        credentials: "include",
+        method: 'POST',
+        credentials: 'include',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
         body: salarydetails,
-      });
+      })
 
-      const data2 = await response.json();
+      const data2 = await response.json()
       if (!response.ok) {
-        console.log(data2);
-        setError(data2?.message);
+        console.log(data2)
+        setError(data2?.message)
       } else {
-        alert("Salary Deleted Successfully");
+        alert('Salary Deleted Successfully')
         // Remove the deleted employee from the state
         setSalaries((prevsalarees) =>
           prevsalarees.filter((salary) => salary._id !== salaryId)
-        );
+        )
       }
     } catch (error) {
-      console.error("Submit error:", error);
-      setError("Error submitting employee data");
+      console.error('Submit error:', error)
+      setError('Error submitting employee data')
     }
-  };
+  }
 
   const formatDate = (timestamp) => {
-    const date = new Date(timestamp);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  };
+    const date = new Date(timestamp)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    const seconds = String(date.getSeconds()).padStart(2, '0')
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+  }
 
   return (
     <div>
       <AdminHeader />
       <div className="p-2">
         <div className="bg-gray-50 h-[570px] rounded-t-2xl m-auto mt-6 p-1">
-          <div className="bg-violet-500 p-3 rounded-t-2xl text-center">
+          <div className="bg-blue-900 p-3 rounded-t-2xl text-center">
             <h1 className="text-white font-bold text-xl text-center">
               SALARY DETAILS
             </h1>
@@ -117,12 +117,18 @@ const AdminSalaryDetails = () => {
                     <th className="px-6 py-3 text-center bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
                       Credited On
                     </th>
+                    <th className="px-6 py-3 text-center  bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                      Action
+                    </th>
                   </tr>
                 </thead>
                 <tbody>
                   {salaries.length > 0 ? (
                     salaries.map((salary) => (
-                      <tr key={salary._id}>
+                      <tr
+                        key={salary._id}
+                        className="hover:bg-gray-50 dark:hover:bg-gray-600"
+                      >
                         <td className="px-6 py-4 whitespace-no-wrap font-normal text-center">
                           {salary.user}
                         </td>
@@ -132,15 +138,15 @@ const AdminSalaryDetails = () => {
                         <td className="px-5 py-4 whitespace-no-wrap font-normal text-center">
                           {salary.month}
                         </td>
-                        <td className="px-5 py-4 whitespace-no-wrap font-normal text-center">
+                        <td className="px-2 py-4 whitespace-no-wrap font-normal text-center">
                           {formatDate(salary.createdAt)}
                         </td>
                         <td>
                           <button
                             onClick={() => handleDeleteSalary(salary._id)}
-                            className="text-purple-500 hover:text-purple-700"
+                            className=" text-center"
                           >
-                            <MdDelete className="ml-5 w-7 h-7" />
+                            <AiTwotoneDelete className="ml-52 w-5 h-5" />
                           </button>
                         </td>
                       </tr>
@@ -162,7 +168,7 @@ const AdminSalaryDetails = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdminSalaryDetails;
+export default AdminSalaryDetails

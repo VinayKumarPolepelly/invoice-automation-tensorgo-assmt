@@ -1,55 +1,55 @@
-import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom'
 
 const ApplyForLeave = () => {
-  const [fromDate, setFromDate] = useState("");
-  const [toDate, setToDate] = useState("");
-  const [reason, setReason] = useState("");
-  const navigate = useNavigate();
+  const [fromDate, setFromDate] = useState('')
+  const [toDate, setToDate] = useState('')
+  const [reason, setReason] = useState('')
+  const navigate = useNavigate()
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    const url = "http://localhost:3001/api/v1/users/addLeaveReport";
+    e.preventDefault()
+    const url = 'http://localhost:3001/api/v1/users/addLeaveReport'
     const data = {
       fromDate: fromDate,
       toDate: toDate,
       reason: reason,
-    };
+    }
     try {
       const response = await fetch(url, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-        credentials: "include",
+        credentials: 'include',
         body: JSON.stringify(data),
-      });
+      })
 
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok')
       }
-      alert("Leave added successfully");
-      const responseData = await response.json();
-      console.log(responseData);
-      navigate("/employeeLeaveReport");
+      alert('Leave added successfully')
+      const responseData = await response.json()
+      console.log(responseData)
+      navigate('/employeeLeaveReport')
 
       // Assuming responseData.accessToken contains the access token
-      document.cookie = `accessToken=${responseData.data.accessToken}; Secure; SameSite=None; Path=/`;
+      document.cookie = `accessToken=${responseData.data.accessToken}; Secure; SameSite=None; Path=/`
 
       // Reset form fields to their default values
-      setFromDate("");
-      setToDate("");
-      setReason("");
+      setFromDate('')
+      setToDate('')
+      setReason('')
     } catch (error) {
-      if (error.message === "Network response was not ok") navigate("/");
-      console.error("Submission error:", error);
+      if (error.message === 'Network response was not ok') navigate('/')
+      console.error('Submission error:', error)
       // Handle submission error
     }
-  };
+  }
 
   return (
     <div>
-      <div className="p-2 m-2 mr-[-1px] bg-violet-500 rounded-lg mt-3">
+      <div className="p-2 m-2 mr-[-1px] bg-blue-900 rounded-lg mt-3">
         <h1 className="font-semibold text-white text-lg">Request for Leave</h1>
       </div>
       <div>
@@ -98,14 +98,14 @@ const ApplyForLeave = () => {
           </div>
           <button
             type="submit"
-            className="bg-violet-500 w-[100px] h-10 rounded-lg ml-[130px] mt-6 text-white hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 active:border-collapse active:font-semibold active:shadow-2xl"
+            className="bg-blue-500 w-[100px] h-10 rounded-lg ml-[130px] mt-6 text-white hover:bg-blue-600 hover:shadow-lg active:bg-blue-700 active:border-collapse active:font-semibold active:shadow-2xl"
           >
             Submit
           </button>
         </form>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ApplyForLeave;
+export default ApplyForLeave
