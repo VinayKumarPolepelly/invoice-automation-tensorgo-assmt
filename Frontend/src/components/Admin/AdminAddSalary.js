@@ -1,78 +1,78 @@
-import React, { useEffect, useRef, useState } from "react";
-import AdminHeader from "./AdminHeader";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useRef, useState } from 'react'
+import AdminHeader from './AdminHeader'
+import { useNavigate } from 'react-router-dom'
 
 const AdminAddSalary = () => {
-  const [employees, setEmployees] = useState([]);
-  const [error, setError] = useState(null); // Add state for error
+  const [employees, setEmployees] = useState([])
+  const [error, setError] = useState(null) // Add state for error
 
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/v1/admins/getEmployees",
+          'http://localhost:3001/api/v1/admins/getEmployees',
           {
-            method: "GET",
-            credentials: "include", // Include credentials (cookies)
+            method: 'GET',
+            credentials: 'include', // Include credentials (cookies)
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           }
-        );
+        )
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok')
         }
-        const data = await response.json();
-        setEmployees(data);
+        const data = await response.json()
+        setEmployees(data)
       } catch (error) {
-        if (error.message === "Network response was not ok") navigate("/");
-        setError("Error fetching employee data"); // Set error message
+        if (error.message === 'Network response was not ok') navigate('/')
+        setError('Error fetching employee data') // Set error message
       }
-    };
+    }
 
-    fetchEmployeeDetails();
-  }, []);
-  const navigate = useNavigate();
-  const user = useRef();
-  const month = useRef();
-  const salaryAmount = useRef();
+    fetchEmployeeDetails()
+  }, [])
+  const navigate = useNavigate()
+  const user = useRef()
+  const month = useRef()
+  const salaryAmount = useRef()
 
   const handlesubmitform = async (e) => {
-    e.preventDefault();
-    const url = "http://localhost:3001/api/v1/admins/addEmployeeSalary";
+    e.preventDefault()
+    const url = 'http://localhost:3001/api/v1/admins/addEmployeeSalary'
 
     const data = {
       user: user.current.value,
       month: month.current.value,
       salaryAmount: salaryAmount.current.value,
-    };
+    }
 
-    const salaryDetails = JSON.stringify(data);
-    console.log(salaryDetails);
+    const salaryDetails = JSON.stringify(data)
+    console.log(salaryDetails)
     const response = await fetch(url, {
-      method: "POST",
-      credentials: "include",
+      method: 'POST',
+      credentials: 'include',
       headers: {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
       },
       body: salaryDetails,
-    });
-    const data2 = await response.json();
+    })
+    const data2 = await response.json()
     if (response.ok === true) {
-      alert("Salary added successfully");
-      navigate("/admin/salarydetails");
+      alert('Salary added successfully')
+      navigate('/admin/salarydetails')
     } else {
-      console.log(data2);
-      if (error.message === "Network response was not ok") navigate("/");
-      setError(data2?.message);
+      console.log(data2)
+      if (error.message === 'Network response was not ok') navigate('/')
+      setError(data2?.message)
     }
-  };
+  }
 
   return (
     <div>
       <AdminHeader />
       <div className="flex justify-center items-center h-screen">
-        <div className="flex bg-white shadow-2xl h-[400px] w-[700px] rounded-2xl">
+        <div className="flex bg-blue-900 shadow-2xl h-[400px] w-[700px] rounded-2xl">
           <div>
             <img
               src="https://cdni.iconscout.com/illustration/premium/thumb/salary-receipt-9522699-7725497.png?f=webp"
@@ -81,10 +81,8 @@ const AdminAddSalary = () => {
             />
           </div>
           <form onSubmit={handlesubmitform} className="flex flex-col mt-10">
-            <h1 className="text-2xl text-violet-600 font-bold ml-6">
-              Add Salary
-            </h1>
-            <label className="mt-3 ml-5">Employee Name</label>
+            <h1 className="text-2xl text-white font-bold ml-6">Add Salary</h1>
+            <label className="mt-3 ml-5 text-white">Employee Name</label>
             <select
               ref={user}
               name="employee"
@@ -97,7 +95,7 @@ const AdminAddSalary = () => {
                 </option>
               ))}
             </select>
-            <label className="mt-3 ml-5">Month</label>
+            <label className="mt-3 ml-5 text-white">Month</label>
             <select
               ref={month}
               name="month"
@@ -117,7 +115,7 @@ const AdminAddSalary = () => {
               <option value="November">November</option>
               <option value="December">December</option>
             </select>
-            <label className="mt-2 ml-5 px-1">Amount</label>
+            <label className="mt-2 ml-5 px-1 text-white">Amount</label>
             <input
               ref={salaryAmount}
               type="text"
@@ -127,14 +125,14 @@ const AdminAddSalary = () => {
             {error && (
               <div className="mx-10 text-red-500 font-bold mt-3">{error}</div>
             )}
-            <button className="mt-3 ml-5 mb-3 text-center text-white h-[34px] bg-violet-500 mr-5 hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 rounded-lg active:font-semibold active:shadow-2xl">
+            <button className="mt-3 ml-5 mb-3 text-center text-white h-[34px] bg-blue-500 mr-5 hover:bg-blue-600 hover:shadow-lg active:bg-blue-700 rounded-lg active:font-semibold active:shadow-2xl">
               Submit
             </button>
           </form>
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdminAddSalary;
+export default AdminAddSalary

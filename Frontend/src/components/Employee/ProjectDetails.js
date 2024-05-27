@@ -1,43 +1,43 @@
-import React, { useEffect, useState } from "react";
-import EmployeeHeader from "./EmployeeHeader";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from 'react'
+import EmployeeHeader from './EmployeeHeader'
+import { useNavigate } from 'react-router-dom'
 
 const ProjectDetails = () => {
-  const [projects, setProjects] = useState([]);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [projects, setProjects] = useState([])
+  const [error, setError] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/v1/users/getProjectDetails",
+          'http://localhost:3001/api/v1/users/getProjectDetails',
           {
-            method: "GET",
-            credentials: "include", // Include credentials (cookies)
+            method: 'GET',
+            credentials: 'include', // Include credentials (cookies)
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           }
-        );
+        )
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok')
         }
-        const json = await response.json();
+        const json = await response.json()
         if (json?.projects) {
-          setProjects(json.projects);
-          console.log(json.projects);
+          setProjects(json.projects)
+          console.log(json.projects)
         } else {
-          throw new Error("No projects field in response");
+          throw new Error('No projects field in response')
         }
       } catch (error) {
-        if (error.message === "Network response was not ok") navigate("/");
-        setError("Error fetching project data");
+        if (error.message === 'Network response was not ok') navigate('/')
+        setError('Error fetching project data')
       }
-    };
+    }
 
-    fetchProjectDetails();
-  }, []);
+    fetchProjectDetails()
+  }, [])
 
   return (
     <div>
@@ -45,7 +45,7 @@ const ProjectDetails = () => {
         <EmployeeHeader />
         <div className="p-2">
           <div className="bg-gray-50 rounded-t-2xl m-auto mt-6 p-1">
-            <div className="bg-violet-500 p-3 rounded-t-2xl text-center">
+            <div className="bg-blue-900 p-3 rounded-t-2xl text-center">
               <h1 className="text-white font-bold text-xl ">PROJECT DETAILS</h1>
             </div>
             <div className="bg-gray-200 text-black p-2 font-bold overflow-x-visible ">
@@ -78,7 +78,10 @@ const ProjectDetails = () => {
                   <tbody>
                     {projects.length > 0 ? (
                       projects.map((project) => (
-                        <tr key={project._id}>
+                        <tr
+                          key={project._id}
+                          className="hover:bg-gray-50 dark:hover:bg-gray-600"
+                        >
                           <td className="px-6 py-3 w-1/12  whitespace-wrap break-all font-normal text-center">
                             {project.projectTitle}
                           </td>
@@ -117,7 +120,7 @@ const ProjectDetails = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ProjectDetails;
+export default ProjectDetails

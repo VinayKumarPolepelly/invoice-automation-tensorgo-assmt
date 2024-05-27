@@ -1,48 +1,48 @@
-import React, { useState, useEffect } from "react";
-import AdminHeader from "./AdminHeader";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react'
+import AdminHeader from './AdminHeader'
+import { useNavigate } from 'react-router-dom'
 
 const AdminLeaveReport = () => {
-  const [leaves, setLeaves] = useState([]);
-  const [error, setError] = useState(null);
-  const navigate = useNavigate();
+  const [leaves, setLeaves] = useState([])
+  const [error, setError] = useState(null)
+  const navigate = useNavigate()
 
   useEffect(() => {
     const fetchLeaveReports = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/v1/admins/getLeaveReports",
+          'http://localhost:3001/api/v1/admins/getLeaveReports',
           {
-            method: "GET",
-            credentials: "include", // Include credentials (cookies)
+            method: 'GET',
+            credentials: 'include', // Include credentials (cookies)
             headers: {
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
           }
-        );
+        )
         if (!response.ok) {
-          throw new Error("Network response was not ok");
+          throw new Error('Network response was not ok')
         }
-        const json = await response.json();
-        setLeaves(json.LeaveReports);
+        const json = await response.json()
+        setLeaves(json.LeaveReports)
       } catch (error) {
-        if (error.message === "Network response was not ok") navigate("/");
-        setError("Error fetching leave data");
+        if (error.message === 'Network response was not ok') navigate('/')
+        setError('Error fetching leave data')
       }
-    };
+    }
 
-    fetchLeaveReports();
-  }, []);
+    fetchLeaveReports()
+  }, [])
 
   const handleStatusSubmit = async (leaveId, user, status) => {
     try {
       const response = await fetch(
         `http://localhost:3001/api/v1/admins/updateLeaveReport`,
         {
-          method: "POST",
-          credentials: "include",
+          method: 'POST',
+          credentials: 'include',
           headers: {
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({
             user: user,
@@ -50,29 +50,29 @@ const AdminLeaveReport = () => {
             leaveId: leaveId,
           }),
         }
-      );
+      )
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok')
       }
-      alert("Status updated successfully");
+      alert('Status updated successfully')
       // Optionally, update the state to reflect the changes without reloading
       setLeaves((prevLeaves) =>
         prevLeaves.map((leave) =>
           leave._id === leaveId ? { ...leave, status: status } : leave
         )
-      );
+      )
     } catch (error) {
-      console.log(error);
-      setError("Error updating leave status");
+      console.log(error)
+      setError('Error updating leave status')
     }
-  };
+  }
 
   return (
     <div>
       <AdminHeader />
       <div className="p-2">
         <div className="bg-gray-100 h-[600px] m-auto mt-6">
-          <div className="bg-violet-500 p-3 rounded-t-2xl text-center">
+          <div className="bg-blue-900 p-3 rounded-t-2xl text-center">
             <h1 className="text-white font-bold text-xl">LEAVE REQUESTS</h1>
           </div>
           <div className="bg-gray-200 text-black p-2 font-bold flex justify-between">
@@ -101,7 +101,7 @@ const AdminLeaveReport = () => {
               </thead>
               <tbody className="bg-white divide-y divide-gray-200">
                 {leaves.map((leave) => (
-                  <tr key={leave._id}>
+                  <tr key={leave._id} className=" dark:hover:bg-gray-600">
                     <td className="px-6 py-4 whitespace-no-wrap font-normal">
                       {leave.user}
                     </td>
@@ -146,7 +146,7 @@ const AdminLeaveReport = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default AdminLeaveReport;
+export default AdminLeaveReport
