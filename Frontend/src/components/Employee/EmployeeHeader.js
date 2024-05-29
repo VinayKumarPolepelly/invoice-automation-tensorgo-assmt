@@ -51,7 +51,7 @@ const EmployeeHeader = () => {
         throw new Error('Network response was not ok')
       }
       if (response.ok) {
-        navigate('/employeeLogin') // Redirect to the login page after successful logout
+        navigate('/') // Redirect to the login page after successful logout
       } else {
         console.error('Logout failed:', response.statusText)
       }
