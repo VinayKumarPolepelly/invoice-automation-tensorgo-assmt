@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../helper";
 const AdminProjectReport = () => {
   const [projectReports, setProjectReports] = useState([]);
   const [error, setError] = useState(null);
@@ -11,7 +12,7 @@ const AdminProjectReport = () => {
     const fetchProjectReportDetails = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/v1/admins/getProjectReports",
+          `${BASE_URL}/api/v1/admins/getProjectReports`,
           {
             method: "GET",
             credentials: "include", // Include credentials (cookies)

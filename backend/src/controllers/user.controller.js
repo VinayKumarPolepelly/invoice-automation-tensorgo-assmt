@@ -91,7 +91,7 @@ const logoutUser = asyncHandler(async (req, res) => {
   const options = {
     path: "/",
     secure: true,
-    sameSite: "Strict",
+    sameSite: "None",
   };
   return res
     .status(200)
