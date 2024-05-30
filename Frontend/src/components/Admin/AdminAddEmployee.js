@@ -1,20 +1,20 @@
-import React, { useRef, useState } from 'react'
-import AdminHeader from './AdminHeader'
-import { useNavigate } from 'react-router-dom'
+import React, { useRef, useState } from "react";
+import AdminHeader from "./AdminHeader";
+import { useNavigate } from "react-router-dom";
 
 const AdminAddEmployee = () => {
-  const [error, setError] = useState(null)
-  const username = useRef()
-  const fullname = useRef()
-  const email = useRef()
-  const password = useRef()
-  const phoneNumber = useRef()
-  const role = useRef()
-  const navigate = useNavigate()
+  const [error, setError] = useState(null);
+  const username = useRef();
+  const fullname = useRef();
+  const email = useRef();
+  const password = useRef();
+  const phoneNumber = useRef();
+  const role = useRef();
+  const navigate = useNavigate();
 
   const handlesubmitform = async (e) => {
-    e.preventDefault()
-    const url = 'http://localhost:3001/api/v1/admins/register'
+    e.preventDefault();
+    const url = "http://localhost:3001/api/v1/admins/register";
 
     const data = {
       username: username.current.value,
@@ -23,28 +23,28 @@ const AdminAddEmployee = () => {
       email: email.current.value,
       phoneNumber: phoneNumber.current.value,
       role: role.current.value,
-    }
+    };
 
-    const userDetails = JSON.stringify(data)
-    console.log(userDetails)
+    const userDetails = JSON.stringify(data);
+    console.log(userDetails);
     const response = await fetch(url, {
-      method: 'POST',
-      credentials: 'include',
+      method: "POST",
+      credentials: "include",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: userDetails,
-    })
-    const data2 = await response.json()
+    });
+    const data2 = await response.json();
     if (response.ok === true) {
-      alert('employee added successfully')
-      navigate('/admin/employees')
+      alert("employee added successfully");
+      navigate("/admin/employees");
     } else {
-      console.log(data2?.message)
-      if (error.message === 'Network response was not ok') navigate('/')
-      setError(data2?.message)
+      console.log(data2);
+      if (error.message === "Network response was not ok") navigate("/");
+      setError(data2?.message);
     }
-  }
+  };
 
   return (
     <div>
@@ -129,7 +129,7 @@ const AdminAddEmployee = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminAddEmployee
+export default AdminAddEmployee;

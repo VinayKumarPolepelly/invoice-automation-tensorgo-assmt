@@ -9,7 +9,7 @@ const asyncHandler = (requestHandler) => {
       // If an error occurs during the execution of the requestHandler, catch it
       // Set the HTTP status code of the response to the error's code if available, otherwise set it to 500 (Internal Server Error),
       // and send a JSON response with success set to false and the error message.
-      res.status(error.code || 500).json({
+      res.status(500).json({
         success: false,
         message: error.message,
       });

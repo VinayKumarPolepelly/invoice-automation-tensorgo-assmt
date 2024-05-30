@@ -1,75 +1,75 @@
-import React, { useEffect, useState } from 'react'
-import AdminHeader from './AdminHeader'
-import { Link, useNavigate } from 'react-router-dom'
-import { MdDelete } from 'react-icons/md'
+import React, { useEffect, useState } from "react";
+import AdminHeader from "./AdminHeader";
+import { Link, useNavigate } from "react-router-dom";
+import { MdDelete } from "react-icons/md";
 
 const AdminEmployees = () => {
-  const [employees, setEmployees] = useState(null)
-  const [error, setError] = useState(null) // Add state for error
-  const navigate = useNavigate()
+  const [employees, setEmployees] = useState(null);
+  const [error, setError] = useState(null); // Add state for error
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
       try {
         const response = await fetch(
-          'http://localhost:3001/api/v1/admins/getEmployees',
+          "http://localhost:3001/api/v1/admins/getEmployees",
           {
-            method: 'GET',
-            credentials: 'include', // Include credentials (cookies)
+            method: "GET",
+            credentials: "include", // Include credentials (cookies)
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           }
-        )
+        );
         if (!response.ok) {
-          throw new Error('Network response was not ok')
+          throw new Error("Network response was not ok");
         }
-        const json = await response.json()
-        setEmployees(json)
+        const json = await response.json();
+        setEmployees(json);
       } catch (error) {
-        if (error.message === 'Network response was not ok') navigate('/')
-        setError('Error fetching employee data') // Set error message
+        if (error.message === "Network response was not ok") navigate("/");
+        setError("Error fetching employee data"); // Set error message
       }
-    }
+    };
 
-    fetchEmployeeDetails()
-  }, [])
+    fetchEmployeeDetails();
+  }, []);
 
   const handleDeleteEmployee = async (username) => {
-    const url = 'http://localhost:3001/api/v1/admins/deleteEmployee'
+    const url = "http://localhost:3001/api/v1/admins/deleteEmployee";
     const data = {
       username: username,
-    }
+    };
 
-    const userdetails = JSON.stringify(data)
+    const userdetails = JSON.stringify(data);
 
     try {
       const response = await fetch(url, {
-        method: 'POST',
-        credentials: 'include',
+        method: "POST",
+        credentials: "include",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: userdetails,
-      })
+      });
 
-      const data2 = await response.json()
+      const data2 = await response.json();
       if (!response.ok) {
-        console.log(data2)
-        setError(data2?.message)
+        console.log(data2);
+        setError(data2?.message);
       } else {
-        alert('Employee Deleted Successfully')
+        alert("Employee Deleted Successfully");
         // Remove the deleted employee from the state
         setEmployees((prevEmployees) =>
           prevEmployees.filter((employee) => employee.username !== username)
-        )
+        );
       }
     } catch (error) {
-      if (error.message === 'Network response was not ok') navigate('/')
-      console.error('Submit error:', error)
-      setError('Error submitting employee data')
+      if (error.message === "Network response was not ok") navigate("/");
+      console.error("Submit error:", error);
+      setError("Error submitting employee data");
     }
-  }
+  };
 
   return (
     <div>
@@ -83,7 +83,7 @@ const AdminEmployees = () => {
           />
         </div>
         <div className="mx-auto w-40 ">
-          <Link to={'/admin/addEmployee'}>
+          <Link to={"/admin/addEmployee"}>
             <button className="mt-1  border p-2  rounded-lg bg-blue-900 text-white  hover:bg-blue-600 hover:shadow-lg active:bg-blue-700 active:border-collapse active:font-semibold active:shadow-2xl">
               Add Employee
             </button>
@@ -126,7 +126,7 @@ const AdminEmployees = () => {
                   {employees.map((employee) => (
                     <tr
                       key={employee._id}
-                      className="hover:bg-gray-50 dark:hover:bg-gray-600"
+                      className="hover:bg-gray-50 dark:hover:bg-gray-300"
                     >
                       <td className="px-6 py-4 whitespace-no-wrap font-normal">
                         {employee.username}
@@ -167,7 +167,7 @@ const AdminEmployees = () => {
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminEmployees
+export default AdminEmployees;
