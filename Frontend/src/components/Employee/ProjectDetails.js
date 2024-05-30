@@ -32,7 +32,8 @@ const ProjectDetails = () => {
           throw new Error("No projects field in response");
         }
       } catch (error) {
-        if (error.message === "Network response was not ok") navigate("/");
+        console.log(error);
+        //if (error.message === "Network response was not ok") navigate("/");
         setError("Error fetching project data");
       }
     };
