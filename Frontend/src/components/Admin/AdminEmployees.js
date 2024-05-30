@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import { Link, useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
+import { BASE_URL } from "../helper";
 
 const AdminEmployees = () => {
   const [employees, setEmployees] = useState(null);
@@ -11,16 +12,13 @@ const AdminEmployees = () => {
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:3001/api/v1/admins/getEmployees",
-          {
-            method: "GET",
-            credentials: "include", // Include credentials (cookies)
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${BASE_URL}/api/v1/admins/getEmployees`, {
+          method: "GET",
+          credentials: "include", // Include credentials (cookies)
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
