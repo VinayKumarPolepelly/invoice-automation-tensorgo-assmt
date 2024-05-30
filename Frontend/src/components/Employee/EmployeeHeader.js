@@ -54,7 +54,7 @@ const EmployeeHeader = () => {
         console.error("Logout failed:", response.statusText);
       }
     } catch (error) {
-      if (error.message === "Network response was not ok") navigate("/");
+      //if (error.message === "Network response was not ok") navigate("/");
       console.error("Error logging out:", error);
     }
   };
