@@ -16,15 +16,21 @@ import {
 import { verifyAdmin, verifyJwt } from "../middlewares/auth.middleware.js";
 const router = Router();
 router.route("/login").post(loginAdmin);
-router.route("/register").post(registerUser);
-router.route("/addEmployeeSalary").post(addSalary);
-router.route("/getEmployees").get(getEmployeesList);
-router.route("/getSalarees").get(getSalareeDetails);
-router.route("/addProject").post(addProject);
-router.route("/getProjects").get(getProjectList);
-router.route("/getProjectReports").get(getProjectReportList);
-router.route("/getLeaveReports").get(getLeaveReportList);
-router.route("/updateLeaveReport").post(updateLeaveReport);
-router.route("/deleteEmployee").post(deleteEmployee);
-router.route("/deleteSalary").post(deleteSalary);
+router.route("/register").post(verifyJwt, verifyAdmin, registerUser);
+router.route("/addEmployeeSalary").post(verifyJwt, verifyAdmin, addSalary);
+router.route("/getEmployees").get(verifyJwt, verifyAdmin, getEmployeesList);
+router.route("/getSalarees").get(verifyJwt, verifyAdmin, getSalareeDetails);
+router.route("/addProject").post(verifyJwt, verifyAdmin, addProject);
+router.route("/getProjects").get(verifyJwt, verifyAdmin, getProjectList);
+router
+  .route("/getProjectReports")
+  .get(verifyJwt, verifyAdmin, getProjectReportList);
+router
+  .route("/getLeaveReports")
+  .get(verifyJwt, verifyAdmin, getLeaveReportList);
+router
+  .route("/updateLeaveReport")
+  .post(verifyJwt, verifyAdmin, updateLeaveReport);
+router.route("/deleteEmployee").post(verifyJwt, verifyAdmin, deleteEmployee);
+router.route("/deleteSalary").post(verifyJwt, verifyAdmin, deleteSalary);
 export default router;
