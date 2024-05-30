@@ -44,7 +44,7 @@ const LeaveReport = () => {
     };
 
     fetchLeaves();
-  }, []);
+  }, [navigate]);
 
   const formatDateAndTime = (timestamp) => {
     const date = new Date(timestamp);

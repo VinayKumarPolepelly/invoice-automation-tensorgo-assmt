@@ -6,6 +6,7 @@ import { BASE_URL } from "../helper";
 const ProjectReport = () => {
   const [projects, setProjects] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjectDetails = async () => {
@@ -37,9 +38,8 @@ const ProjectReport = () => {
     };
 
     fetchProjectDetails();
-  }, []);
+  }, [navigate]);
 
-  const navigate = useNavigate();
   const project = useRef();
   const report = useRef();
 
