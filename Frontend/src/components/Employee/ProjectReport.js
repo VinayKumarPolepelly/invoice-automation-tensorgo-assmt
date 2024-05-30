@@ -1,75 +1,76 @@
-import React, { useEffect, useRef } from 'react'
-import EmployeeHeader from './EmployeeHeader'
-import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useRef } from "react";
+import EmployeeHeader from "./EmployeeHeader";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../helper";
 const ProjectReport = () => {
-  const [projects, setProjects] = useState([])
-  const [error, setError] = useState(null)
+  const [projects, setProjects] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
         const response = await fetch(
-          'http://localhost:3001/api/v1/users/getProjectDetails',
+          `${BASE_URL}/api/v1/users/getProjectDetails`,
           {
-            method: 'GET',
-            credentials: 'include', // Include credentials (cookies)
+            method: "GET",
+            credentials: "include", // Include credentials (cookies)
             headers: {
-              'Content-Type': 'application/json',
+              "Content-Type": "application/json",
             },
           }
-        )
+        );
         if (!response.ok) {
-          throw new Error('Network response was not ok')
+          throw new Error("Network response was not ok");
         }
-        const json = await response.json()
+        const json = await response.json();
         if (json?.projects) {
-          setProjects(json.projects)
-          console.log(json.projects)
+          setProjects(json.projects);
+          console.log(json.projects);
         } else {
-          throw new Error('No projects field in response')
+          throw new Error("No projects field in response");
         }
       } catch (error) {
-        if (error.message === 'Network response was not ok') navigate('/')
-        setError('Error fetching project data')
+        if (error.message === "Network response was not ok") navigate("/");
+        setError("Error fetching project data");
       }
-    }
+    };
 
-    fetchProjectDetails()
-  }, [])
+    fetchProjectDetails();
+  }, []);
 
-  const navigate = useNavigate()
-  const project = useRef()
-  const report = useRef()
+  const navigate = useNavigate();
+  const project = useRef();
+  const report = useRef();
 
   const handlesubmitform = async (e) => {
-    e.preventDefault()
-    const url = 'http://localhost:3001/api/v1/users/addProjectReport'
+    e.preventDefault();
+    const url = "http://localhost:3001/api/v1/users/addProjectReport";
 
     const data = {
       project: project.current.value,
       report: report.current.value,
-    }
+    };
 
-    const reportDetails = JSON.stringify(data)
-    console.log(reportDetails)
+    const reportDetails = JSON.stringify(data);
+    console.log(reportDetails);
     const response = await fetch(url, {
-      method: 'POST',
-      credentials: 'include',
+      method: "POST",
+      credentials: "include",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: reportDetails,
-    })
-    const data2 = await response.json()
+    });
+    const data2 = await response.json();
     if (response.ok === true) {
-      alert('report submitted successfully')
-      navigate('/employeeProjectReport')
+      alert("report submitted successfully");
+      navigate("/employeeProjectReport");
     } else {
-      console.log(data2)
-      setError(data2?.message)
+      console.log(data2);
+      setError(data2?.message);
     }
-  }
+  };
 
   return (
     <div>
@@ -118,7 +119,7 @@ const ProjectReport = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ProjectReport
+export default ProjectReport;

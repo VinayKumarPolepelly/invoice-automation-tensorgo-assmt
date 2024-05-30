@@ -1,49 +1,50 @@
-import React, { useRef } from 'react'
-import Header from '../Header'
-import { useNavigate } from 'react-router-dom'
+import React, { useRef } from "react";
+import Header from "../Header";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../helper";
 
 const AdminLogin = () => {
-  const username = useRef()
-  const password = useRef()
-  const navigate = useNavigate()
+  const username = useRef();
+  const password = useRef();
+  const navigate = useNavigate();
 
   const handlesubmitform = async (e) => {
-    e.preventDefault()
-    const url = 'http://localhost:3001/api/v1/users/login'
+    e.preventDefault();
+    const url = `${BASE_URL}/api/v1/users/login`;
 
     const data = {
       username: username.current.value,
       password: password.current.value,
-    }
+    };
 
     try {
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        credentials: 'include',
+        credentials: "include",
         body: JSON.stringify(data),
-      })
+      });
 
       if (!response.ok) {
-        throw new Error('Login failed')
+        throw new Error("Login failed");
       }
 
-      const responseData = await response.json()
-      console.log(responseData)
-      console.log(responseData.data.accessToken)
+      const responseData = await response.json();
+      console.log(responseData);
+      console.log(responseData.data.accessToken);
 
       // Assuming responseData.accessToken contains the access token
       // Set the accessToken cookie
-      document.cookie = `accessToken=${responseData.data.accessToken}; Secure; SameSite=None; Path=/`
+      document.cookie = `accessToken=${responseData.data.accessToken}; Secure; SameSite=None; Path=/`;
 
-      navigate('/EmployeeHomepage')
+      navigate("/EmployeeHomepage");
     } catch (error) {
-      console.error('Login error:', error)
+      console.error("Login error:", error);
       // Handle login error
     }
-  }
+  };
 
   return (
     <div>
@@ -86,7 +87,7 @@ const AdminLogin = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminLogin
+export default AdminLogin;

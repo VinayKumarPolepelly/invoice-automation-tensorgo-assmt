@@ -1,16 +1,17 @@
-import React from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { FaUser } from 'react-icons/fa'
-import { useState } from 'react'
+import React from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FaUser } from "react-icons/fa";
+import { useState } from "react";
+import { BASE_URL } from "../helper";
 
 const UserProfileIcon = (props) => {
-  const { si } = props
+  const { si } = props;
   return (
     <div>
       <FaUser size={si} />
     </div>
-  )
-}
+  );
+};
 const Logout = ({ handleLogout }) => {
   return (
     <div className="flex justify-end ">
@@ -27,39 +28,36 @@ const Logout = ({ handleLogout }) => {
         </button>
       </div>
     </div>
-  )
-}
+  );
+};
 const EmployeeHeader = () => {
-  const [showItem, setShowItem] = useState(false)
-  const navigate = useNavigate()
+  const [showItem, setShowItem] = useState(false);
+  const navigate = useNavigate();
   const handleClick = () => {
-    setShowItem(!showItem)
-  }
+    setShowItem(!showItem);
+  };
   const handleLogout = async () => {
     try {
-      const response = await fetch(
-        'http://localhost:3001/api/v1/users/logout',
-        {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+      const response = await fetch(`${BASE_URL}/api/v1/users/logout`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
       if (!response.ok) {
-        throw new Error('Network response was not ok')
+        throw new Error("Network response was not ok");
       }
       if (response.ok) {
-        navigate('/') // Redirect to the login page after successful logout
+        navigate("/"); // Redirect to the login page after successful logout
       } else {
-        console.error('Logout failed:', response.statusText)
+        console.error("Logout failed:", response.statusText);
       }
     } catch (error) {
-      if (error.message === 'Network response was not ok') navigate('/')
-      console.error('Error logging out:', error)
+      if (error.message === "Network response was not ok") navigate("/");
+      console.error("Error logging out:", error);
     }
-  }
+  };
   return (
     <div>
       <div className="sticky top-0">
@@ -99,7 +97,7 @@ const EmployeeHeader = () => {
         {showItem && <Logout handleLogout={handleLogout} />}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default EmployeeHeader
+export default EmployeeHeader;

@@ -1,51 +1,52 @@
-import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../helper";
 
 const ApplyForLeave = () => {
-  const [fromDate, setFromDate] = useState('')
-  const [toDate, setToDate] = useState('')
-  const [reason, setReason] = useState('')
-  const navigate = useNavigate()
+  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState("");
+  const [reason, setReason] = useState("");
+  const navigate = useNavigate();
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
-    const url = 'http://localhost:3001/api/v1/users/addLeaveReport'
+    e.preventDefault();
+    const url = `${BASE_URL}/api/v1/users/addLeaveReport`;
     const data = {
       fromDate: fromDate,
       toDate: toDate,
       reason: reason,
-    }
+    };
     try {
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        credentials: 'include',
+        credentials: "include",
         body: JSON.stringify(data),
-      })
+      });
 
       if (!response.ok) {
-        throw new Error('Network response was not ok')
+        throw new Error("Network response was not ok");
       }
-      alert('Leave added successfully')
-      const responseData = await response.json()
-      console.log(responseData)
-      navigate('/employeeLeaveReport')
+      alert("Leave added successfully");
+      const responseData = await response.json();
+      console.log(responseData);
+      navigate("/employeeLeaveReport");
 
       // Assuming responseData.accessToken contains the access token
-      document.cookie = `accessToken=${responseData.data.accessToken}; Secure; SameSite=None; Path=/`
+      document.cookie = `accessToken=${responseData.data.accessToken}; Secure; SameSite=None; Path=/`;
 
       // Reset form fields to their default values
-      setFromDate('')
-      setToDate('')
-      setReason('')
+      setFromDate("");
+      setToDate("");
+      setReason("");
     } catch (error) {
-      if (error.message === 'Network response was not ok') navigate('/')
-      console.error('Submission error:', error)
+      if (error.message === "Network response was not ok") navigate("/");
+      console.error("Submission error:", error);
       // Handle submission error
     }
-  }
+  };
 
   return (
     <div>
@@ -105,7 +106,7 @@ const ApplyForLeave = () => {
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default ApplyForLeave
+export default ApplyForLeave;

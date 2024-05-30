@@ -1,5 +1,5 @@
-import React from 'react'
-import EmployeeHeader from './EmployeeHeader'
+import React from "react";
+import EmployeeHeader from "./EmployeeHeader";
 
 const EmployeeHome = () => {
   return (
@@ -15,7 +15,7 @@ const EmployeeHome = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default EmployeeHome
+export default EmployeeHome;

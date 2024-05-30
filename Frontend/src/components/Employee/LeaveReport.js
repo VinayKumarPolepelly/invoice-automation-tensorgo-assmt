@@ -2,6 +2,7 @@ import EmployeeHeader from "./EmployeeHeader";
 import ApplyForLeave from "./ApplyForLeave";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../helper";
 
 const LeaveReport = () => {
   const [showItem, setShowItem] = useState(false);
@@ -17,7 +18,7 @@ const LeaveReport = () => {
     const fetchLeaves = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/v1/users/getLeaveDetails",
+          `${BASE_URL}/api/v1/users/getLeaveDetails`,
           {
             method: "GET",
             credentials: "include", // Include credentials (cookies)

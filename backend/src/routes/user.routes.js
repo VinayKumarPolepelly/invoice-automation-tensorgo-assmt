@@ -18,11 +18,11 @@ router.route("/login").post(loginUser);
 router.route("/logout").post(verifyJwt, logoutUser);
 
 router.route("/refresh-token").post(refreshAccessToken);
-router.route("/addProjectReport").post(verifyJwt, addProjectReport);
-router.route("/addLeaveReport").post(verifyJwt, addLeaveReport);
-router.route("/getSalareeDetails").get(verifyJwt, getSalareeDetails);
-router.route("/getProjectDetails").get(verifyJwt, getProjectDetails);
-router.route("/getLeaveDetails").get(verifyJwt, getLeaveDetails);
+router.route("/addProjectReport").post(addProjectReport);
+router.route("/addLeaveReport").post(addLeaveReport);
+router.route("/getSalareeDetails").get(getSalareeDetails);
+router.route("/getProjectDetails").get(getProjectDetails);
+router.route("/getLeaveDetails").get(getLeaveDetails);
 router
   .route("/getProjectReportDetails")
   .get(verifyJwt, getProjectReportDetails);

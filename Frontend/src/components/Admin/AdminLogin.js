@@ -1,56 +1,51 @@
-import React, { useRef } from 'react'
-import Header from '../Header'
-import { useNavigate } from 'react-router-dom'
+import React, { useRef } from "react";
+import Header from "../Header";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../helper";
 
 const AdminLogin = () => {
-  const username = useRef()
-  const password = useRef()
-  const navigate = useNavigate()
+  const username = useRef();
+  const password = useRef();
+  const navigate = useNavigate();
 
   const handlesubmitform = async (e) => {
-    e.preventDefault()
-    const url = 'http://localhost:3001/api/v1/admins/login'
+    e.preventDefault();
+    const url = `${BASE_URL}/api/v1/admins/login`;
 
     const data = {
       username: username.current.value,
       password: password.current.value,
-    }
+    };
 
     try {
       const response = await fetch(url, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-        credentials: 'include',
+        credentials: "include",
         body: JSON.stringify(data),
-      })
+      });
 
       if (!response.ok) {
-        throw new Error('Login failed')
+        throw new Error("Login failed");
       }
 
-      const responseData = await response.json()
-      console.log(responseData)
+      const responseData = await response.json();
+      console.log(responseData);
       //console.log(responseData.data.accessToken);
 
       // Assuming responseData.accessToken contains the access token
       // Set the accessToken cookie
-<<<<<<< HEAD
       document.cookie = `accessToken=${responseData.data.accessToken}; Secure; SameSite=None; Path=/`;
       if (responseData.data.user.role === "admin") navigate("/admin");
       else navigate("/employeeHomepage");
-=======
-      document.cookie = `accessToken=${responseData.data.accessToken}; Secure; SameSite=None; Path=/`
-      if (responseData.data.user.role === 'admin') navigate('/admin')
-      else navigate('/employeeHomepage')
->>>>>>> 6afb4a24c1b07b6fb779b75682081c5022fd2106
     } catch (error) {
-      if (error.message === 'Unauthorized request') navigate('/')
-      console.error('Login error:', error)
+      if (error.message === "Unauthorized request") navigate("/");
+      console.error("Login error:", error);
       // Handle login error
     }
-  }
+  };
 
   return (
     <div>
@@ -88,7 +83,7 @@ const AdminLogin = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminLogin
+export default AdminLogin;
