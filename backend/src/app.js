@@ -6,7 +6,7 @@ import adminRouter from "./routes/admin.routes.js";
 const app = express();
 
 const corsOptions = {
-  origin: "https://hr-3.onrender.com/", // Frontend domain
+  origin: "hhttps://66581b951ce667ad782f8f2f--shiny-toffee-af6c83.netlify.app", // Frontend domain
   credentials: true, // Allow credentials (cookies) to be sent
 };
 
