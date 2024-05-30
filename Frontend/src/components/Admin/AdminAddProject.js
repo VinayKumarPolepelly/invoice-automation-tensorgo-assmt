@@ -7,6 +7,7 @@ import { BASE_URL } from "../helper";
 const AdminAddProject = () => {
   const [employees, setEmployees] = useState([]);
   const [selectedEmployees, setSelectedEmployees] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
@@ -30,7 +31,6 @@ const AdminAddProject = () => {
   }, [navigate]);
 
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
   const projectTitle = useRef();
   const clientName = useRef();
   const projectType = useRef();
