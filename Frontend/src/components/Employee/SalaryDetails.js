@@ -6,7 +6,6 @@ import { BASE_URL } from "../helper";
 const SalaryDetails = () => {
   const [salary, setSalary] = useState([]);
   const [error, setError] = useState(null);
-  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSalaryDetails = async () => {

@@ -29,7 +29,7 @@ const AdminAddSalary = () => {
     };
 
     fetchEmployeeDetails();
-  }, []);
+  }, [navigate]);
   const navigate = useNavigate();
   const user = useRef();
   const month = useRef();

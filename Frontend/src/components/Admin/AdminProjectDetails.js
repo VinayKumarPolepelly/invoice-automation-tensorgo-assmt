@@ -38,7 +38,7 @@ const AdminProjectDetails = () => {
     };
 
     fetchProjectDetails();
-  }, []);
+  }, [navigate]);
 
   return (
     <div>

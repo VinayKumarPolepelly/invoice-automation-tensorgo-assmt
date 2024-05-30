@@ -34,7 +34,7 @@ const AdminSalaryDetails = () => {
     };
 
     fetchSalaryDetails();
-  }, []);
+  }, [navigate]);
 
   const handleDeleteSalary = async (salaryId) => {
     const url = `${BASE_URL}/api/v1/admins/deleteSalary`;

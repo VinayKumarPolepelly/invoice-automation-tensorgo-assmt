@@ -31,7 +31,7 @@ const AdminEmployees = () => {
     };
 
     fetchEmployeeDetails();
-  }, []);
+  }, [navigate]);
 
   const handleDeleteEmployee = async (username) => {
     const url = `${BASE_URL}/api/v1/admins/deleteEmployee`;

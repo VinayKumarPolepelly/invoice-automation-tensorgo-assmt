@@ -44,7 +44,7 @@ const LeaveReport = () => {
     };
 
     fetchLeaves();
-  }, [leaves]);
+  }, []);
 
   const formatDateAndTime = (timestamp) => {
     const date = new Date(timestamp);
@@ -129,7 +129,10 @@ const LeaveReport = () => {
                   <tbody className="bg-white divide-y divide-gray-200">
                     {leaves.map((leave) => {
                       return (
-                        <tr className="hover:bg-gray-50 dark:hover:bg-gray-600">
+                        <tr
+                          key={leave._id}
+                          className="hover:bg-gray-50 dark:hover:bg-gray-600"
+                        >
                           <td className="px-6 py-4 whitespace-no-wrap">
                             {formatDateAndTime(leave.createdAt)}
                           </td>

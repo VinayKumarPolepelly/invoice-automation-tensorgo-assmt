@@ -38,7 +38,7 @@ const AdminProjectReport = () => {
     };
 
     fetchProjectReportDetails();
-  }, []);
+  }, [navigate]);
   return (
     <div>
       <AdminHeader />

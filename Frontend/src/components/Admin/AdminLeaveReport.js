@@ -33,7 +33,7 @@ const AdminLeaveReport = () => {
     };
 
     fetchLeaveReports();
-  }, []);
+  }, [navigate]);
 
   const handleStatusSubmit = async (leaveId, user, status) => {
     try {

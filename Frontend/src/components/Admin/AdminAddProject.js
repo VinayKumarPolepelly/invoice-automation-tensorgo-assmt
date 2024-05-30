@@ -27,7 +27,7 @@ const AdminAddProject = () => {
     };
 
     fetchEmployeeDetails();
-  }, []);
+  }, [navigate]);
 
   const [error, setError] = useState(null);
   const navigate = useNavigate();
