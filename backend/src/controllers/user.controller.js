@@ -59,7 +59,6 @@ const loginUser = asyncHandler(async (req, res) => {
   //const accessToken = existedUser.generateAccessToken();
 
   const options = {
-    httpOnly: true,
     secure: true,
   };
 
@@ -89,7 +88,6 @@ const logoutUser = asyncHandler(async (req, res) => {
   );
   const options = {
     path: "/",
-    httpOnly: true,
     secure: true,
     sameSite: "Strict",
   };

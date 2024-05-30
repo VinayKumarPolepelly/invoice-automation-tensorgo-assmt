@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../helper";
 const AdminSalaryDetails = () => {
   const [salaries, setSalaries] = useState([]);
   const [error, setError] = useState(null);
@@ -10,16 +11,13 @@ const AdminSalaryDetails = () => {
   useEffect(() => {
     const fetchSalaryDetails = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:3001/api/v1/admins/getSalarees",
-          {
-            method: "GET",
-            credentials: "include", // Include credentials (cookies)
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${BASE_URL}/api/v1/admins/getSalarees`, {
+          method: "GET",
+          credentials: "include", // Include credentials (cookies)
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         if (!response.ok) {
           throw new Error("Network response was not ok");
         }
@@ -39,7 +37,7 @@ const AdminSalaryDetails = () => {
   }, []);
 
   const handleDeleteSalary = async (salaryId) => {
-    const url = "http://localhost:3001/api/v1/admins/deleteSalary";
+    const url = `${BASE_URL}/api/v1/admins/deleteSalary`;
     const data = {
       salaryId: salaryId,
     };

@@ -1,72 +1,70 @@
-import React, { useEffect, useRef, useState } from 'react'
-import AdminHeader from './AdminHeader'
-import { useNavigate } from 'react-router-dom'
+import React, { useEffect, useRef, useState } from "react";
+import AdminHeader from "./AdminHeader";
+import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../helper";
 
 const AdminAddSalary = () => {
-  const [employees, setEmployees] = useState([])
-  const [error, setError] = useState(null) // Add state for error
+  const [employees, setEmployees] = useState([]);
+  const [error, setError] = useState(null); // Add state for error
 
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
       try {
-        const response = await fetch(
-          'http://localhost:3001/api/v1/admins/getEmployees',
-          {
-            method: 'GET',
-            credentials: 'include', // Include credentials (cookies)
-            headers: {
-              'Content-Type': 'application/json',
-            },
-          }
-        )
+        const response = await fetch(`${BASE_URL}/api/v1/admins/getEmployees`, {
+          method: "GET",
+          credentials: "include", // Include credentials (cookies)
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         if (!response.ok) {
-          throw new Error('Network response was not ok')
+          throw new Error("Network response was not ok");
         }
-        const data = await response.json()
-        setEmployees(data)
+        const data = await response.json();
+        setEmployees(data);
       } catch (error) {
-        if (error.message === 'Network response was not ok') navigate('/')
-        setError('Error fetching employee data') // Set error message
+        if (error.message === "Network response was not ok") navigate("/");
+        setError("Error fetching employee data"); // Set error message
       }
-    }
+    };
 
-    fetchEmployeeDetails()
-  }, [])
-  const navigate = useNavigate()
-  const user = useRef()
-  const month = useRef()
-  const salaryAmount = useRef()
+    fetchEmployeeDetails();
+  }, []);
+  const navigate = useNavigate();
+  const user = useRef();
+  const month = useRef();
+  const salaryAmount = useRef();
 
   const handlesubmitform = async (e) => {
-    e.preventDefault()
-    const url = 'http://localhost:3001/api/v1/admins/addEmployeeSalary'
+    e.preventDefault();
+    const url = `${BASE_URL}/api/v1/admins/addEmployeeSalary`;
 
     const data = {
       user: user.current.value,
       month: month.current.value,
       salaryAmount: salaryAmount.current.value,
-    }
+    };
 
-    const salaryDetails = JSON.stringify(data)
-    console.log(salaryDetails)
+    const salaryDetails = JSON.stringify(data);
+    console.log(salaryDetails);
     const response = await fetch(url, {
-      method: 'POST',
-      credentials: 'include',
+      method: "POST",
+      credentials: "include",
       headers: {
-        'Content-Type': 'application/json',
+        "Content-Type": "application/json",
       },
       body: salaryDetails,
-    })
-    const data2 = await response.json()
+    });
+    const data2 = await response.json();
     if (response.ok === true) {
-      alert('Salary added successfully')
-      navigate('/admin/salarydetails')
+      alert("Salary added successfully");
+      navigate("/admin/salarydetails");
     } else {
-      console.log(data2)
-      if (error.message === 'Network response was not ok') navigate('/')
-      setError(data2?.message)
+      console.log(data2);
+      if (error.message === "Network response was not ok") navigate("/");
+      setError(data2?.message);
     }
-  }
+  };
 
   return (
     <div>
@@ -132,7 +130,7 @@ const AdminAddSalary = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminAddSalary
+export default AdminAddSalary;

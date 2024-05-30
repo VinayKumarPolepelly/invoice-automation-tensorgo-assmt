@@ -34,7 +34,7 @@ const AdminEmployees = () => {
   }, []);
 
   const handleDeleteEmployee = async (username) => {
-    const url = "http://localhost:3001/api/v1/admins/deleteEmployee";
+    const url = `${BASE_URL}/api/v1/admins/deleteEmployee`;
     const data = {
       username: username,
     };

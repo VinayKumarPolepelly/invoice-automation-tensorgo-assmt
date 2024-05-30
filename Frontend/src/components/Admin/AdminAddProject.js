@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
+import { BASE_URL } from "../helper";
 
 const AdminAddProject = () => {
   const [employees, setEmployees] = useState([]);
@@ -10,16 +11,13 @@ const AdminAddProject = () => {
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:3001/api/v1/admins/getEmployees",
-          {
-            method: "GET",
-            credentials: "include", // Include credentials (cookies)
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${BASE_URL}/api/v1/admins/getEmployees`, {
+          method: "GET",
+          credentials: "include", // Include credentials (cookies)
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         const json = await response.json();
         setEmployees(json);
       } catch (error) {
@@ -42,7 +40,7 @@ const AdminAddProject = () => {
 
   const handlesubmitform = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:3001/api/v1/admins/addProject";
+    const url = `${BASE_URL}/api/v1/admins/addProject`;
     for (const employee of selectedEmployees) {
       const data = {
         projectTitle: projectTitle.current.value,

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import AdminHeader from "./AdminHeader";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../helper";
 
 const AdminLeaveReport = () => {
   const [leaves, setLeaves] = useState([]);
@@ -11,7 +12,7 @@ const AdminLeaveReport = () => {
     const fetchLeaveReports = async () => {
       try {
         const response = await fetch(
-          "http://localhost:3001/api/v1/admins/getLeaveReports",
+          `${BASE_URL}/api/v1/admins/getLeaveReports`,
           {
             method: "GET",
             credentials: "include", // Include credentials (cookies)
@@ -37,7 +38,7 @@ const AdminLeaveReport = () => {
   const handleStatusSubmit = async (leaveId, user, status) => {
     try {
       const response = await fetch(
-        `http://localhost:3001/api/v1/admins/updateLeaveReport`,
+        `${BASE_URL}/api/v1/admins/updateLeaveReport`,
         {
           method: "POST",
           credentials: "include",

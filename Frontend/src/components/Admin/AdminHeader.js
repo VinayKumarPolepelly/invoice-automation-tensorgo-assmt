@@ -1,12 +1,13 @@
-import React, { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-import { FaUser } from 'react-icons/fa'
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { FaUser } from "react-icons/fa";
+import { BASE_URL } from "../helper";
 
 const UserProfileIcon = ({ size }) => (
   <div>
     <FaUser size={size} />
   </div>
-)
+);
 
 const Logout = ({ handleLogout }) => (
   <div className="absolute top-12 right-0 mt-2 mr-5">
@@ -23,35 +24,33 @@ const Logout = ({ handleLogout }) => (
       </button>
     </div>
   </div>
-)
+);
 
 const AdminHeader = () => {
-  const [showItem, setShowItem] = useState(false)
-  const navigate = useNavigate()
+  const [showItem, setShowItem] = useState(false);
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      const response = await fetch(
-        'http://localhost:3001/api/v1/users/logout',
-        {
-          method: 'POST',
-          credentials: 'include',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-        }
-      )
+      const response = await fetch(`${BASE_URL}/api/v1/users/logout`, {
+        method: "POST",
+        credentials: "include",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
 
       if (response.ok) {
-        navigate('/Adminlogin') // Redirect to the login page after successful logout
+        navigate("/Adminlogin"); // Redirect to the login page after successful logout
       } else {
-        console.error('Logout failed:', response.statusText)
+        console.log(response);
+        console.error("Logout failed:", response.statusText);
       }
     } catch (error) {
-      if (error.message === 'Network response was not ok') navigate('/')
-      console.error('Error logging out:', error)
+      if (error.message === "Network response was not ok") navigate("/");
+      console.error("Error logging out:", error);
     }
-  }
+  };
 
   return (
     <div className="sticky top-0 bg-blue-900 shadow-lg">
@@ -107,7 +106,7 @@ const AdminHeader = () => {
         </li>
       </ul>
     </div>
-  )
-}
+  );
+};
 
-export default AdminHeader
+export default AdminHeader;
