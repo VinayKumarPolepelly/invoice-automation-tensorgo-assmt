@@ -6,6 +6,7 @@ import { BASE_URL } from "../helper";
 const SalaryDetails = () => {
   const [salary, setSalary] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchSalaryDetails = async () => {
@@ -39,7 +40,7 @@ const SalaryDetails = () => {
     };
 
     fetchSalaryDetails();
-  }, []);
+  }, [navigate]);
 
   const formatDate = (timestamp) => {
     const date = new Date(timestamp);

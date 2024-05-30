@@ -110,6 +110,7 @@ const ProjectReport = () => {
                     id="projectReportText"
                   />
                 </div>
+                {error && <div>{error}</div>}
                 <button className=" bg-blue-500 w-[130px] ml-[18px] h-10 rounded-lg  mt-3 text-white hover:bg-blue-600 hover:shadow-lg active:bg-blue-700 active:border-collapse active:font-semibold active:shadow-2xl">
                   Submit
                 </button>

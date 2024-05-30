@@ -6,6 +6,7 @@ import { BASE_URL } from "../helper";
 const ProjectDetails = () => {
   const [projects, setProjects] = useState([]);
   const [error, setError] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchProjectDetails = async () => {
@@ -38,7 +39,7 @@ const ProjectDetails = () => {
     };
 
     fetchProjectDetails();
-  }, []);
+  }, [navigate]);
 
   return (
     <div>

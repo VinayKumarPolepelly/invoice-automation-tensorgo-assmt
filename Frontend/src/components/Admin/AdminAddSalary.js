@@ -6,6 +6,7 @@ import { BASE_URL } from "../helper";
 const AdminAddSalary = () => {
   const [employees, setEmployees] = useState([]);
   const [error, setError] = useState(null); // Add state for error
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
@@ -30,7 +31,6 @@ const AdminAddSalary = () => {
 
     fetchEmployeeDetails();
   }, [navigate]);
-  const navigate = useNavigate();
   const user = useRef();
   const month = useRef();
   const salaryAmount = useRef();

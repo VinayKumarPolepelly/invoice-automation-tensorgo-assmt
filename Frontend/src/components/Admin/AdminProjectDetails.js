@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
-import { MdEdit, MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../helper";
 

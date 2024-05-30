@@ -91,6 +91,7 @@ const AdminProjectReport = () => {
                 })}
               </tbody>
             </table>
+            {error && <div>{error}</div>}
           </div>
         </div>
       </div>
