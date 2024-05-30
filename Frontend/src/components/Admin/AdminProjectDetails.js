@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import { MdEdit, MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
+import { BASE_URL } from "../helper";
 
 const AdminProjectDetails = () => {
   const [projects, setProjects] = useState([]);
@@ -11,16 +12,13 @@ const AdminProjectDetails = () => {
   useEffect(() => {
     const fetchProjectDetails = async () => {
       try {
-        const response = await fetch(
-          "http://localhost:3001/api/v1/admins/getProjects",
-          {
-            method: "GET",
-            credentials: "include", // Include credentials (cookies)
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        const response = await fetch(`${BASE_URL}/api/v1/admins/getProjects`, {
+          method: "GET",
+          credentials: "include", // Include credentials (cookies)
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
         //console.log(response);
         if (!response.ok) {
           throw new Error("Network response was not ok");
