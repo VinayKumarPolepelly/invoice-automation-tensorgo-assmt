@@ -23,8 +23,6 @@ router.route("/addLeaveReport").post(addLeaveReport);
 router.route("/getSalareeDetails").get(getSalareeDetails);
 router.route("/getProjectDetails").get(getProjectDetails);
 router.route("/getLeaveDetails").get(getLeaveDetails);
-router
-  .route("/getProjectReportDetails")
-  .get(verifyJwt, getProjectReportDetails);
+router.route("/getProjectReportDetails").get(getProjectReportDetails);
 
 export default router;
