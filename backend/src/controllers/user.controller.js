@@ -59,7 +59,9 @@ const loginUser = asyncHandler(async (req, res) => {
   //const accessToken = existedUser.generateAccessToken();
 
   const options = {
-    secure: true,
+    httpOnly: true,
+    secure: true, // Ensure this is true if using HTTPS
+    sameSite: "None",
   };
 
   res

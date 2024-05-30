@@ -65,7 +65,9 @@ const loginAdmin = asyncHandler(async (req, res) => {
   //but we dont want that to happen, we want to modify the cookies only from the server
   //hence we use this
   const options = {
-    secure: true,
+    httpOnly: true,
+    secure: true, // Ensure this is true if using HTTPS
+    sameSite: "None",
   };
   //you can send with the key value pair within the string is key and another one is value
   return res
