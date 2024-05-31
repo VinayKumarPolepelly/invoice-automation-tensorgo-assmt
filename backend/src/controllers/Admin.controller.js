@@ -56,6 +56,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
   const { accessToken, refreshToken } =
     await generateAccessTokenAndRefreshToken(existedUser._id);
+    
   // console.log(accessToken);
   // console.log(refreshToken);
 
@@ -115,6 +116,7 @@ const registerUser = asyncHandler(async (req, res) => {
   const existedUser = await User.findOne({
     username,
   });
+
   if (existedUser) {
     throw new ApiError(409, "User already exists");
   }

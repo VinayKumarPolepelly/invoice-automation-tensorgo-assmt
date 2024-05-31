@@ -32,7 +32,7 @@ export const verifyJwt = asyncHandler(async (req, res, next) => {
 
 export const verifyAdmin = (req, res, next) => {
   const { role } = req.user;
-  if (!role || role !== "admin") {
+  if (role !== "admin") {
     return res.status(403).send("Forbidden, you are not authorized");
   }
   next();

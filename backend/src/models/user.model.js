@@ -74,7 +74,6 @@ userSchema.methods.generateAccessToken = function () {
     );
     return token;
   } catch (error) {
-    // Handle error
     console.error("Error generating access token:", error);
     throw new Error("Failed to generate access token");
   }
