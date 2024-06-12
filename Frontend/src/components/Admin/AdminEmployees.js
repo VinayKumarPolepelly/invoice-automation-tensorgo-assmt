@@ -3,6 +3,8 @@ import AdminHeader from "./AdminHeader";
 import { Link, useNavigate } from "react-router-dom";
 import { MdDelete } from "react-icons/md";
 import { BASE_URL } from "../helper";
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer and toast
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminEmployees = () => {
   const [employees, setEmployees] = useState(null);
@@ -56,7 +58,7 @@ const AdminEmployees = () => {
         console.log(data2);
         setError(data2?.message);
       } else {
-        alert("Employee Deleted Successfully");
+        toast("Employee Deleted Successfully");
         // Remove the deleted employee from the state
         setEmployees((prevEmployees) =>
           prevEmployees.filter((employee) => employee.username !== username)
@@ -72,6 +74,7 @@ const AdminEmployees = () => {
   return (
     <div>
       <AdminHeader />
+      <ToastContainer />
       <div className="h-[100vh]">
         <div className="flex justify-center">
           <img

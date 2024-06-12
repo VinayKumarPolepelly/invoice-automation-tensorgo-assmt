@@ -2,6 +2,8 @@ import React, { useRef, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../helper";
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer and toast
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminAddEmployee = () => {
   const [error, setError] = useState(null);
@@ -38,18 +40,19 @@ const AdminAddEmployee = () => {
     });
     const data2 = await response.json();
     if (response.ok === true) {
-      alert("employee added successfully");
+      toast("employee added successfully");
       navigate("/admin/employees");
     } else {
       console.log(data2);
-      if (error.message === "Network response was not ok") navigate("/");
-      setError(data2?.message);
+      if (error === "Network response was not ok") navigate("/");
+      toast.error(error);
     }
   };
 
   return (
     <div>
       <AdminHeader />
+      <ToastContainer />
       <div className="h-screen">
         <div className="w-9/12 my-[80px] mx-auto flex bg-blue-900 shadow-2xl h-auto py-10 rounded-2xl ">
           <div className="w-1/2 flex items-center justify-center">

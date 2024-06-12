@@ -3,6 +3,8 @@ import AdminHeader from "./AdminHeader";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../helper";
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer and toast
+import "react-toastify/dist/ReactToastify.css";
 const AdminSalaryDetails = () => {
   const [salaries, setSalaries] = useState([]);
   const [error, setError] = useState(null);
@@ -59,7 +61,7 @@ const AdminSalaryDetails = () => {
         console.log(data2);
         setError(data2?.message);
       } else {
-        alert("Salary Deleted Successfully");
+        toast("Salary Deleted Successfully");
         // Remove the deleted employee from the state
         setSalaries((prevsalarees) =>
           prevsalarees.filter((salary) => salary._id !== salaryId)
@@ -85,6 +87,7 @@ const AdminSalaryDetails = () => {
   return (
     <div>
       <AdminHeader />
+      <ToastContainer />
       <div className="p-2">
         <div className="bg-gray-50 h-[570px] rounded-t-2xl m-auto mt-6 p-1">
           <div className="bg-blue-900 p-3 rounded-t-2xl text-center">

@@ -18,9 +18,12 @@ import AdminProjectReport from "./components/Admin/AdminProjectReport";
 import AdminLeaveReport from "./components/Admin/AdminLeaveReport";
 import Browse from "./components/Browse";
 import AdminAddEmployee from "./components/Admin/AdminAddEmployee";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 const Applayout = () => {
   return (
     <div>
+      <ToastContainer />
       <Browse />
       <Outlet />
     </div>
