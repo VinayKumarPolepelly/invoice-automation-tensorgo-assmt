@@ -39,7 +39,7 @@ const AdminLogin = () => {
       // Set the accessToken cookie
       document.cookie = `accessToken=${responseData.data.accessToken}; Secure; SameSite=None; Path=/`;
 
-      navigate("/EmployeeHomepage");
+      navigate(`/EmployeeHomepage/${username.current.value}`);
     } catch (error) {
       console.error("Login error:", error);
       // Handle login error

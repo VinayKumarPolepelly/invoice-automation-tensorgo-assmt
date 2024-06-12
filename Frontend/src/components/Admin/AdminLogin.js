@@ -1,11 +1,14 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import Header from "../Header";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../helper";
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer and toast
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminLogin = () => {
   const username = useRef();
   const password = useRef();
+  const [error, setError] = useState();
   const navigate = useNavigate();
 
   const handlesubmitform = async (e) => {
@@ -18,7 +21,7 @@ const AdminLogin = () => {
     };
 
     try {
-      const response = await fetch(url, {
+      const response1 = await fetch(url, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -26,29 +29,30 @@ const AdminLogin = () => {
         credentials: "include",
         body: JSON.stringify(data),
       });
-
-      if (!response.ok) {
-        throw new Error("Login failed");
+      const responseData = await response1.json();
+      if (!response1.ok) {
+        console.log(response1.status);
+        toast.error(responseData.message);
+        //throw new Error("Login failed");
       }
-
-      const responseData = await response.json();
-      console.log(responseData);
       //console.log(responseData.data.accessToken);
 
       // Assuming responseData.accessToken contains the access token
       // Set the accessToken cookie
       document.cookie = `accessToken=${responseData.data.accessToken}; Secure; SameSite=None; Path=/`;
-      if (responseData.data.user.role === "admin") navigate("/admin");
-      else navigate("/employeeHomepage");
+      if (responseData.data.user.role === "admin")
+        navigate(`/admin/${username.current.value}`);
+      else navigate(`/employeeHomepage/${username.current.value}`);
     } catch (error) {
       if (error.message === "Unauthorized request") navigate("/");
-      console.error("Login error:", error);
+      console.error("Login error:", error.message);
       // Handle login error
     }
   };
 
   return (
     <div>
+      <ToastContainer />
       <Header />
       <div
         className="relative flex justify-start items-center h-screen
@@ -76,6 +80,9 @@ const AdminLogin = () => {
               placeholder="Enter Password"
               className="mb-6 p-3 border-2 border-gray-500 text-md rounded-lg"
             />
+            {error && (
+              <div className="text-red-600 font-bold text-md">{error}</div>
+            )}
             <button className="p-3 text-lg text-white bg-blue-500 hover:bg-blue-400 hover:shadow-lg active:bg-blue-600 rounded-lg">
               Login
             </button>

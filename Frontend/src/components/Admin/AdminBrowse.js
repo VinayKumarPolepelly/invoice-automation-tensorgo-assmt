@@ -1,5 +1,5 @@
-import React from 'react'
-import AdminHeader from './AdminHeader'
+import React from "react";
+import AdminHeader from "./AdminHeader";
 
 const AdminBrowse = () => {
   return (
@@ -18,7 +18,7 @@ const AdminBrowse = () => {
         </div>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminBrowse
+export default AdminBrowse;

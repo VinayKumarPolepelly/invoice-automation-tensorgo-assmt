@@ -3,10 +3,13 @@ import AdminHeader from "./AdminHeader";
 import { useNavigate } from "react-router-dom";
 import Select from "react-select";
 import { BASE_URL } from "../helper";
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer and toast
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminAddProject = () => {
   const [employees, setEmployees] = useState([]);
   const [selectedEmployees, setSelectedEmployees] = useState([]);
+  const [error, setError] = useState(null); // Add state for error
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -19,6 +22,9 @@ const AdminAddProject = () => {
             "Content-Type": "application/json",
           },
         });
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
         const json = await response.json();
         setEmployees(json);
       } catch (error) {
@@ -30,7 +36,6 @@ const AdminAddProject = () => {
     fetchEmployeeDetails();
   }, [navigate]);
 
-  const [error, setError] = useState(null);
   const projectTitle = useRef();
   const clientName = useRef();
   const projectType = useRef();
@@ -38,9 +43,21 @@ const AdminAddProject = () => {
   const databaseTechnology = useRef();
   const projectDescription = useRef();
 
+  const resetForm = () => {
+    projectTitle.current.value = "";
+    clientName.current.value = "";
+    projectType.current.value = "";
+    developingPlatform.current.value = "";
+    databaseTechnology.current.value = "";
+    projectDescription.current.value = "";
+    setSelectedEmployees([]);
+  };
+
   const handlesubmitform = async (e) => {
     e.preventDefault();
     const url = `${BASE_URL}/api/v1/admins/addProject`;
+    let submissionError = null;
+
     for (const employee of selectedEmployees) {
       const data = {
         projectTitle: projectTitle.current.value,
@@ -68,19 +85,20 @@ const AdminAddProject = () => {
         const data2 = await response.json();
         if (!response.ok) {
           console.log(data2);
-          setError(data2?.message);
+          submissionError = data2?.message;
+          setError(submissionError);
+        } else {
+          toast.success("Project(s) added successfully");
+          resetForm();
         }
       } catch (error) {
         console.error("Submit error:", error);
-        setError("Error submitting project data");
+        submissionError = "Error submitting project data";
+        setError(submissionError);
       }
     }
-
-    if (!error) {
-      alert("Project(s) added successfully");
-      navigate("/admin/projectdetails");
-    }
   };
+
   const employeeOptions = employees.map((employee) => ({
     value: employee.username,
     label: employee.username,
@@ -88,15 +106,15 @@ const AdminAddProject = () => {
 
   return (
     <div>
+      <ToastContainer />
       <AdminHeader />
-      <div className=" bg-violet-600 h-[100vh]">
+      <div className="bg-violet-600 h-[100vh]">
         <h1 className="text-center text-white text-xl font-bold py-5">
-          {" "}
           ADD PROJECT
         </h1>
         <form onSubmit={handlesubmitform}>
           <div className="flex flex-row m-4 flex-wrap">
-            <div className=" px-8 py-5 ">
+            <div className="px-8 py-5">
               <div className="flex flex-col">
                 <label className="text-white pl-1 py-2">Project Name</label>
                 <input
@@ -110,7 +128,7 @@ const AdminAddProject = () => {
                 <input
                   ref={clientName}
                   type="text"
-                  className="w-[40vw ] h-[40px] rounded-xl"
+                  className="w-[40vw] h-[40px] rounded-xl"
                 />
               </div>
               <div className="flex flex-col my-5">
@@ -118,7 +136,7 @@ const AdminAddProject = () => {
                 <input
                   ref={projectType}
                   type="text"
-                  className="w-[40vw ] h-[40px] rounded-xl"
+                  className="w-[40vw] h-[40px] rounded-xl"
                 />
               </div>
               <div className="flex flex-col">
@@ -129,6 +147,7 @@ const AdminAddProject = () => {
                   options={employeeOptions}
                   className="basic-multi-select"
                   classNamePrefix="select"
+                  value={selectedEmployees}
                   onChange={setSelectedEmployees}
                 />
               </div>
@@ -144,7 +163,7 @@ const AdminAddProject = () => {
                   className="w-[40vw] h-[40px] rounded-xl"
                 />
               </div>
-              <div className="flex flex-col  my-5">
+              <div className="flex flex-col my-5">
                 <label className="text-white pl-1 py-2">
                   Database Technology
                 </label>
@@ -154,7 +173,7 @@ const AdminAddProject = () => {
                   className="w-[40vw] h-[40px] rounded-xl"
                 />
               </div>
-              <div className="flex flex-col  my-5">
+              <div className="flex flex-col my-5">
                 <label className="text-white pl-1 py-2">
                   Project Description
                 </label>
@@ -171,7 +190,7 @@ const AdminAddProject = () => {
               {error}
             </div>
           )}
-          <button className=" mx-[46%] w-28 mt-0 text-center text-white h-[34px] bg-violet-500 mr-5 hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 rounded-lg active:font-semibold active:shadow-2xl">
+          <button className="mx-[46%] w-28 mt-0 text-center text-white h-[34px] bg-violet-500 mr-5 hover:bg-violet-600 hover:shadow-lg active:bg-violet-700 rounded-lg active:font-semibold active:shadow-2xl">
             Submit
           </button>
         </form>

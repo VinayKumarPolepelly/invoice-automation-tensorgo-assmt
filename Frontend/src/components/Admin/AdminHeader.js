@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
 import { BASE_URL } from "../helper";
@@ -9,26 +9,39 @@ const UserProfileIcon = ({ size }) => (
   </div>
 );
 
-const Logout = ({ handleLogout }) => (
-  <div className="absolute top-12 right-0 mt-2 mr-5">
-    <div className="w-48 text-center p-5 bg-gray-100 border-4 border-violet-200 shadow-2xl rounded-xl rounded-tr-none">
-      <div className="mx-auto h-16 w-16 text-blue-900 rounded-full border-4 border-blue-900 p-1 cursor-pointer active:border-gray-400">
-        <UserProfileIcon size={48} />
-      </div>
-      <h1 className="mt-4 mb-3 text-blue-900">Vinay Kumar</h1>
-      <button
-        onClick={handleLogout}
-        className="text-sm text-blue-700 border-2 p-2 border-blue-900 hover:border-blue-900 hover:shadow-lg active:border-blue-700 rounded-lg"
-      >
-        Logout
-      </button>
-    </div>
-  </div>
-);
-
 const AdminHeader = () => {
   const [showItem, setShowItem] = useState(false);
   const navigate = useNavigate();
+  const [user1, setUser1] = useState(null);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(
+          `${BASE_URL}/api/v1/users/getUserDetails`,
+          {
+            method: "GET",
+            credentials: "include", // Include credentials (cookies)
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        if (!response.ok) {
+          throw new Error("Network response was not ok");
+        }
+        const json = await response.json();
+        setUser1(json.user);
+        console.log(json.user); // Changed this line to correctly log the fetched user data
+      } catch (error) {
+        if (error.message === "Network response was not ok") navigate("/");
+        setError("Error fetching employee data"); // Set error message
+      }
+    };
+
+    fetchUsers();
+  }, [navigate]);
 
   const handleLogout = async () => {
     try {
@@ -102,11 +115,30 @@ const AdminHeader = () => {
           >
             <UserProfileIcon size={25} />
           </div>
-          {showItem && <Logout handleLogout={handleLogout} />}
+          {showItem && user1 && (
+            <Logout user1={user1} handleLogout={handleLogout} />
+          )}
         </li>
       </ul>
     </div>
   );
 };
+
+const Logout = ({ user1, handleLogout }) => (
+  <div className="absolute top-12 right-0 mt-2 mr-5">
+    <div className="w-48 text-center p-5 bg-gray-100 border-4 border-violet-200 shadow-2xl rounded-xl rounded-tr-none">
+      <div className="mx-auto h-16 w-16 text-blue-900 rounded-full border-4 border-blue-900 p-1 cursor-pointer active:border-gray-400">
+        <UserProfileIcon size={48} />
+      </div>
+      <h1 className="mt-4 mb-3 text-blue-900">{user1.fullname}</h1>
+      <button
+        onClick={handleLogout}
+        className="text-sm text-blue-700 border-2 p-2 border-blue-900 hover:border-blue-900 hover:shadow-lg active:border-blue-700 rounded-lg"
+      >
+        Logout
+      </button>
+    </div>
+  </div>
+);
 
 export default AdminHeader;

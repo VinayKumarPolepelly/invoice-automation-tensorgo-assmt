@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import AdminHeader from "./AdminHeader";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../helper";
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer and toast
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminLeaveReport = () => {
   const [leaves, setLeaves] = useState([]);
@@ -55,7 +57,7 @@ const AdminLeaveReport = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      alert("Status updated successfully");
+      toast.success("Status updated successfully");
       // Optionally, update the state to reflect the changes without reloading
       setLeaves((prevLeaves) =>
         prevLeaves.map((leave) =>
@@ -70,6 +72,7 @@ const AdminLeaveReport = () => {
 
   return (
     <div>
+      <ToastContainer />
       <AdminHeader />
       <div className="p-2">
         <div className="bg-gray-100 h-[600px] m-auto mt-6">

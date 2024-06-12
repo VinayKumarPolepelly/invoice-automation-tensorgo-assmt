@@ -48,7 +48,8 @@ const loginAdmin = asyncHandler(async (req, res) => {
   const isPasswordValid = await existedUser.isPasswordCorrect(password);
   //console.log(isPasswordValid);
   if (!isPasswordValid) {
-    throw new ApiError(404, "invalid user credentials");
+    // throw new ApiError(404, "invalid user credentials");
+    return res.status(404).json({ message: "invalid user credentials" });
   }
   // res.status(200).json({
   //   user: existedUser,
@@ -56,7 +57,7 @@ const loginAdmin = asyncHandler(async (req, res) => {
 
   const { accessToken, refreshToken } =
     await generateAccessTokenAndRefreshToken(existedUser._id);
-    
+
   // console.log(accessToken);
   // console.log(refreshToken);
 
@@ -146,6 +147,8 @@ const registerUser = asyncHandler(async (req, res) => {
 const addSalary = async (req, res) => {
   try {
     const { month, salaryAmount, user } = req.body;
+    if (!salaryAmount)
+      return res.status(400).json({ message: "salaryAmount is required" });
     const newSalary = await EmployeeSalary.create({
       month,
       user,
@@ -172,25 +175,33 @@ const addProject = async (req, res) => {
       projectManager,
     } = req.body;
     if (!projectTitle) {
-      res.status(400).json({ message: "project Name is required" });
+      return res.status(400).json({ message: "project Name is required" });
     }
     if (!clientName) {
-      res.status(400).json({ message: "clientName is required" });
+      return res.status(400).json({ message: "clientName is required" });
     }
     if (!projectType) {
-      res.status(400).json({ message: "projectType is required" });
+      return res.status(400).json({ message: "projectType is required" });
     }
     if (!databaseTechnology) {
-      res.status(400).json({ message: "databaseTechnology is required" });
+      return res
+        .status(400)
+        .json({ message: "databaseTechnology is required" });
     }
     if (!developingPlatform) {
-      res.status(400).json({ message: "developingPlatform is required" });
+      return res
+        .status(400)
+        .json({ message: "developingPlatform is required" });
     }
     if (!projectDescription) {
-      res.status(400).json({ message: "projectDescription is required" });
+      return res
+        .status(400)
+        .json({ message: "projectDescription is required" });
     }
     if (!projectManager) {
-      res.status(400).json({ message: "projectDescription is required" });
+      return res
+        .status(400)
+        .json({ message: "projectDescription is required" });
     }
     const newProject = await Project.create({
       projectTitle,

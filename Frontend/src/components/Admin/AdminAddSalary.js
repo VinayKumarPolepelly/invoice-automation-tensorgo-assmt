@@ -2,11 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import AdminHeader from "./AdminHeader";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../helper";
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer and toast
+import "react-toastify/dist/ReactToastify.css";
 
 const AdminAddSalary = () => {
   const [employees, setEmployees] = useState([]);
   const [error, setError] = useState(null); // Add state for error
   const navigate = useNavigate();
+  const formRef = useRef(null); // Add a reference to the form element
 
   useEffect(() => {
     const fetchEmployeeDetails = async () => {
@@ -31,6 +34,7 @@ const AdminAddSalary = () => {
 
     fetchEmployeeDetails();
   }, [navigate]);
+
   const user = useRef();
   const month = useRef();
   const salaryAmount = useRef();
@@ -46,7 +50,7 @@ const AdminAddSalary = () => {
     };
 
     const salaryDetails = JSON.stringify(data);
-    console.log(salaryDetails);
+    //console.log(salaryDetails);
     const response = await fetch(url, {
       method: "POST",
       credentials: "include",
@@ -57,17 +61,17 @@ const AdminAddSalary = () => {
     });
     const data2 = await response.json();
     if (response.ok === true) {
-      alert("Salary added successfully");
-      navigate("/admin/salarydetails");
+      toast.success("Salary added successfully");
+      formRef.current.reset(); // Reset the form upon successful submission
     } else {
-      console.log(data2);
-      if (error.message === "Network response was not ok") navigate("/");
-      setError(data2?.message);
+      if (error === "Network response was not ok") navigate("/");
+      toast.error(data2.message);
     }
   };
 
   return (
     <div>
+      <ToastContainer />
       <AdminHeader />
       <div className="flex justify-center items-center h-screen">
         <div className="flex bg-blue-900 shadow-2xl h-[400px] w-[700px] rounded-2xl">
@@ -78,7 +82,11 @@ const AdminAddSalary = () => {
               className="h-[400px] w-[400px]"
             />
           </div>
-          <form onSubmit={handlesubmitform} className="flex flex-col mt-10">
+          <form
+            onSubmit={handlesubmitform}
+            ref={formRef} // Attach the form reference
+            className="flex flex-col mt-10"
+          >
             <h1 className="text-2xl text-white font-bold ml-6">Add Salary</h1>
             <label className="mt-3 ml-5 text-white">Employee Name</label>
             <select

@@ -13,6 +13,7 @@ const AdminAddEmployee = () => {
   const password = useRef();
   const phoneNumber = useRef();
   const role = useRef();
+  const formRef = useRef(null); // Add a reference to the form element
   const navigate = useNavigate();
 
   const handlesubmitform = async (e) => {
@@ -40,12 +41,11 @@ const AdminAddEmployee = () => {
     });
     const data2 = await response.json();
     if (response.ok === true) {
-      toast("employee added successfully");
-      navigate("/admin/employees");
+      toast.success("Employee added successfully");
+      formRef.current.reset(); // Reset the form upon successful submission
     } else {
-      console.log(data2);
       if (error === "Network response was not ok") navigate("/");
-      toast.error(error);
+      toast.error(data2.message);
     }
   };
 
@@ -64,6 +64,7 @@ const AdminAddEmployee = () => {
           </div>
           <form
             onSubmit={handlesubmitform}
+            ref={formRef} // Attach the form reference
             className="flex flex-col mt-10 ml-4 w-1/2"
           >
             <h1 className="text-2xl text-white font-bold ml-6">Add Employee</h1>
@@ -122,7 +123,7 @@ const AdminAddEmployee = () => {
               />
             </div>
             {error && (
-              <div className="text-red-900 ml-5 text-center  w-[90%] mt-3 font-bold">
+              <div className="text-red-600 ml-5 text-center  w-[90%] mt-3 mb-[-25px] font-bold">
                 <h2>{error}</h2>
               </div>
             )}

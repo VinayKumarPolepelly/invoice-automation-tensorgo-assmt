@@ -58,7 +58,7 @@ const AdminEmployees = () => {
         console.log(data2);
         setError(data2?.message);
       } else {
-        toast("Employee Deleted Successfully");
+        toast.success("Employee Deleted Successfully");
         // Remove the deleted employee from the state
         setEmployees((prevEmployees) =>
           prevEmployees.filter((employee) => employee.username !== username)

@@ -3,6 +3,9 @@ import EmployeeHeader from "./EmployeeHeader";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../helper";
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer and toast
+import "react-toastify/dist/ReactToastify.css";
+
 const ProjectReport = () => {
   const [projects, setProjects] = useState([]);
   const [error, setError] = useState(null);
@@ -45,7 +48,7 @@ const ProjectReport = () => {
 
   const handlesubmitform = async (e) => {
     e.preventDefault();
-    const url = "http://localhost:3001/api/v1/users/addProjectReport";
+    const url = `${BASE_URL}/api/v1/users/addProjectReport`;
 
     const data = {
       project: project.current.value,
@@ -64,7 +67,7 @@ const ProjectReport = () => {
     });
     const data2 = await response.json();
     if (response.ok === true) {
-      alert("report submitted successfully");
+      toast.success("report submitted successfully");
       navigate("/employeeProjectReport");
     } else {
       console.log(data2);
@@ -75,6 +78,7 @@ const ProjectReport = () => {
   return (
     <div>
       <div>
+        <ToastContainer />
         <EmployeeHeader />
         <div>
           <div className="p-10 mt-8 text-center">
@@ -110,7 +114,11 @@ const ProjectReport = () => {
                     id="projectReportText"
                   />
                 </div>
-                {error && <div>{error}</div>}
+                {error && (
+                  <div className="text-red-500 font-bold text-md ml-5">
+                    {error}
+                  </div>
+                )}
                 <button className=" bg-blue-500 w-[130px] ml-[18px] h-10 rounded-lg  mt-3 text-white hover:bg-blue-600 hover:shadow-lg active:bg-blue-700 active:border-collapse active:font-semibold active:shadow-2xl">
                   Submit
                 </button>

@@ -14,8 +14,9 @@ import {
   updateLeaveReport,
 } from "../controllers/Admin.controller.js";
 import { verifyAdmin, verifyJwt } from "../middlewares/auth.middleware.js";
+import { loginRateLimit } from "../middlewares/rateLimit.js";
 const router = Router();
-router.route("/login").post(loginAdmin);
+router.route("/login").post(loginRateLimit, loginAdmin);
 router.route("/register").post(verifyJwt, verifyAdmin, registerUser);
 router.route("/addEmployeeSalary").post(verifyJwt, verifyAdmin, addSalary);
 router.route("/getEmployees").get(verifyJwt, verifyAdmin, getEmployeesList);

@@ -61,7 +61,7 @@ const AdminSalaryDetails = () => {
         console.log(data2);
         setError(data2?.message);
       } else {
-        toast("Salary Deleted Successfully");
+        toast.success("Salary Deleted Successfully");
         // Remove the deleted employee from the state
         setSalaries((prevsalarees) =>
           prevsalarees.filter((salary) => salary._id !== salaryId)

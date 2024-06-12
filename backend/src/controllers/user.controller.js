@@ -214,6 +214,17 @@ const getProjectReportDetails = asyncHandler(async (req, res) => {
   return res.status(200).json({ reports: reports });
 });
 
+const getUserDetails = async (req, res) => {
+  try {
+    const { _id } = req.user;
+    const user = await User.findById(_id);
+    if (!user) return res.status(400).json({ message: "user not found" });
+    return res.status(200).json({ user: user });
+  } catch (error) {
+    return res.status(500).json({ message: error.message });
+  }
+};
+
 export {
   refreshAccessToken,
   loginUser,
@@ -224,4 +235,5 @@ export {
   getProjectDetails,
   getLeaveDetails,
   getProjectReportDetails,
+  getUserDetails,
 };

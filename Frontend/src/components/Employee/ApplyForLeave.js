@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../helper";
+import { toast, ToastContainer } from "react-toastify"; // Import ToastContainer and toast
+import "react-toastify/dist/ReactToastify.css";
 
 const ApplyForLeave = () => {
   const [fromDate, setFromDate] = useState("");
@@ -29,7 +31,7 @@ const ApplyForLeave = () => {
       if (!response.ok) {
         throw new Error("Network response was not ok");
       }
-      alert("Leave added successfully");
+      toast.success("Leave added successfully");
       const responseData = await response.json();
       console.log(responseData);
       navigate("/employeeLeaveReport");
@@ -50,6 +52,7 @@ const ApplyForLeave = () => {
 
   return (
     <div>
+      <ToastContainer />
       <div className="p-2 m-2 mr-[-1px] bg-blue-900 rounded-lg mt-3">
         <h1 className="font-semibold text-white text-lg">Request for Leave</h1>
       </div>
