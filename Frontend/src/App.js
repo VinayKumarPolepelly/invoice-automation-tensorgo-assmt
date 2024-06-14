@@ -45,7 +45,7 @@ const appRouter = createBrowserRouter([
         element: <EmployeeLogin />,
       },
       {
-        path: "/admin/:username",
+        path: "/admin/",
         element: <AdminBrowse />,
       },
       {
@@ -90,7 +90,7 @@ const appRouter = createBrowserRouter([
       },
 
       {
-        path: "/employeeHomepage/:username",
+        path: "/employeeHomepage/",
         element: <EmployeeHome />,
       },
       {
