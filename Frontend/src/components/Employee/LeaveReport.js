@@ -1,66 +1,65 @@
-import React, { useEffect, useState } from "react";
-import EmployeeHeader from "./EmployeeHeader";
-import ApplyForLeave from "./ApplyForLeave";
-import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "../helper";
+import React, { useEffect, useState } from 'react'
+import EmployeeHeader from './EmployeeHeader'
+import ApplyForLeave from './ApplyForLeave'
+
+import { BASE_URL } from '../helper'
 
 const LeaveReport = () => {
-  const [showItem, setShowItem] = useState(false);
-  const [leaves, setLeaves] = useState([]);
-  const [error, setError] = useState(null);
-  const [formSubmitted, setFormSubmitted] = useState(false); // State to track form submission
-  const navigate = useNavigate();
+  const [showItem, setShowItem] = useState(false)
+  const [leaves, setLeaves] = useState([])
+  const [error, setError] = useState(null)
+  const [formSubmitted, setFormSubmitted] = useState(false) // State to track form submission
 
   const handlerClick = () => {
-    setShowItem(true);
-  };
+    setShowItem(true)
+  }
 
   useEffect(() => {
-    fetchLeaves();
-  }, [leaves]); // Re-fetch leave details when formSubmitted changes
+    fetchLeaves()
+  }, [leaves]) // Re-fetch leave details when formSubmitted changes
 
   const fetchLeaves = async () => {
     try {
       const response = await fetch(`${BASE_URL}/api/v1/users/getLeaveDetails`, {
-        method: "GET",
-        credentials: "include", // Include credentials (cookies)
+        method: 'GET',
+        credentials: 'include', // Include credentials (cookies)
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
         },
-      });
+      })
       if (!response.ok) {
-        throw new Error("Network response was not ok");
+        throw new Error('Network response was not ok')
       }
-      const json = await response.json();
+      const json = await response.json()
       if (json?.leaves) {
-        setLeaves(json.leaves);
-        console.log(json.leaves);
+        setLeaves(json.leaves)
+        console.log(json.leaves)
       } else {
-        throw new Error("No Leaves field in response");
+        throw new Error('No Leaves field in response')
       }
     } catch (error) {
-      setError("Error fetching Leaves data");
+      setError('Error fetching Leaves data')
     }
-  };
+  }
 
   const formatDateAndTime = (timestamp) => {
-    const date = new Date(timestamp);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    const hours = String(date.getHours()).padStart(2, "0");
-    const minutes = String(date.getMinutes()).padStart(2, "0");
-    const seconds = String(date.getSeconds()).padStart(2, "0");
-    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
-  };
+    const date = new Date(timestamp)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    const hours = String(date.getHours()).padStart(2, '0')
+    const minutes = String(date.getMinutes()).padStart(2, '0')
+    const seconds = String(date.getSeconds()).padStart(2, '0')
+    return `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`
+  }
 
   const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0");
-    return `${year}-${month}-${day}`;
-  };
+    const date = new Date(dateString)
+    const year = date.getFullYear()
+    const month = String(date.getMonth() + 1).padStart(2, '0')
+    const day = String(date.getDate()).padStart(2, '0')
+    return `${year}-${month}-${day}`
+  }
 
   return (
     <div>
@@ -147,7 +146,7 @@ const LeaveReport = () => {
                             {leave.status}
                           </td>
                         </tr>
-                      );
+                      )
                     })}
                   </tbody>
                 </table>
@@ -158,7 +157,7 @@ const LeaveReport = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LeaveReport;
+export default LeaveReport
