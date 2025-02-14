@@ -86,7 +86,7 @@ The project supports the following end-to-end flow:
 3. **Zapier Platform Documentation** (For automating workflows and integrating billing actions based on SaaS usage.)
 4. **Express.js & Node.js Documentation** (To know about new middlewares)
 
-### By
-## Vinay Kumar Polepelly
+## By
+### Vinay Kumar Polepelly
 
 
