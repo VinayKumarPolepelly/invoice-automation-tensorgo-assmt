@@ -1,0 +1,14 @@
+./server/.env
+
+# Ignore system files
+.DS_Store
+*.log
+NTUSER.*
+
+# Ignore Windows system folders
+AppData/
+Desktop.ini
+OneDrive/
+
+# Ignore parent directories
+../*
