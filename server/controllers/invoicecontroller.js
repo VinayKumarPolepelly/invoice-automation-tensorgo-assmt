@@ -14,7 +14,6 @@ exports.invoiceGenerator = async (req, res) => {
       lastPaymentDate,
     } = mockBillingData;
 
-    // Validate the required fields
     if (!name || !email || !usage || !totalCost || !billingCycle) {
       return res.status(400).send({ error: "Missing required fields" });
     }
@@ -48,10 +47,9 @@ exports.invoiceGenerator = async (req, res) => {
     assistance, feel free to contact our support team.
   `;
 
-    // Define the Zapier Webhook URL
     const zapierWebhookUrl = process.env.ZAPIER_WEBHOOK_URL;
 
-    // Send the invoice message to Zapier
+    // Sending the invoice message to Zapier (so that it automatically sends generate invoce and sent the logged in user email)
     const response = await fetch(zapierWebhookUrl, {
       method: "POST",
       headers: {
@@ -68,7 +66,7 @@ exports.invoiceGenerator = async (req, res) => {
       throw new Error(`Failed to send data to Zapier: ${response.statusText}`);
     }
 
-    // Respond back to the client
+    // Response go back to the client
     res
       .status(200)
       .send({ message: "Invoice sent successfully", data: invoiceMessage });

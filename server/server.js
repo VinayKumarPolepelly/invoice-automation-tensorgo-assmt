@@ -7,19 +7,19 @@ const authRoute = require("./routes/authRoute");
 const invoiceRoute = require("./routes/invoiceRoute");
 const billingRoute = require("./routes/billingRoute");
 const usageRoute = require("./routes/usageRoute");
-const session = require("express-session"); // Correct import for express-session
-const passportStrategy = require("./passport"); // Assuming you have passport configuration in this file
+const session = require("express-session");
+const passportStrategy = require("./passport");
 
 const app = express();
 
 app.use(
   session({
-    secret: "cyberwolve", // Secret key for encrypting the session ID
-    resave: false, // Prevent session being saved back to the store if not modified
-    saveUninitialized: false, // Don't save uninitialized sessions
+    secret: "cyberwolve",
+    resave: false,
+    saveUninitialized: false,
     cookie: {
-      maxAge: 24 * 60 * 60 * 1000, // 1 day in milliseconds
-      secure: false, // Use true if you're using HTTPS
+      maxAge: 24 * 60 * 60 * 1000, // onee day
+      secure: false,
     },
   })
 );
@@ -39,12 +39,9 @@ app.use(bodyParser.json());
 app.use("/auth", authRoute);
 
 app.use("/invoice", invoiceRoute);
-// Mocked usage details
 
-// Usage Details Endpoint
 app.use("/usage", usageRoute);
 
-// Billing Information Endpoint
 app.use("/billing", billingRoute);
 
 const port = 8080;
