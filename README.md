@@ -69,7 +69,12 @@ npm i axios
 npm i react-icons
 npm i react react-dom react-router-dom
 ```
-3.Start the react development server
+
+3. Add .env folder
+```
+REACT_APP_API_URL = http://localhost:8080
+```
+4.Start the react development server
 ```
 npm start
 ```
