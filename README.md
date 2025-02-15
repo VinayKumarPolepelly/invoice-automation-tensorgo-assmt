@@ -44,7 +44,8 @@ npm install dotenv
 npm install @zapier/platform-core
 npm install cors
 npm install express-session
-
+npm install pdfkit
+npm install form-data
 ```
 3. Create a .env file from the .env.example file and configure the environment variables:
 ```
@@ -64,6 +65,9 @@ cd client
 2. Install dependencies:
 ```
 npm install
+npm i axios
+npm i react-icons
+npm i react react-dom react-router-dom
 ```
 3.Start the react development server
 ```
@@ -84,7 +88,7 @@ The project supports the following end-to-end flow:
 1. **Passport.js Documentation** (For implementing Google OAuth using passport-google-oauth20)
 2. **Google Developer Console** (To configure Google OAuth credentials (Client ID and Secret).)
 3. **Zapier Platform Documentation** (For automating workflows and integrating billing actions based on SaaS usage.)
-4. **Express.js & Node.js Documentation** (To know about new middlewares)
+4. **Express.js & Node.js Documentation** (To know about new middlewares like pdfkit, form data etc)
 
 ## By
 ### Vinay Kumar Polepelly
